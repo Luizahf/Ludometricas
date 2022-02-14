@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ludometricas.data.Jogo
 
-class JogosAdapter(private val jogos: List<String>,
+class JogosAdapter(private val jogos: List<Jogo>,
+                   private val listener: (Jogo) -> Unit,
                    private val context: Context
 ): RecyclerView.Adapter<JogosAdapter.ViewHolder>() {
 
@@ -23,7 +25,9 @@ class JogosAdapter(private val jogos: List<String>,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val jogo = jogos[position]
-        holder.txtTitulo.text = jogo
+        holder.txtTitulo.text = jogo.nome
+
+        holder.itemView.setOnClickListener { listener(jogo) }
     }
 
     override fun getItemCount(): Int {
