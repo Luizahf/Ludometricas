@@ -1,9 +1,10 @@
-package com.example.ludometricas.data
+package com.example.ludometricas.presentation.jogo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import com.example.ludometricas.R
+import com.example.ludometricas.data.Jogo
 
 class JogoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

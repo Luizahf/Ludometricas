@@ -1,12 +1,15 @@
-package com.example.ludometricas
+package com.example.ludometricas.presentation
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.ludometricas.R
 import com.example.ludometricas.data.Jogo
-import com.example.ludometricas.data.JogoActivity
+import com.example.ludometricas.presentation.jogo.JogoActivity
+import com.example.ludometricas.presentation.jogo.JogosAdapter
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

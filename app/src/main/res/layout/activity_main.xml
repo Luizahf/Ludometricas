@@ -9,7 +9,7 @@
     android:backgroundTint="#FFFFFF"
     android:clipToPadding="false"
     android:paddingBottom="0dp"
-    tools:context=".MainActivity">
+    tools:context=".presentation.MainActivity">
 
     <Button
         android:id="@+id/button3"

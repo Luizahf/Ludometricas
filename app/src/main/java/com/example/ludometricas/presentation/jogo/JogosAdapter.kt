@@ -1,12 +1,12 @@
-package com.example.ludometricas
+package com.example.ludometricas.presentation.jogo
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ludometricas.R
 import com.example.ludometricas.data.Jogo
 
 class JogosAdapter(private val jogos: List<Jogo>,

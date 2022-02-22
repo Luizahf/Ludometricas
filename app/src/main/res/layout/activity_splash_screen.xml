@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#849CCF"
+    tools:context=".presentation.SplashScreenActivity">
+
+    <TextView
+        android:id="@+id/splashScreenTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="sans-serif"
+        android:text="Ludometrics"
+        android:textColor="#FAFAFA"
+        android:textSize="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/dotted_circle"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/splashScreenTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/dotted_circle" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="90dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/dotted_circle"
+        app:layout_constraintEnd_toEndOf="@+id/dotted_circle"
+        app:srcCompat="@drawable/linha" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="20dp"
+        android:layout_height="125dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="30dp"
+        android:background="#F8F5F5"
+        android:backgroundTint="#00FAF5F5"
+        android:backgroundTintMode="add"
+        android:rotation="180"
+        app:layout_constraintBottom_toBottomOf="@+id/dotted_circle"
+        app:layout_constraintStart_toStartOf="@+id/dotted_circle"
+        app:srcCompat="@drawable/linha_grossa" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
