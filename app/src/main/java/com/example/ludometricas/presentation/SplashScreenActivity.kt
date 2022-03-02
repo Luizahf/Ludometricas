@@ -1,6 +1,5 @@
 package com.example.ludometricas.presentation
 
-import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Intent
@@ -9,16 +8,9 @@ import android.view.WindowManager
 import android.widget.ImageView
 import com.example.ludometricas.R
 import android.view.View
-
 import android.view.animation.LinearInterpolator
-
 import android.view.animation.Animation
-
 import android.view.animation.RotateAnimation
-
-
-
-
 
 class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

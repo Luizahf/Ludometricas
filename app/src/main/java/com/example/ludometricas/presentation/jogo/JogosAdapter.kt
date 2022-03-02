@@ -15,7 +15,7 @@ class JogosAdapter(private val jogos: List<Jogo>,
 ): RecyclerView.Adapter<JogosAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val txtTitulo = itemView.findViewById(R.id.textView) as TextView
+        val txtTitulo = itemView.findViewById(R.id.txt_game_item) as TextView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
