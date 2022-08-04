@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.widget.TextView
 import com.example.ludometricas.R
 import com.example.ludometricas.data.Jogo
+import com.example.ludometricas.data.Nota
+import com.example.ludometricas.data.Recorde
+import java.sql.Time
 
 class JogoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
