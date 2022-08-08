@@ -10,7 +10,7 @@ import com.example.ludometricas.R
 import com.example.ludometricas.data.Jogo
 
 class JogosAdapter(private val jogos: List<Jogo>,
-                   private val listener: (Jogo) -> Unit,
+                   private val listener: (Int) -> Unit,
                    private val context: Context
 ): RecyclerView.Adapter<JogosAdapter.ViewHolder>() {
 
@@ -27,7 +27,7 @@ class JogosAdapter(private val jogos: List<Jogo>,
         val jogo = jogos[position]
         holder.txtTitulo.text = jogo.nome
 
-        holder.itemView.setOnClickListener { listener(jogo) }
+        holder.itemView.setOnClickListener { listener(position) }
     }
 
     override fun getItemCount(): Int {

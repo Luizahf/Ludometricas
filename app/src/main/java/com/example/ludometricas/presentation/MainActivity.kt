@@ -13,11 +13,16 @@ import com.example.ludometricas.data.Jogo
 import com.example.ludometricas.data.Nota
 import com.example.ludometricas.data.Recorde
 import com.example.ludometricas.presentation.jogo.JogoActivity
+import com.example.ludometricas.presentation.jogo.JogoViewModel
 import com.example.ludometricas.presentation.jogo.JogosAdapter
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.sql.Date
 import java.sql.Time
 
 class MainActivity : AppCompatActivity() {
+    private val jogoViewModel: JogoViewModel by viewModel()
+    private var jogos : List<Jogo> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(
@@ -30,29 +35,17 @@ class MainActivity : AppCompatActivity() {
         val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.layoutManager = layoutManager
 
-        recyclerView.adapter = JogosAdapter(criarJogos(), ::clickListenerJogo, this)
+        jogoViewModel.inserirJogos()
+        // TODO jogos = jogoViewModel.obterJogos()!!
+        recyclerView.adapter = JogosAdapter(jogos, ::clickListenerJogo, this)
 
     }
 
-    fun clickListenerJogo(jogo: Jogo) {
+    fun clickListenerJogo(position: Int) {
+        jogoViewModel.selecionarJogo(jogos[position])
+
         val intent = Intent(this, JogoActivity::class.java)
-        // intent.putExtra("JOGO_SELECIONADO", jogo) Todo mudar para view model
+        intent.putExtra("JOGO_SELECIONADO", jogos[position].nome)
         startActivity(intent)
-    }
-
-    fun criarJogos() : MutableList<Jogo> {
-        return mutableListOf(Jogo(
-            "Lume",
-            Recorde("Pepeu", 116, Date(11, 5, 22)),
-            Time(0, 50, 0),
-            Nota(8.795, 0.0, 0.0, 0.0),
-            jogatinas = 4
-        ), Jogo(
-            "Viticulture + Turcany",
-            Recorde("Pepeu", 44, Date(9, 3, 22)),
-            Time(1, 25, 0),
-            Nota(9.15, 0.0, 0.0, 0.0),
-            jogatinas = 1
-        ))
     }
 }

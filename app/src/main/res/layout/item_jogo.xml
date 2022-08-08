@@ -6,20 +6,17 @@
     android:layout_height="wrap_content"
     android:background="#FAFAFA"
     android:paddingTop="5dp"
-    android:paddingBottom="10dp">
+    android:paddingBottom="5dp">
 
     <ImageView
         android:id="@+id/game_item_view"
         android:layout_width="0dp"
-        android:layout_height="75dp"
+        android:layout_height="55dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="2dp"
         android:layout_marginEnd="4dp"
-        android:layout_marginBottom="2dp"
         android:tint="#CECDD1"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/game_item" />
@@ -31,7 +28,7 @@
         android:layout_marginStart="16dp"
         android:text="7 Wonders"
         android:textColor="#FAFAFA"
-        android:textSize="34sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/game_item_view"
         app:layout_constraintStart_toStartOf="@+id/game_item_view"
         app:layout_constraintTop_toTopOf="@+id/game_item_view" />

@@ -42,14 +42,15 @@
         android:layout_width="0dp"
         android:layout_height="80dp"
         android:background="@color/main_purple"
-        android:fontFamily="sans-serif-thin"
+        android:fontFamily="sans-serif-medium"
         android:paddingLeft="30dp"
-        android:paddingTop="25dp"
+        android:paddingTop="15dp"
         android:text="Jogos"
         android:textColor="#FFFFFF"
         android:textSize="36dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,13 +67,13 @@
         app:layout_constraintTop_toBottomOf="@+id/jogos" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/config"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/jogos"
         app:layout_constraintEnd_toEndOf="@+id/jogos"
+        app:layout_constraintTop_toTopOf="@+id/jogos"
         app:srcCompat="@drawable/config"
         app:tint="#FAFAFA" />
 
