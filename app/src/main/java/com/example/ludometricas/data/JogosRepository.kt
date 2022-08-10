@@ -1,10 +1,7 @@
 package com.example.ludometricas.data
 
-import android.util.JsonReader
 import com.google.firebase.database.*
 import com.google.gson.Gson
-import org.json.JSONObject
-
 
 class JogosRepository(
 ) {
@@ -14,20 +11,19 @@ class JogosRepository(
         // Remover todos os jogos
         FirebaseDatabase.getInstance(url).getReference("Jogos").removeValue()
         val myRef = FirebaseDatabase.getInstance(url).getReference("Jogos")
-
         jogos.forEach { jogo ->
             myRef.child(jogo.nome).setValue(Gson().toJson(jogo))
         }
+    }
+
+    fun getAll(callback:(List<Jogo>) -> Any) {//}: List<Jogo>? {
+        val myRef = FirebaseDatabase.getInstance(url).getReference("Jogos")
         // Lendo todos os jogos do banco
         myRef.get().addOnSuccessListener { it ->
             val databaseJogos = it.value as Map<*, *>
-            val jogos = databaseJogos.values.map { Gson().fromJson(it.toString(), Jogo::class.java) }
+            callback(databaseJogos.values.map { Gson().fromJson(it.toString(), Jogo::class.java) })
         }.addOnFailureListener{
         }
-    }
-
-    fun getAll() {//}: List<Jogo>? {
-
     }
 
     fun get(nomeJogo: String) { //: Jogo? {

@@ -15,6 +15,7 @@ class JogoViewModel constructor(
     var jogosRepository: JogosRepository
 ) : AndroidViewModel(application) {
     var jogoSelecionado: MutableLiveData<Jogo> = MutableLiveData()
+    var jogos: MutableLiveData<MutableList<Jogo>> = MutableLiveData()
 
     fun selecionarJogo(jogo: Jogo) {
         jogoSelecionado.postValue(jogo)
@@ -24,8 +25,10 @@ class JogoViewModel constructor(
         jogosRepository.insert(criarJogos())
     }
 
-    fun obterJogos() { //}: List<Jogo>? {
-        return jogosRepository.getAll()
+    fun obterJogos() {
+        return jogosRepository.getAll(fun (jogosRetorno) {
+            jogos.postValue(jogosRetorno.toMutableList())
+        })
     }
 
     fun criarJogos() : MutableList<Jogo> {
