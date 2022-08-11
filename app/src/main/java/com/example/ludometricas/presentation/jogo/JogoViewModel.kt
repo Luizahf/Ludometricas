@@ -7,6 +7,7 @@ import com.example.ludometricas.data.Jogo
 import com.example.ludometricas.data.JogosRepository
 import com.example.ludometricas.data.Nota
 import com.example.ludometricas.data.Recorde
+import com.example.ludometricas.data.dao.JogoLocal
 import java.sql.Date
 import java.sql.Time
 
@@ -14,11 +15,14 @@ class JogoViewModel constructor(
     application: Application,
     var jogosRepository: JogosRepository
 ) : AndroidViewModel(application) {
-    var jogoSelecionado: MutableLiveData<Jogo> = MutableLiveData()
     var jogos: MutableLiveData<MutableList<Jogo>> = MutableLiveData()
 
     fun selecionarJogo(jogo: Jogo) {
-        jogoSelecionado.postValue(jogo)
+        jogosRepository.selecionarJogo(jogo)
+    }
+
+    fun obterJogoSelecionado(callback: (JogoLocal?) -> Any) {
+        jogosRepository.obterSelecionado { callback(it) }
     }
 
     fun inserirJogos() {

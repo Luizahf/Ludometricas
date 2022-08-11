@@ -10,6 +10,7 @@ class Jogo (
     var recorde: Recorde? = Recorde(),
     var tempoJogado: Time = Time(0, 0, 0),
     var notaMediaAteOMomento: Nota = Nota(),
+    var notaTotalAteOMomento: Nota = Nota(),
     var notasIndividuaisAteOMomento: List<NotaIndividual> = mutableListOf(),
     var historicoJogatinas: MutableList<Jogatina> = mutableListOf(),
     var notasTotaisIndividuais: MutableList<NotaIndividual> = mutableListOf(),

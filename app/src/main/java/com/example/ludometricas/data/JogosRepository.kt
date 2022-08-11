@@ -1,9 +1,17 @@
 package com.example.ludometricas.data
 
+import android.util.Log
+import com.example.ludometricas.data.dao.JogoLocal
+import com.example.ludometricas.data.dao.JogosDao
 import com.google.firebase.database.*
 import com.google.gson.Gson
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.sql.Date
+import java.sql.Time
 
 class JogosRepository(
+    var jogosDao: JogosDao
 ) {
     private var url: String = "https://ludometricas-default-rtdb.firebaseio.com"
 
@@ -16,14 +24,73 @@ class JogosRepository(
         }
     }
 
-    fun getAll(callback:(List<Jogo>) -> Any) {//}: List<Jogo>? {
+    fun getAll(callback:(List<Jogo>) -> Any) {
         val myRef = FirebaseDatabase.getInstance(url).getReference("Jogos")
         // Lendo todos os jogos do banco
-        myRef.get().addOnSuccessListener { it ->
+        myRef.get().addOnSuccessListener {
             val databaseJogos = it.value as Map<*, *>
-            callback(databaseJogos.values.map { Gson().fromJson(it.toString(), Jogo::class.java) })
+            var jogos = databaseJogos.values.map { Gson().fromJson(it.toString(), Jogo::class.java) }
+            inserLocalDB(jogos)
+            callback(jogos)
         }.addOnFailureListener{
         }
+    }
+
+    private fun inserLocalDB(jogos: List<Jogo>) {
+        GlobalScope.launch {
+            jogos.forEach { jogo ->
+                if(jogosDao.get(jogo.nome) == null) {
+                    jogosDao.insert(
+                        JogoLocal(
+                            jogo.nome,
+                            false,
+                            jogo.recorde!!.responsavel,
+                            jogo.recorde!!.pontuacao,
+                            dateToLong(jogo.recorde!!.data),
+                            timeToLong(jogo.tempoJogado),
+                            jogo.notaMediaAteOMomento.total,
+                            jogo.notaMediaAteOMomento.mecanica,
+                            jogo.notaMediaAteOMomento.componentes,
+                            jogo.notaMediaAteOMomento.experiencia,
+                            jogo.jogatinas,
+                            timeToLong(jogo.tempoMedioJogatina)
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    fun selecionarJogo(jogo: Jogo) {
+        GlobalScope.launch {
+            jogosDao.unselectAll()
+            jogosDao.select(jogo.nome)
+        }
+    }
+    fun deselecionarJogo(nomeJogo: String) {
+        GlobalScope.launch {
+            jogosDao.select(nomeJogo, false)
+        }
+    }
+
+    fun obterSelecionado(callback: (JogoLocal?) -> Any) {
+        GlobalScope.launch {
+            callback(jogosDao.getSelected())
+        }
+    }
+
+    fun longToDate(dateLong: Long?): Date? {
+        return dateLong?.let { Date(it) }
+    }
+    fun longToTimw(dateLong: Long?): Time? {
+        return dateLong?.let { Time(it) }
+    }
+
+    fun dateToLong(date: Date?): Long? {
+        return if (date == null) null else date.getTime()
+    }
+    fun timeToLong(date: Time?): Long? {
+        return if (date == null) null else date.getTime()
     }
 
     fun get(nomeJogo: String) { //: Jogo? {

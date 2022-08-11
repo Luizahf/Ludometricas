@@ -14,8 +14,8 @@ class JogoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_jogo)
 
 
-        val nomeJogo = intent.getStringExtra("JOGO_SELECIONADO")
-        var jogo = jogoViewModel.obterJogo(nomeJogo!!)
-        findViewById<TextView>(R.id.titulo_jogo).setText(jogo!!.nome)
+        jogoViewModel.obterJogoSelecionado {
+            findViewById<TextView>(R.id.titulo_jogo).setText(it!!.nome)
+        }
     }
 }

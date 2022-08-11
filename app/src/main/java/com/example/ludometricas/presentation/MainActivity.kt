@@ -41,10 +41,9 @@ class MainActivity : AppCompatActivity() {
     fun clickListenerJogo(position: Int) {
         if (!jogos.isNullOrEmpty()) {
             jogoViewModel.selecionarJogo(jogos[position])
-
-            val intent = Intent(this, JogoActivity::class.java)
-            intent.putExtra("JOGO_SELECIONADO", jogos[position].nome)
-            startActivity(intent)
         }
+
+        val intent = Intent(this, JogoActivity::class.java)
+        startActivity(intent)
     }
 }
