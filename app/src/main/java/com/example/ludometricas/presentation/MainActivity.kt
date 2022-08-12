@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.ludometricas.R
 import com.example.ludometricas.data.Jogo
+import com.example.ludometricas.presentation.cronometro.CronometroActivity
 import com.example.ludometricas.presentation.jogo.JogoActivity
 import com.example.ludometricas.presentation.jogo.JogoViewModel
 import com.example.ludometricas.presentation.jogo.JogosAdapter
