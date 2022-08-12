@@ -13,6 +13,7 @@ internal val DataModules = module {
             get(),
             AppDatabase::class.java,
             "ludometricas_db")
+            .fallbackToDestructiveMigration()
             .build()
     }
 

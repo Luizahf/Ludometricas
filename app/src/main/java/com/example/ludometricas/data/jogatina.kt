@@ -1,9 +1,7 @@
 package com.example.ludometricas.data
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import java.sql.Date
 import java.sql.Time
+import java.util.*
 
 class Jogatina (
     var data: Date? = null,

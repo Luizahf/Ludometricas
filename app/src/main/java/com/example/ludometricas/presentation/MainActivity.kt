@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         jogoViewModel.obterJogos()
         jogoViewModel.jogos.observe(this, {
             jogos = it
-            recyclerView.adapter = JogosAdapter(it, ::clickListenerJogo, this)
+            recyclerView.adapter = JogosAdapter(it.sortedByDescending { it.notaMediaAteOMomento.total }, ::clickListenerJogo, this)
         })
     }
 

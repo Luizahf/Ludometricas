@@ -1,10 +1,13 @@
 package com.example.ludometricas.presentation.jogo
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import com.example.ludometricas.R
 import com.example.ludometricas.data.dao.JogoLocal
+import com.example.ludometricas.presentation.Avaliacao.AvaliacaoActivity
+import kotlinx.android.synthetic.main.activity_jogo.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.sql.Date
 import java.sql.Time
@@ -22,6 +25,11 @@ class JogoActivity : AppCompatActivity() {
             setLayout(it!!)
         }
 
+        btn_jogar.setOnClickListener {
+            val intent = Intent(this, AvaliacaoActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     fun setLayout(jogo: JogoLocal) {
@@ -36,7 +44,7 @@ class JogoActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.pontuacao_recorde_txt).text = jogo.RecordePontuacao.toString()
         findViewById<TextView>(R.id.responsavel_recorde_txt).text = jogo.RecordeResponsavel
         findViewById<TextView>(R.id.data_recorde_txt).text = dataRecordeTxt
-        findViewById<TextView>(R.id.nota_mecanica).text = jogo.notaMecanicaMediaAteOMomento.toString()
+        findViewById<TextView>(R.id.nota_mecanica_pl1).text = jogo.notaMecanicaMediaAteOMomento.toString()
         findViewById<TextView>(R.id.nota_componentes).text = jogo.notaComponentesMediaAteOMomento.toString()
         findViewById<TextView>(R.id.nota_experiencia).text = jogo.notaExperienciaMediaAteOMomento.toString()
         findViewById<TextView>(R.id.jogatinas).text = jogo.jogatinas.toString()

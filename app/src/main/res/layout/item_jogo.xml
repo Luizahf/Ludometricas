@@ -25,11 +25,23 @@
         android:id="@+id/txt_game_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:text="7 Wonders"
         android:textColor="#FAFAFA"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/game_item_view"
         app:layout_constraintStart_toStartOf="@+id/game_item_view"
+        app:layout_constraintTop_toTopOf="@+id/game_item_view" />
+
+    <TextView
+        android:id="@+id/txt_game_item2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="7 Wonders"
+        android:textColor="#FAFAFA"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/game_item_view"
+        app:layout_constraintEnd_toEndOf="@+id/game_item_view"
         app:layout_constraintTop_toTopOf="@+id/game_item_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>

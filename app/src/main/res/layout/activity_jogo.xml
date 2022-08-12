@@ -95,8 +95,8 @@
         android:textAlignment="gravity"
         android:textColor="#7EA6E0"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/nota_mecanica"
-        app:layout_constraintStart_toEndOf="@+id/nota_mecanica" />
+        app:layout_constraintBottom_toBottomOf="@+id/nota_mecanica_pl1"
+        app:layout_constraintStart_toEndOf="@+id/nota_mecanica_pl1" />
 
     <TextView
         android:id="@+id/jogatinas_txt"
@@ -139,7 +139,7 @@
         app:layout_constraintTop_toTopOf="@+id/icone_estrela" />
 
     <TextView
-        android:id="@+id/nota_mecanica"
+        android:id="@+id/nota_mecanica_pl1"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -161,7 +161,7 @@
         android:textColor="#7EA6E0"
         android:textSize="27sp"
         app:layout_constraintEnd_toStartOf="@+id/jogatinas_txt"
-        app:layout_constraintTop_toTopOf="@+id/nota_mecanica" />
+        app:layout_constraintTop_toTopOf="@+id/nota_mecanica_pl1" />
 
     <TextView
         android:id="@+id/tempo_medio"
@@ -184,8 +184,8 @@
         android:text="10"
         android:textColor="#7EA6E0"
         android:textSize="27sp"
-        app:layout_constraintStart_toStartOf="@+id/nota_mecanica"
-        app:layout_constraintTop_toBottomOf="@+id/nota_mecanica" />
+        app:layout_constraintStart_toStartOf="@+id/nota_mecanica_pl1"
+        app:layout_constraintTop_toBottomOf="@+id/nota_mecanica_pl1" />
 
     <TextView
         android:id="@+id/nota_experiencia"

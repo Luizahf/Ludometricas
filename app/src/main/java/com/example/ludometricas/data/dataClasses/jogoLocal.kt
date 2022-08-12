@@ -2,6 +2,7 @@ package com.example.ludometricas.data.dao
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.ludometricas.data.Nota
 
 
 @Entity(tableName = "jogos")
@@ -17,5 +18,6 @@ data class JogoLocal (
     var notaComponentesMediaAteOMomento: Double = 0.0,
     var notaExperienciaMediaAteOMomento: Double = 0.0,
     var jogatinas: Int = 0,
-    var tempoMedioJogatina: Long? = null
+    var tempoMedioJogatina: Long? = null,
+    var notaTotalAteOMomento: Double = 0.0
 )

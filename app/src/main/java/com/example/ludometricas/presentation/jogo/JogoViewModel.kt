@@ -3,10 +3,7 @@ package com.example.ludometricas.presentation.jogo
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.ludometricas.data.Jogo
-import com.example.ludometricas.data.JogosRepository
-import com.example.ludometricas.data.Nota
-import com.example.ludometricas.data.Recorde
+import com.example.ludometricas.data.*
 import com.example.ludometricas.data.dao.JogoLocal
 import java.sql.Date
 import java.sql.Time
@@ -57,7 +54,7 @@ class JogoViewModel constructor(
         ))
     }
 
-    fun obterJogo(nomeJogo: String): Jogo? {
-        return Jogo() //jogosRepository.get(nomeJogo)
+    fun avaliar(a: Avaliacao) {
+        return jogosRepository.avaliar(a)
     }
 }

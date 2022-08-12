@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import java.sql.Date
 import java.sql.Time
 
-class Jogo (
+data class Jogo (
     var nome: String = "",
     var recorde: Recorde? = Recorde(),
     var tempoJogado: Time = Time(0, 0, 0),
