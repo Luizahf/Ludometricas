@@ -6,14 +6,266 @@
     android:layout_height="match_parent"
     tools:context=".presentation.jogo.JogoActivity">
 
+    <ImageView
+        android:id="@+id/game_item_view"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/game_item"
+        app:tint="#CECDD1" />
+
     <TextView
         android:id="@+id/titulo_jogo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Conquistadores de midgard"
+        android:textAlignment="center"
+        android:textColor="#FAFAFA"
+        android:textSize="34sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toBottomOf="@+id/game_item_view"
+        app:layout_constraintEnd_toEndOf="@+id/game_item_view"
+        app:layout_constraintStart_toStartOf="@+id/game_item_view"
+        app:layout_constraintTop_toTopOf="@+id/game_item_view" />
+
+    <ImageView
+        android:id="@+id/icone_estrela"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/icone_trofeu"
+        app:layout_constraintTop_toBottomOf="@+id/icone_trofeu"
+        app:srcCompat="@android:drawable/star_off" />
+
+    <TextView
+        android:id="@+id/responsavel_recorde_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Lulu"
+        android:textColor="#7EA6E0"
+        android:textSize="27sp"
+        app:layout_constraintBottom_toBottomOf="@+id/icone_estrela"
+        app:layout_constraintStart_toEndOf="@+id/pontuacao_recorde_txt"
+        app:layout_constraintTop_toTopOf="@+id/icone_estrela"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/txt_componentes"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Componentes"
+        android:textAlignment="gravity"
+        android:textColor="#7EA6E0"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/nota_componentes"
+        app:layout_constraintStart_toEndOf="@+id/nota_componentes" />
+
+    <TextView
+        android:id="@+id/txt_experiencia"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Experiência"
+        android:textAlignment="gravity"
+        android:textColor="#7EA6E0"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/nota_experiencia"
+        app:layout_constraintStart_toEndOf="@+id/nota_experiencia" />
+
+    <TextView
+        android:id="@+id/txt_mecanica"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Mecânica"
+        android:textAlignment="gravity"
+        android:textColor="#7EA6E0"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/nota_mecanica"
+        app:layout_constraintStart_toEndOf="@+id/nota_mecanica" />
+
+    <TextView
+        android:id="@+id/jogatinas_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Jogatinas"
+        android:textAlignment="gravity"
+        android:textColor="#7EA6E0"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/jogatinas"
+        app:layout_constraintEnd_toEndOf="@+id/tempo_medio_txt"
+        app:layout_constraintStart_toStartOf="@+id/tempo_medio" />
+
+    <TextView
+        android:id="@+id/tempo_medio_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Tempo médio"
+        android:textAlignment="center"
+        android:textColor="#7EA6E0"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_experiencia"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/pontuacao_recorde_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="100"
+        android:textColor="#7EA6E0"
+        android:textSize="27sp"
+        app:layout_constraintBottom_toBottomOf="@+id/icone_estrela"
+        app:layout_constraintStart_toEndOf="@+id/icone_estrela"
+        app:layout_constraintTop_toTopOf="@+id/icone_estrela" />
+
+    <TextView
+        android:id="@+id/nota_mecanica"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="9,8"
+        android:textColor="#7EA6E0"
+        android:textSize="27sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/data_recorde_txt" />
+
+    <TextView
+        android:id="@+id/jogatinas"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="11"
+        android:textColor="#7EA6E0"
+        android:textSize="27sp"
+        app:layout_constraintEnd_toStartOf="@+id/jogatinas_txt"
+        app:layout_constraintTop_toTopOf="@+id/nota_mecanica" />
+
+    <TextView
+        android:id="@+id/tempo_medio"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="1h 43min"
+        android:textColor="#7EA6E0"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/tempo_medio_txt"
+        app:layout_constraintEnd_toEndOf="@+id/tempo_medio_txt"
+        app:layout_constraintStart_toStartOf="@+id/tempo_medio_txt" />
+
+    <TextView
+        android:id="@+id/nota_componentes"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="10"
+        android:textColor="#7EA6E0"
+        android:textSize="27sp"
+        app:layout_constraintStart_toStartOf="@+id/nota_mecanica"
+        app:layout_constraintTop_toBottomOf="@+id/nota_mecanica" />
+
+    <TextView
+        android:id="@+id/nota_experiencia"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="9"
+        android:textColor="#7EA6E0"
+        android:textSize="27sp"
+        app:layout_constraintStart_toStartOf="@+id/nota_componentes"
+        app:layout_constraintTop_toBottomOf="@+id/nota_componentes" />
+
+    <ImageView
+        android:id="@+id/separador"
+        android:layout_width="300dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/icone_trofeu"
+        app:layout_constraintStart_toStartOf="@+id/icone_trofeu"
+        app:layout_constraintTop_toBottomOf="@+id/icone_estrela"
+        app:srcCompat="@drawable/separador" />
+
+    <TextView
+        android:id="@+id/data_recorde_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Jogo Selecionado"
+        android:text="11/08/2022"
+        android:textColor="#747475"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/separador"
+        app:layout_constraintStart_toStartOf="@+id/separador"
+        app:layout_constraintTop_toBottomOf="@+id/separador" />
+
+    <Button
+        android:id="@+id/btn_jogar"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:backgroundTint="#9DAAC7"
+        android:fontFamily="sans-serif-light"
+        android:text="Jogar"
+        android:textColor="#FFFFFF"
         android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/circulo_amarelo"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/game_item_view"
+        app:srcCompat="@drawable/circulo_amarelo" />
+
+    <TextView
+        android:id="@+id/nota_total_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text="9,25"
+        android:textColor="#FFFF"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="@+id/circulo_amarelo"
+        app:layout_constraintEnd_toEndOf="@+id/circulo_amarelo"
+        app:layout_constraintStart_toStartOf="@+id/circulo_amarelo"
+        app:layout_constraintTop_toTopOf="@+id/circulo_amarelo" />
+
+    <ImageView
+        android:id="@+id/icone_trofeu"
+        android:layout_width="200dp"
+        android:layout_height="230dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/game_item_view"
+        app:srcCompat="@drawable/trofeu_estrela_icn"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

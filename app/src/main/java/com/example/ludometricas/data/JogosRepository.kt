@@ -38,6 +38,7 @@ class JogosRepository(
 
     private fun inserLocalDB(jogos: List<Jogo>) {
         GlobalScope.launch {
+            jogosDao.deleteAll()
             jogos.forEach { jogo ->
                 if(jogosDao.get(jogo.nome) == null) {
                     jogosDao.insert(
@@ -82,7 +83,7 @@ class JogosRepository(
     fun longToDate(dateLong: Long?): Date? {
         return dateLong?.let { Date(it) }
     }
-    fun longToTimw(dateLong: Long?): Time? {
+    fun longToTime(dateLong: Long?): Time? {
         return dateLong?.let { Time(it) }
     }
 

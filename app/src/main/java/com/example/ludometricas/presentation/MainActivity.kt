@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.layoutManager = layoutManager
 
+        jogoViewModel.inserirJogos()
         jogoViewModel.obterJogos()
         jogoViewModel.jogos.observe(this, {
             jogos = it
