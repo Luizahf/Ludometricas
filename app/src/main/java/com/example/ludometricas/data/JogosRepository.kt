@@ -19,7 +19,7 @@ class JogosRepository(
 
     fun insert(jogos: MutableList<Jogo>) {
         // Remover todos os jogos
-        FirebaseDatabase.getInstance(url).getReference("Jogos").removeValue()
+        //FirebaseDatabase.getInstance(url).getReference("Jogos").removeValue()
 
         jogos.forEach { jogo ->
             myRef.child(jogo.nome).setValue(Gson().toJson(jogo))
@@ -40,7 +40,7 @@ class JogosRepository(
 
     private fun inserLocalDB(jogos: List<Jogo>) {
         GlobalScope.launch {
-            jogosDao.deleteAll()
+            //jogosDao.deleteAll()
             jogos.forEach { jogo ->
                 if(jogosDao.get(jogo.nome) == null) {
                     jogosDao.insert(

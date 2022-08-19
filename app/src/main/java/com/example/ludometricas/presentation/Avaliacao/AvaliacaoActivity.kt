@@ -1,14 +1,17 @@
 package com.example.ludometricas.presentation.Avaliacao
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Toast
 import com.example.ludometricas.R
 import com.example.ludometricas.data.Avaliacao
 import com.example.ludometricas.data.Nota
 import com.example.ludometricas.data.NotaIndividual
 import com.example.ludometricas.data.dao.JogoLocal
+import com.example.ludometricas.presentation.MainActivity
 import com.example.ludometricas.presentation.jogo.JogoViewModel
 import kotlinx.android.synthetic.main.activity_avaliacao.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -51,6 +54,13 @@ class AvaliacaoActivity : AppCompatActivity() {
                 jogoAtual.nome, notaTotalMediaAteOMomento, notaTotalJogatina, (notaMecanicaPl1+notaMecanicaPl2)/2, (notaComponentesPl1+notaComponentesPl2)/2, (notaExperienciaPl1+notaExperienciaPl1)/2, individuais
             )
             jogoViewModel.avaliar(a)
+
+            // atualizar banco
+
+            val toast = Toast.makeText(applicationContext, "Avaliaçao salva com sucesso!", Toast.LENGTH_SHORT)
+            toast.show()
+
+            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 
@@ -60,8 +70,10 @@ class AvaliacaoActivity : AppCompatActivity() {
             }
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                notaMecanicaPl1 = s.toString().toDouble()
-                calcularNotaTotalPl1()
+                if(s.isNotEmpty()) {
+                    notaMecanicaPl1 = s.toString().toDouble()
+                    calcularNotaTotalPl1()
+                }
             }
             override fun afterTextChanged(p0: Editable?) {
             }
@@ -72,58 +84,68 @@ class AvaliacaoActivity : AppCompatActivity() {
             }
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                notaMecanicaPl2 = s.toString().toDouble()
-                calcularNotaTotalPl2()
+                if(s.isNotEmpty()) {
+                    notaMecanicaPl2 = s.toString().toDouble()
+                    calcularNotaTotalPl2()
+                }
             }
             override fun afterTextChanged(p0: Editable?) {
             }
         })
     }
     private fun listenersComponentes() {
-        nota_mecanica_pl1.addTextChangedListener(object : TextWatcher {
+        nota_componentes_pl1.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                notaComponentesPl1 = s.toString().toDouble()
-                calcularNotaTotalPl1()
+                if(s.isNotEmpty()) {
+                    notaComponentesPl1 = s.toString().toDouble()
+                    calcularNotaTotalPl1()
+                }
             }
             override fun afterTextChanged(p0: Editable?) {
             }
         })
 
-        nota_mecanica_pl2.addTextChangedListener(object : TextWatcher {
+        nota_coomponentes_pl2.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                notaComponentesPl2 = s.toString().toDouble()
-                calcularNotaTotalPl2()
+                if(s.isNotEmpty()) {
+                    notaComponentesPl2 = s.toString().toDouble()
+                    calcularNotaTotalPl2()
+                }
             }
             override fun afterTextChanged(p0: Editable?) {
             }
         })
     }
     private fun listenersExperiencia() {
-        nota_mecanica_pl1.addTextChangedListener(object : TextWatcher {
+        nota_experiencia_pl1.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                notaExperienciaPl1 = s.toString().toDouble()
-                calcularNotaTotalPl1()
+                if(s.isNotEmpty()) {
+                    notaExperienciaPl1 = s.toString().toDouble()
+                    calcularNotaTotalPl1()
+                }
             }
             override fun afterTextChanged(p0: Editable?) {
             }
         })
 
-        nota_mecanica_pl2.addTextChangedListener(object : TextWatcher {
+        nota_experiencia_pl2.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                notaExperienciaPl2 = s.toString().toDouble()
-                calcularNotaTotalPl2()
+                if(s.isNotEmpty()) {
+                    notaExperienciaPl2 = s.toString().toDouble()
+                    calcularNotaTotalPl2()
+                }
             }
             override fun afterTextChanged(p0: Editable?) {
             }
@@ -131,26 +153,25 @@ class AvaliacaoActivity : AppCompatActivity() {
     }
 
     private fun calcularNotaTotalPl1() {
-        if (notaMecanicaPl2 > 0 && notaComponentesPl2 > 0 && notaExperienciaPl2 > 0) {
-            notaTotalPl1 =
-                calcularNotaTotal(notaMecanicaPl1, notaComponentesPl1, notaExperienciaPl1)
-            nota_pl1.text = notaTotalPl2.round(2).toString()
+        if (notaMecanicaPl1 > 0 && notaComponentesPl1 > 0 && notaExperienciaPl1 > 0) {
+            notaTotalPl1 = calcularNotaTotal(notaMecanicaPl1, notaComponentesPl1, notaExperienciaPl1)
+            nota_pl1.text = notaTotalPl1.round(2).toString()
             if (notaTotalPl2 > 0) {
                 notaTotalJogatina = (notaTotalPl1 + notaTotalPl2) / 2
                 notaTotalMediaAteOMomento = ((notaSomadaAteOmomento + notaTotalJogatina) / (jogatinas+1)).round(2)
                 nota_total_avaliacao_txt.text =notaTotalMediaAteOMomento.toString()
+                nota_jogatina.text = ((notaTotalPl1 + notaTotalPl2) / 2).toString()
             }
         }
     }
     private fun calcularNotaTotalPl2() {
         if (notaMecanicaPl2 > 0 && notaComponentesPl2 > 0 && notaExperienciaPl2 > 0) {
-            notaTotalPl2 =
-                calcularNotaTotal(notaMecanicaPl2, notaComponentesPl2, notaExperienciaPl2)
+            notaTotalPl2 =  calcularNotaTotal(notaMecanicaPl2, notaComponentesPl2, notaExperienciaPl2)
             nota_pl2.text = notaTotalPl2.round(2).toString()
-            if (notaTotalPl2 > 0) {
-                notaTotalJogatina = (notaTotalPl2 + notaTotalPl2) / 2
-                notaTotalMediaAteOMomento = ((notaSomadaAteOmomento + notaTotalJogatina) / (jogatinas+1)).round(2)
+            if (notaTotalPl1 > 0) {
+                notaTotalMediaAteOMomento = ((notaSomadaAteOmomento + (notaTotalPl1 + notaTotalPl2)) / (jogatinas+1)).round(2)
                 nota_total_avaliacao_txt.text =notaTotalMediaAteOMomento.toString()
+                nota_jogatina.text = ((notaTotalPl1 + notaTotalPl2) / 2).toString()
             }
         }
     }

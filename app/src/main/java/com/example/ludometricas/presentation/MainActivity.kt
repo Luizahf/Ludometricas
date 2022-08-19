@@ -32,12 +32,13 @@ class MainActivity : AppCompatActivity() {
         val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.layoutManager = layoutManager
 
-        jogoViewModel.inserirJogos()
+        //jogoViewModel.inserirJogos()
         jogoViewModel.obterJogos()
         jogoViewModel.jogos.observe(this, {
             jogos = it
-            recyclerView.adapter = JogosAdapter(it.sortedByDescending { it.notaMediaAteOMomento.total }, ::clickListenerJogo, this)
+            recyclerView.adapter = JogosAdapter(it, ::clickListenerJogo, this)
         })
+        //it.sortedByDescending { it.notaMediaAteOMomento.total }
     }
 
     fun clickListenerJogo(position: Int) {

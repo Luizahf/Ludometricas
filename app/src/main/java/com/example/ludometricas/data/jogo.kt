@@ -6,6 +6,7 @@ import java.sql.Date
 import java.sql.Time
 
 data class Jogo (
+    var id: Int = 0,
     var nome: String = "",
     var recorde: Recorde? = Recorde(),
     var tempoJogado: Time = Time(0, 0, 0),

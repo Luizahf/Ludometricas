@@ -33,11 +33,11 @@ class JogoActivity : AppCompatActivity() {
     }
 
     fun setLayout(jogo: JogoLocal) {
-        val dataRecorde = longToDate(jogo.RecordeData)!!
+        val dataRecorde = longToDate(jogo.RecordeData) ?: java.util.Date()
         val dataRecordeTxt = "${dataRecorde.day}/${dataRecorde.month}/${dataRecorde.year}"
+        val tempoMedio = longToTime(jogo.tempoMedioJogatina)
 
-        val tempoMedio = longToTime(jogo.tempoMedioJogatina)!!
-        val tempoMedioTxt = "${tempoMedio.hours}h ${tempoMedio.minutes}min"
+        val tempoMedioTxt = if(tempoMedio != null) "${tempoMedio.hours}h ${tempoMedio.minutes}min" else ""
 
         findViewById<TextView>(R.id.titulo_jogo).text = jogo.nome
         findViewById<TextView>(R.id.nota_total_txt).text = jogo.notaMediaAteOMomento.round(2).toString()
