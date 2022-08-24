@@ -7,6 +7,7 @@ import android.widget.TextView
 import com.example.ludometricas.R
 import com.example.ludometricas.data.dao.JogoLocal
 import com.example.ludometricas.presentation.Avaliacao.AvaliacaoActivity
+import com.example.ludometricas.presentation.cronometro.CronometroActivity
 import kotlinx.android.synthetic.main.activity_jogo.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.sql.Date
@@ -22,31 +23,37 @@ class JogoActivity : AppCompatActivity() {
 
 
         jogoViewModel.obterJogoSelecionado {
-            setLayout(it!!)
+            jogoSelecioando(it)
         }
 
         btn_jogar.setOnClickListener {
-            val intent = Intent(this, AvaliacaoActivity::class.java)
+            val intent = Intent(this, CronometroActivity::class.java)
             startActivity(intent)
         }
 
     }
 
-    fun setLayout(jogo: JogoLocal) {
-        val dataRecorde = longToDate(jogo.RecordeData) ?: java.util.Date()
-        val dataRecordeTxt = "${dataRecorde.day}/${dataRecorde.month}/${dataRecorde.year}"
-        val tempoMedio = longToTime(jogo.tempoMedioJogatina)
+    fun jogoSelecioando(it: JogoLocal?) {
+        if (it != null)
+            setLayout(it)
+    }
 
-        val tempoMedioTxt = if(tempoMedio != null) "${tempoMedio.hours}h ${tempoMedio.minutes}min" else ""
+    override fun onBackPressed() {
+        jogoViewModel.deselecionarJogo()
+        super.onBackPressed()
+    }
+
+    fun setLayout(jogo: JogoLocal) {
+        val tempoMedioTxt = if(jogo.tempoMedioJogatina != null) "${jogo.tempoMedioJogatina!!}h ${jogo.tempoMedioJogatina!!}min" else ""
 
         findViewById<TextView>(R.id.titulo_jogo).text = jogo.nome
         findViewById<TextView>(R.id.nota_total_txt).text = jogo.notaMediaAteOMomento.round(2).toString()
         findViewById<TextView>(R.id.pontuacao_recorde_txt).text = jogo.RecordePontuacao.toString()
         findViewById<TextView>(R.id.responsavel_recorde_txt).text = jogo.RecordeResponsavel
-        findViewById<TextView>(R.id.data_recorde_txt).text = dataRecordeTxt
-        findViewById<TextView>(R.id.nota_mecanica_pl1).text = jogo.notaMecanicaMediaAteOMomento.toString()
-        findViewById<TextView>(R.id.nota_componentes).text = jogo.notaComponentesMediaAteOMomento.toString()
-        findViewById<TextView>(R.id.nota_experiencia).text = jogo.notaExperienciaMediaAteOMomento.toString()
+        findViewById<TextView>(R.id.data_recorde_txt).text = (if (jogo.RecordeData != null) "${jogo.RecordeData!![1]}/${jogo.RecordeData!![0]}/${jogo.RecordeData!![2]}" else "${java.util.Date().day}/${java.util.Date().month}/${java.util.Date().year}")
+        findViewById<TextView>(R.id.nota_mecanica_pl1).text = jogo.notaMecanicaMediaAteOMomento.round(2).toString()
+        findViewById<TextView>(R.id.nota_componentes).text = jogo.notaComponentesMediaAteOMomento.round(2).toString()
+        findViewById<TextView>(R.id.nota_experiencia).text = jogo.notaExperienciaMediaAteOMomento.round(2).toString()
         findViewById<TextView>(R.id.jogatinas).text = jogo.jogatinas.toString()
         findViewById<TextView>(R.id.tempo_medio).text = tempoMedioTxt
     }

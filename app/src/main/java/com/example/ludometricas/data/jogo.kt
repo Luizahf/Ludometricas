@@ -9,7 +9,7 @@ data class Jogo (
     var id: Int = 0,
     var nome: String = "",
     var recorde: Recorde? = Recorde(),
-    var tempoJogado: Time = Time(0, 0, 0),
+    var tempoJogado: Long,
     var notaMediaAteOMomento: Nota = Nota(),
     var notaTotalAteOMomento: Nota = Nota(),
     var notasIndividuaisAteOMomento: List<NotaIndividual> = mutableListOf(),
@@ -17,7 +17,7 @@ data class Jogo (
     var notasTotaisIndividuais: MutableList<NotaIndividual> = mutableListOf(),
     var jogatinas: Int = 0,
     var historicoRecordes: MutableList<Recorde>? = mutableListOf(),
-    var tempoMedioJogatina: Time = Time(0, 0, 0),
+    var tempoMedioJogatina: Long,
     var tags: MutableList<String> = mutableListOf()
 
 )

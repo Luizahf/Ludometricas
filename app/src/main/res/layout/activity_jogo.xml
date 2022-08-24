@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:backgroundTint="#FAFAFA"
+    android:clipToPadding="false"
+    android:paddingBottom="0dp"
     tools:context=".presentation.jogo.JogoActivity">
 
     <ImageView
@@ -266,6 +270,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/game_item_view"
-        app:srcCompat="@drawable/trofeu_estrela_icn"/>
+        app:srcCompat="@drawable/trofeu_estrela_icn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

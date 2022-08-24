@@ -1,174 +1,111 @@
 package com.example.ludometricas.presentation.cronometro
 
-import android.app.Activity
-import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.widget.TextView
 import com.example.ludometricas.R
+import com.example.ludometricas.data.Jogo
+import com.example.ludometricas.data.dao.JogoLocal
+import com.example.ludometricas.presentation.Avaliacao.AvaliacaoActivity
+import com.example.ludometricas.presentation.jogo.JogoViewModel
+import com.example.ludometricas.presentation.util.CronometroState
 import kotlinx.android.synthetic.main.activity_cronometro.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.math.floor
 
 class CronometroActivity : AppCompatActivity() {
+    private val jogoViewModel: JogoViewModel by viewModel()
+
+    var cronometroState : CronometroState = CronometroState.stop
+    var startTime : Long = 0
+    var timeElapsed : Long = 0
+    var rodarCronometro = false
+
+    lateinit  var jogo : JogoLocal
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cronometro)
 
-        val a = StopwatchListOrchestrator(GlobalScope)
+        jogoViewModel.obterJogoSelecionado {
+            if (it != null) {
+                cronometro_titulo_jogo.text = it.nome
+                jogo = it
+            }
+        }
+
         icn_play.setOnClickListener {
-            a.start()
+            if (cronometroState == CronometroState.stop) {
+                cronometroState = CronometroState.play
+                timeElapsed = 0
+                startTime = System.currentTimeMillis()
+                rodarCronometro = true
+                inicarCronometro()
+            } else if (cronometroState == CronometroState.pause) {
+                cronometroState = CronometroState.play
+                startTime = System.currentTimeMillis()
+                rodarCronometro = true
+                inicarCronometro()
+            }
         }
 
         icn_stop.setOnClickListener {
-            a.stop()
-            val e = StopwatchStateHolder().getStringTimeRepresentation()
-        }
-    }
+            if (cronometroState == CronometroState.play) timeElapsed = System.currentTimeMillis() - startTime
 
-    sealed class StopwatchState {
-
-        data class Paused(
-            val elapsedTime: Long
-        ) : StopwatchState()
-
-        data class Running(
-            val startTime: Long,
-            val elapsedTime: Long
-        ) : StopwatchState()
-    }
-
-    class ElapsedTimeCalculator(
-    ) {
-
-        fun calculate(state: StopwatchState.Running): Long {
-            val currentTimestamp = System. currentTimeMillis()
-            val timePassedSinceStart = if (currentTimestamp > state.startTime) {
-                currentTimestamp - state.startTime
-            } else {
-                0
+            if (cronometroState != CronometroState.stop) {
+                Log.e("TEMPO - ", exibirTempo(timeElapsed))
+                rodarCronometro = false
+                cronometroState = CronometroState.stop
             }
-            return timePassedSinceStart + state.elapsedTime
+        }
+        icn_pause.setOnClickListener {
+            if (cronometroState == CronometroState.play) {
+                timeElapsed += (System.currentTimeMillis() - startTime)
+                rodarCronometro = false
+                cronometroState = CronometroState.pause
+            }
+        }
+
+        encerrarPartida.setOnClickListener {
+            // update tempo da jogatina atual no jogo selecionado
+            jogo.tempoJogatina += timeElapsed
+            jogo.jogatinas += 1
+            jogo.tempoMedioJogatina = jogo.tempoJogatina / jogo.jogatinas
+            jogoViewModel.updateJogo(jogo)
+
+            val intent = Intent(this, AvaliacaoActivity::class.java)
+            startActivity(intent)
         }
     }
 
-    class StopwatchStateCalculator(
-    ) {
-
-        fun calculateRunningState(oldState: StopwatchState): StopwatchState.Running =
-            when (oldState) {
-                is StopwatchState.Running -> oldState
-                is StopwatchState.Paused -> {
-                    StopwatchState.Running(
-                        startTime = System. currentTimeMillis(),
-                        elapsedTime = oldState.elapsedTime
-                    )
+    fun inicarCronometro() {
+        // Do work every 1s
+        val handler = Handler(Looper.getMainLooper())
+        handler.post(object : Runnable {
+            override fun run() {
+                if (rodarCronometro) {
+                    exibirTempo(timeElapsed + (System.currentTimeMillis() - startTime))
+                    handler.postDelayed(this, 1000)
                 }
             }
-
-        fun calculatePausedState(oldState: StopwatchState): StopwatchState.Paused =
-            when (oldState) {
-                is StopwatchState.Running -> {
-                    val elapsedTime = ElapsedTimeCalculator().calculate(oldState)
-                    StopwatchState.Paused(elapsedTime = elapsedTime)
-                }
-                is StopwatchState.Paused -> oldState
-            }
+        })
     }
 
-    class TimestampMillisecondsFormatter() {
+    fun exibirTempo(elapsed: Long) : String {
+        var seconds = floor((elapsed / 1000).toDouble())
+        var minutes = floor((seconds / 60))
+        var hours = floor((minutes / 60))
 
-        companion object {
-            const val DEFAULT_TIME = "00:00:000"
-        }
-
-        fun format(timestamp: Long): String {
-            val millisecondsFormatted = (timestamp % 1000).pad(3)
-            val seconds = timestamp / 1000
-            val secondsFormatted = (seconds % 60).pad(2)
-            val minutes = seconds / 60
-            val minutesFormatted = (minutes % 60).pad(2)
-            val hours = minutes / 60
-            return if (hours > 0) {
-                val hoursFormatted = (minutes / 60).pad(2)
-                "$hoursFormatted:$minutesFormatted:$secondsFormatted"
-            } else {
-                "$minutesFormatted:$secondsFormatted:$millisecondsFormatted"
-            }
-        }
-
-        private fun Long.pad(desiredLength: Int) = this.toString().padStart(desiredLength, '0')
-    }
-
-    class StopwatchStateHolder(
-    ) {
-
-        var currentState: StopwatchState = StopwatchState.Paused(0)
-            private set
-
-        fun start() {
-            currentState = StopwatchStateCalculator().calculateRunningState(currentState)
-        }
-
-        fun pause() {
-            currentState = StopwatchStateCalculator().calculatePausedState(currentState)
-        }
-
-        fun stop() {
-            currentState = StopwatchState.Paused(0)
-        }
-
-        fun getStringTimeRepresentation(): String {
-            val elapsedTime = when (val currentState = currentState) {
-                is StopwatchState.Paused -> currentState.elapsedTime
-                is StopwatchState.Running -> ElapsedTimeCalculator().calculate(currentState)
-            }
-            return TimestampMillisecondsFormatter().format(elapsedTime)
-        }
-    }
-
-    internal class StopwatchListOrchestrator(
-        val scope: CoroutineScope
-    ) {
-        private var job: Job? = null
-        private val mutableTicker = MutableStateFlow("")
-        val ticker: StateFlow<String> = mutableTicker
-
-        fun start() {
-            if (job == null) startJob()
-            StopwatchStateHolder().start()
-        }
-
-        private fun startJob() {
-            scope.launch {
-                while (isActive) {
-                    mutableTicker.value = StopwatchStateHolder().getStringTimeRepresentation()
-                    delay(20)
-                }
-            }
-        }
-
-        fun pause() {
-            StopwatchStateHolder().pause()
-            stopJob()
-        }
-
-        fun stop() {
-            StopwatchStateHolder().stop()
-            stopJob()
-            clearValue()
-        }
-
-        private fun stopJob() {
-            scope.coroutineContext.cancelChildren()
-            job = null
-        }
-
-        private fun clearValue() {
-            mutableTicker.value = ""
-        }
+        seconds %= 60
+        minutes %= 60
+        hours %= 24
+        val text = "${if (hours < 10) "0${hours.toInt()}" else "${hours.toInt()}"}:${if (minutes < 10) "0${minutes.toInt()}" else "${minutes.toInt()}"}:${if (seconds < 10) "0${seconds.toInt()}" else "${seconds.toInt()}"}"
+        timer.text = text
+        return text
     }
 }

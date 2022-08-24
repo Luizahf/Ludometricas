@@ -7,5 +7,5 @@ import java.sql.Date
 class Recorde (
     var responsavel : String = "",
     var pontuacao: Int = 0,
-    var data: Date? = null
+    var data: String? = null
 )

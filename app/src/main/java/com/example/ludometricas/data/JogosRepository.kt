@@ -26,8 +26,22 @@ class JogosRepository(
         }
     }
 
+    fun update(jogo: JogoLocal) {
+        jogosDao.deleteOne(jogo.id)
+        jogosDao.insert(jogo)
+    }
+
     fun getAll(callback:(List<Jogo>) -> Any) {
         val myRef = FirebaseDatabase.getInstance(url).getReference("Jogos")
+
+        //myRef.child("Teste").setValue(Gson().toJson(
+        //    Jogo(
+        //        0, "Teste", notaMediaAteOMomento = Nota(0.0, 0.0, 0.0, 0.0),
+        //        notaTotalAteOMomento = Nota(0.0, 0.0, 0.0, 0.0),
+        //        notasIndividuaisAteOMomento = mutableListOf(),
+        //        notasTotaisIndividuais = mutableListOf(), jogatinas = 0)
+        //))
+
         // Lendo todos os jogos do banco
         myRef.get().addOnSuccessListener {
             val databaseJogos = it.value as Map<*, *>
@@ -40,23 +54,23 @@ class JogosRepository(
 
     private fun inserLocalDB(jogos: List<Jogo>) {
         GlobalScope.launch {
-            //jogosDao.deleteAll()
+            jogosDao.deleteAll()
             jogos.forEach { jogo ->
-                if(jogosDao.get(jogo.nome) == null) {
+                if(jogosDao.get(jogo.id) == null) {
                     jogosDao.insert(
                         JogoLocal(
+                            jogo.id,
                             jogo.nome,
                             false,
                             jogo.recorde!!.responsavel,
                             jogo.recorde!!.pontuacao,
-                            dateToLong(jogo.recorde!!.data),
-                            timeToLong(jogo.tempoJogado),
+                            jogo.recorde!!.data,
+                            jogo.tempoJogado,
                             jogo.notaMediaAteOMomento.total,
                             jogo.notaMediaAteOMomento.mecanica,
                             jogo.notaMediaAteOMomento.componentes,
                             jogo.notaMediaAteOMomento.experiencia,
                             jogo.jogatinas,
-                            timeToLong(jogo.tempoMedioJogatina),
                             jogo.notaTotalAteOMomento.total
                         )
                     )
@@ -65,15 +79,40 @@ class JogosRepository(
         }
     }
 
-    fun selecionarJogo(jogo: Jogo) {
+    private fun inserOneLocalDB(jogo: Jogo) {
         GlobalScope.launch {
-            jogosDao.unselectAll()
-            jogosDao.select(jogo.nome)
+            if(jogosDao.get(jogo.id) == null) {
+                jogosDao.insert(
+                    JogoLocal(
+                        jogo.id,
+                        jogo.nome,
+                        false,
+                        jogo.recorde!!.responsavel,
+                        jogo.recorde!!.pontuacao,
+                        jogo.recorde!!.data,
+                        jogo.tempoJogado,
+                        jogo.notaMediaAteOMomento.total,
+                        jogo.notaMediaAteOMomento.mecanica,
+                        jogo.notaMediaAteOMomento.componentes,
+                        jogo.notaMediaAteOMomento.experiencia,
+                        jogo.jogatinas,
+                        jogo.notaTotalAteOMomento.total
+                    )
+                )
+            }
         }
     }
-    fun deselecionarJogo(nomeJogo: String) {
+
+    fun selecionarJogo(jogoSelecionado: Jogo, callback: () -> Any) {
         GlobalScope.launch {
-            jogosDao.select(nomeJogo, false)
+            jogosDao.unselectAll()
+            jogosDao.select(jogoSelecionado.id, true)
+            callback()
+        }
+    }
+    fun deselecionarJogo() {
+        GlobalScope.launch {
+            jogosDao.unSelect()
         }
     }
 
@@ -108,14 +147,32 @@ class JogosRepository(
         }
     }
 
-    fun avaliar(a: Avaliacao) {
+    fun avaliar(a: Avaliacao, callback: () -> Any) {
         getOne(a.nomeJogo, fun (jogoAntigo) {
-            jogoAntigo.notaMediaAteOMomento = Nota(a.notaMediaAteOMomento, (jogoAntigo.notaTotalAteOMomento.mecanica + a.notaMecanica)/(jogoAntigo.jogatinas+1),(jogoAntigo.notaTotalAteOMomento.componentes + a.notaComponentes)/(jogoAntigo.jogatinas+1),(jogoAntigo.notaTotalAteOMomento.experiencia + a.notaExperiencia)/(jogoAntigo.jogatinas+1), java.util.Date())
-            jogoAntigo.notaTotalAteOMomento = Nota(jogoAntigo.notaTotalAteOMomento.total+a.notaJogatina, jogoAntigo.notaTotalAteOMomento.mecanica+a.notaMecanica, jogoAntigo.notaTotalAteOMomento.componentes+a.notaComponentes, jogoAntigo.notaTotalAteOMomento.experiencia+a.notaExperiencia,java.util.Date())
-            jogoAntigo.jogatinas = jogoAntigo.jogatinas+1
+            jogoAntigo.notaMediaAteOMomento = Nota(a.notaMediaAteOMomento, (jogoAntigo.notaTotalAteOMomento.mecanica + a.notaMecanica)/(jogoAntigo.jogatinas+1),(jogoAntigo.notaTotalAteOMomento.componentes + a.notaComponentes)/(jogoAntigo.jogatinas+1),(jogoAntigo.notaTotalAteOMomento.experiencia + a.notaExperiencia)/(jogoAntigo.jogatinas+1), java.util.Date().toString())
+            jogoAntigo.notaTotalAteOMomento = Nota(jogoAntigo.notaTotalAteOMomento.total+a.notaJogatina, jogoAntigo.notaTotalAteOMomento.mecanica+a.notaMecanica, jogoAntigo.notaTotalAteOMomento.componentes+a.notaComponentes, jogoAntigo.notaTotalAteOMomento.experiencia+a.notaExperiencia,java.util.Date().toString())
             jogoAntigo.notasIndividuaisAteOMomento  = jogoAntigo.notasIndividuaisAteOMomento.plus(a.notasIndividuais)
-            jogoAntigo.historicoJogatinas = jogoAntigo.historicoJogatinas.plus(Jogatina(data = java.util.Date(), notasIndividuais = a.notasIndividuais)).toMutableList()
+            jogoAntigo.historicoJogatinas = jogoAntigo.historicoJogatinas.plus(Jogatina(data = java.util.Date().toString(), notasIndividuais = a.notasIndividuais)).toMutableList()
+
+            val jogoLocal = jogosDao.get(jogoAntigo.id)
+            if (jogoLocal != null) {
+                jogoAntigo.tempoJogado += jogoLocal.tempoJogatina
+                jogoAntigo.tempoMedioJogatina = jogoAntigo.tempoJogado / jogoAntigo.jogatinas
+                jogoAntigo.jogatinas = jogoLocal.jogatinas
+                // TODO update historico de jogatinas assim q tiver recorde
+            }
+
             myRef.child(jogoAntigo.nome).setValue(Gson().toJson(jogoAntigo))
+
+            atualizarBancoLocal(jogoAntigo, callback)
         })
+    }
+
+    private fun atualizarBancoLocal(jogo: Jogo, callback: () -> Any) {
+        GlobalScope.launch {
+            jogosDao.deleteOne(jogo.id)
+            inserOneLocalDB(jogo)
+            callback()
+        }
     }
 }

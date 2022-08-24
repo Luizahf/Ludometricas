@@ -7,5 +7,5 @@ import java.util.*
 data class NotaIndividual (
     var responsavel: String = "",
     var nota: Nota = Nota(),
-    var data: Date
+    var data: String
 )

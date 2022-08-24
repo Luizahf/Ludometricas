@@ -39,8 +39,14 @@ class AvaliacaoActivity : AppCompatActivity() {
 
 
         jogoViewModel.obterJogoSelecionado {
-            jogoAtual = it!!
-            setLayout(it!!)
+            if (it != null) {
+                jogoAtual = it
+                setLayout(it)
+            } else {
+                nota_jogatina.text = "0.0"
+                nota_pl1.text = "0.0"
+                nota_pl2.text = "0.0"
+            }
         }
         listenersMecanica()
         listenersComponentes()
@@ -48,19 +54,22 @@ class AvaliacaoActivity : AppCompatActivity() {
 
         icn_salval_avaliacao.setOnClickListener {
             var individuais = mutableListOf<NotaIndividual>()
-            individuais.add(NotaIndividual("Lulu", Nota(notaTotalPl1, notaMecanicaPl1, notaComponentesPl1, notaExperienciaPl1), Date()))
-            individuais.add(NotaIndividual("Pepeu", Nota(notaTotalPl2, notaMecanicaPl2, notaComponentesPl2, notaExperienciaPl2), Date()))
+            individuais.add(NotaIndividual("Lulu", Nota(notaTotalPl1, notaMecanicaPl1, notaComponentesPl1, notaExperienciaPl1), Date().toString()))
+            individuais.add(NotaIndividual("Pepeu", Nota(notaTotalPl2, notaMecanicaPl2, notaComponentesPl2, notaExperienciaPl2), Date().toString()))
             val a = Avaliacao(
                 jogoAtual.nome, notaTotalMediaAteOMomento, notaTotalJogatina, (notaMecanicaPl1+notaMecanicaPl2)/2, (notaComponentesPl1+notaComponentesPl2)/2, (notaExperienciaPl1+notaExperienciaPl1)/2, individuais
             )
-            jogoViewModel.avaliar(a)
+            jogoViewModel.avaliar(a) {
+                this.runOnUiThread {
+                    Toast.makeText(
+                        this,
+                        "Avaliaçao salva com sucesso!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
 
-            // atualizar banco
-
-            val toast = Toast.makeText(applicationContext, "Avaliaçao salva com sucesso!", Toast.LENGTH_SHORT)
-            toast.show()
-
-            startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this, MainActivity::class.java))
+            }
         }
     }
 
@@ -160,7 +169,7 @@ class AvaliacaoActivity : AppCompatActivity() {
                 notaTotalJogatina = (notaTotalPl1 + notaTotalPl2) / 2
                 notaTotalMediaAteOMomento = ((notaSomadaAteOmomento + notaTotalJogatina) / (jogatinas+1)).round(2)
                 nota_total_avaliacao_txt.text =notaTotalMediaAteOMomento.toString()
-                nota_jogatina.text = ((notaTotalPl1 + notaTotalPl2) / 2).toString()
+                nota_jogatina.text = notaTotalJogatina.toString()
             }
         }
     }
@@ -169,9 +178,10 @@ class AvaliacaoActivity : AppCompatActivity() {
             notaTotalPl2 =  calcularNotaTotal(notaMecanicaPl2, notaComponentesPl2, notaExperienciaPl2)
             nota_pl2.text = notaTotalPl2.round(2).toString()
             if (notaTotalPl1 > 0) {
-                notaTotalMediaAteOMomento = ((notaSomadaAteOmomento + (notaTotalPl1 + notaTotalPl2)) / (jogatinas+1)).round(2)
+                notaTotalJogatina = (notaTotalPl1 + notaTotalPl2) / 2
+                notaTotalMediaAteOMomento = ((notaSomadaAteOmomento + notaTotalJogatina) / (jogatinas+1)).round(2)
                 nota_total_avaliacao_txt.text =notaTotalMediaAteOMomento.toString()
-                nota_jogatina.text = ((notaTotalPl1 + notaTotalPl2) / 2).toString()
+                nota_jogatina.text = notaTotalJogatina.toString()
             }
         }
     }
