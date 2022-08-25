@@ -6,6 +6,6 @@ import java.util.*
 class Jogatina (
     var data: String? = null,
     var notasIndividuais: List<NotaIndividual> = mutableListOf(),
-    var duracao: Time = Time(0, 0, 0),
-    var duracaoPreparacao: Time = Time(0, 0, 0)
+    var duracao: String = "0",
+    var duracaoPreparacao: String = "0"
 )

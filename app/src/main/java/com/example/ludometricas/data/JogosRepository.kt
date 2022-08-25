@@ -45,7 +45,7 @@ class JogosRepository(
         // Lendo todos os jogos do banco
         myRef.get().addOnSuccessListener {
             val databaseJogos = it.value as Map<*, *>
-            var jogos = databaseJogos.values.map { Gson().fromJson(it.toString(), Jogo::class.java) }
+            val jogos = databaseJogos.values.map { Gson().fromJson(it.toString(), Jogo::class.java) }
             inserLocalDB(jogos)
             callback(jogos)
         }.addOnFailureListener{
@@ -65,7 +65,7 @@ class JogosRepository(
                             jogo.recorde!!.responsavel,
                             jogo.recorde!!.pontuacao,
                             jogo.recorde!!.data,
-                            jogo.tempoJogado,
+                            jogo.tempoJogado.toLong(),
                             jogo.notaMediaAteOMomento.total,
                             jogo.notaMediaAteOMomento.mecanica,
                             jogo.notaMediaAteOMomento.componentes,
@@ -90,7 +90,7 @@ class JogosRepository(
                         jogo.recorde!!.responsavel,
                         jogo.recorde!!.pontuacao,
                         jogo.recorde!!.data,
-                        jogo.tempoJogado,
+                        jogo.tempoJogado.toLong(),
                         jogo.notaMediaAteOMomento.total,
                         jogo.notaMediaAteOMomento.mecanica,
                         jogo.notaMediaAteOMomento.componentes,
@@ -157,7 +157,7 @@ class JogosRepository(
             val jogoLocal = jogosDao.get(jogoAntigo.id)
             if (jogoLocal != null) {
                 jogoAntigo.tempoJogado += jogoLocal.tempoJogatina
-                jogoAntigo.tempoMedioJogatina = jogoAntigo.tempoJogado / jogoAntigo.jogatinas
+                jogoAntigo.tempoMedioJogatina = (jogoAntigo.tempoJogado.toLong() / jogoAntigo.jogatinas).toString()
                 jogoAntigo.jogatinas = jogoLocal.jogatinas
                 // TODO update historico de jogatinas assim q tiver recorde
             }
