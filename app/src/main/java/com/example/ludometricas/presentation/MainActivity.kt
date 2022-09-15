@@ -14,6 +14,7 @@ import com.example.ludometricas.presentation.cronometro.CronometroActivity
 import com.example.ludometricas.presentation.jogo.JogoActivity
 import com.example.ludometricas.presentation.jogo.JogoViewModel
 import com.example.ludometricas.presentation.jogo.JogosAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -35,10 +36,9 @@ class MainActivity : AppCompatActivity() {
         //jogoViewModel.inserirJogos()
         jogoViewModel.obterJogos()
         jogoViewModel.jogos.observe(this, {
-            jogos = it
-            recyclerView.adapter = JogosAdapter(it, ::clickListenerJogo, this)
+            jogos = it.sortedByDescending { it.notaMediaAteOMomento.total }
+            recyclerView.adapter = JogosAdapter(jogos, ::clickListenerJogo, this)
         })
-        //it.sortedByDescending { it.notaMediaAteOMomento.total }
     }
 
     fun clickListenerJogo(position: Int) {

@@ -27,20 +27,22 @@ class JogosRepository(
     }
 
     fun update(jogo: JogoLocal) {
-        jogosDao.deleteOne(jogo.id)
-        jogosDao.insert(jogo)
+        GlobalScope.launch {
+            jogosDao.deleteOne(jogo.id)
+            jogosDao.insert(jogo)
+        }
     }
 
     fun getAll(callback:(List<Jogo>) -> Any) {
         val myRef = FirebaseDatabase.getInstance(url).getReference("Jogos")
 
-        //myRef.child("Teste").setValue(Gson().toJson(
-        //    Jogo(
-        //        0, "Teste", notaMediaAteOMomento = Nota(0.0, 0.0, 0.0, 0.0),
-        //        notaTotalAteOMomento = Nota(0.0, 0.0, 0.0, 0.0),
-        //        notasIndividuaisAteOMomento = mutableListOf(),
-        //        notasTotaisIndividuais = mutableListOf(), jogatinas = 0)
-        //))
+//        myRef.child("Teste").setValue(Gson().toJson(
+//            Jogo(
+//                0, "Teste", notaMediaAteOMomento = Nota(0.0, 0.0, 0.0, 0.0),
+//                notaTotalAteOMomento = Nota(0.0, 0.0, 0.0, 0.0),
+//                notasIndividuaisAteOMomento = mutableListOf(),
+//                notasTotaisIndividuais = mutableListOf(), jogatinas = 0, tempoJogado = "0", tempoMedioJogatina = "0")
+//        ))
 
         // Lendo todos os jogos do banco
         myRef.get().addOnSuccessListener {
@@ -148,23 +150,27 @@ class JogosRepository(
     }
 
     fun avaliar(a: Avaliacao, callback: () -> Any) {
+
         getOne(a.nomeJogo, fun (jogoAntigo) {
             jogoAntigo.notaMediaAteOMomento = Nota(a.notaMediaAteOMomento, (jogoAntigo.notaTotalAteOMomento.mecanica + a.notaMecanica)/(jogoAntigo.jogatinas+1),(jogoAntigo.notaTotalAteOMomento.componentes + a.notaComponentes)/(jogoAntigo.jogatinas+1),(jogoAntigo.notaTotalAteOMomento.experiencia + a.notaExperiencia)/(jogoAntigo.jogatinas+1), java.util.Date().toString())
             jogoAntigo.notaTotalAteOMomento = Nota(jogoAntigo.notaTotalAteOMomento.total+a.notaJogatina, jogoAntigo.notaTotalAteOMomento.mecanica+a.notaMecanica, jogoAntigo.notaTotalAteOMomento.componentes+a.notaComponentes, jogoAntigo.notaTotalAteOMomento.experiencia+a.notaExperiencia,java.util.Date().toString())
             jogoAntigo.notasIndividuaisAteOMomento  = jogoAntigo.notasIndividuaisAteOMomento.plus(a.notasIndividuais)
-            jogoAntigo.historicoJogatinas = jogoAntigo.historicoJogatinas.plus(Jogatina(data = java.util.Date().toString(), notasIndividuais = a.notasIndividuais)).toMutableList()
+            GlobalScope.launch {
+                val jogoLocal = jogosDao.get(jogoAntigo.id)
+                if (jogoLocal != null) {
+                    jogoAntigo.historicoJogatinas = jogoAntigo.historicoJogatinas.plus(Jogatina(data = java.util.Date().toString(), notasIndividuais = a.notasIndividuais, duracao = jogoLocal.tempoJogatina.toString())).toMutableList()
+                    jogoAntigo.tempoJogado = (jogoAntigo.tempoJogado.toLong() + jogoLocal.tempoJogatina).toString()
+                    jogoAntigo.jogatinas = jogoLocal.jogatinas
+                    jogoAntigo.tempoMedioJogatina = (jogoAntigo.tempoJogado.toLong() / jogoAntigo.jogatinas).toString()
+                    jogoAntigo.recorde = Recorde(jogoLocal.RecordeResponsavel, jogoLocal.RecordePontuacao, jogoLocal.RecordeData)
+                    jogoAntigo.historicoRecordes = jogoAntigo.historicoRecordes.plus(Recorde(jogoLocal.RecordeResponsavel, jogoLocal.RecordePontuacao, jogoLocal.RecordeData)).toMutableList()
 
-            val jogoLocal = jogosDao.get(jogoAntigo.id)
-            if (jogoLocal != null) {
-                jogoAntigo.tempoJogado += jogoLocal.tempoJogatina
-                jogoAntigo.tempoMedioJogatina = (jogoAntigo.tempoJogado.toLong() / jogoAntigo.jogatinas).toString()
-                jogoAntigo.jogatinas = jogoLocal.jogatinas
-                // TODO update historico de jogatinas assim q tiver recorde
+                }
+
+                myRef.child(jogoAntigo.nome).setValue(Gson().toJson(jogoAntigo))
+
+                atualizarBancoLocal(jogoAntigo, callback)
             }
-
-            myRef.child(jogoAntigo.nome).setValue(Gson().toJson(jogoAntigo))
-
-            atualizarBancoLocal(jogoAntigo, callback)
         })
     }
 

@@ -12,6 +12,7 @@ import com.example.ludometricas.data.Jogo
 import com.example.ludometricas.data.dao.JogoLocal
 import com.example.ludometricas.presentation.Avaliacao.AvaliacaoActivity
 import com.example.ludometricas.presentation.jogo.JogoViewModel
+import com.example.ludometricas.presentation.jogo.recorde.RecordeActivity
 import com.example.ludometricas.presentation.util.CronometroState
 import kotlinx.android.synthetic.main.activity_cronometro.*
 import kotlinx.coroutines.*
@@ -73,12 +74,13 @@ class CronometroActivity : AppCompatActivity() {
 
         encerrarPartida.setOnClickListener {
             // update tempo da jogatina atual no jogo selecionado
-            jogo.tempoJogatina += timeElapsed
+            var seconds = (timeElapsed / 1000).toInt()
+            jogo.tempoJogatina = seconds.toLong()
             jogo.jogatinas += 1
             jogo.tempoMedioJogatina = jogo.tempoJogatina / jogo.jogatinas
             jogoViewModel.updateJogo(jogo)
 
-            val intent = Intent(this, AvaliacaoActivity::class.java)
+            val intent = Intent(this, RecordeActivity::class.java)
             startActivity(intent)
         }
     }
