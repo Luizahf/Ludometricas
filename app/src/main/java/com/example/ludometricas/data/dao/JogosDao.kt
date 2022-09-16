@@ -13,6 +13,9 @@ interface JogosDao {
     @Query("SELECT * FROM jogos WHERE id = :id")
     fun get(id: Int): JogoLocal?
 
+    @Query("SELECT id FROM jogos")
+    fun getIds(): List<Int>
+
     @Query("SELECT * FROM jogos WHERE selecionado = :select")
     fun getSelected(select: Boolean = true): JogoLocal?
 

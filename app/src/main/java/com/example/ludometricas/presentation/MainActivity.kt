@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.ludometricas.R
 import com.example.ludometricas.data.Jogo
+import com.example.ludometricas.presentation.cadastro.CadastroActivity
 import com.example.ludometricas.presentation.cronometro.CronometroActivity
 import com.example.ludometricas.presentation.jogo.JogoActivity
 import com.example.ludometricas.presentation.jogo.JogoViewModel
@@ -29,16 +30,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+        //jogoViewModel.inserirJogos()
+        jogoViewModel.obterJogos {
+            atualizarLista(it)
+        }
+
+        btn_add_game.setOnClickListener {
+            val intent = Intent(this, CadastroActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun atualizarLista(it: List<Jogo>) {
         val recyclerView = findViewById<RecyclerView>(R.id.lista_jogos)
         val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.layoutManager = layoutManager
 
-        //jogoViewModel.inserirJogos()
-        jogoViewModel.obterJogos()
-        jogoViewModel.jogos.observe(this, {
-            jogos = it.sortedByDescending { it.notaMediaAteOMomento.total }
-            recyclerView.adapter = JogosAdapter(jogos, ::clickListenerJogo, this)
-        })
+        jogos = it.sortedByDescending { it.notaMediaAteOMomento.total }
+        recyclerView.adapter = JogosAdapter(jogos, ::clickListenerJogo, this)
     }
 
     fun clickListenerJogo(position: Int) {
@@ -49,5 +59,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun onRestart() {
+        jogoViewModel.obterJogos {
+            atualizarLista(it)
+        }
+
+        super.onRestart()
     }
 }

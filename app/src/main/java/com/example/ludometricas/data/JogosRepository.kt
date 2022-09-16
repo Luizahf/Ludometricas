@@ -1,12 +1,10 @@
 package com.example.ludometricas.data
 
-import android.util.Log
 import com.example.ludometricas.data.dao.JogoLocal
 import com.example.ludometricas.data.dao.JogosDao
 import com.google.firebase.database.*
 import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.launch
 import java.sql.Date
 import java.sql.Time
@@ -24,6 +22,9 @@ class JogosRepository(
         jogos.forEach { jogo ->
             myRef.child(jogo.nome).setValue(Gson().toJson(jogo))
         }
+    }
+    fun insert(jogo: Jogo) {
+        myRef.child(jogo.nome).setValue(Gson().toJson(jogo))
     }
 
     fun update(jogo: JogoLocal) {
@@ -179,6 +180,14 @@ class JogosRepository(
             jogosDao.deleteOne(jogo.id)
             inserOneLocalDB(jogo)
             callback()
+        }
+    }
+
+    fun getNewId(callback: (Int) -> Any) {
+        GlobalScope.launch {
+            var oi = jogosDao.getIds()
+            var oie = oi.maxOrNull()
+            callback(jogosDao.getIds().maxOrNull()!!+1)
         }
     }
 }
