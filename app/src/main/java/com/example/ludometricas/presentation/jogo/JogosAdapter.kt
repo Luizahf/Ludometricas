@@ -27,12 +27,17 @@ class JogosAdapter(private val jogos: List<Jogo>,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val jogo = jogos[position]
         holder.txtTitulo.text = jogo.nome
-        holder.txtaa.text = jogo.notaMediaAteOMomento.total.toString()
+        holder.txtaa.text = jogo.notaMediaAteOMomento.total.round(2).toString()
 
         holder.itemView.setOnClickListener { listener(position) }
     }
 
     override fun getItemCount(): Int {
         return jogos.size
+    }
+    fun Double.round(decimals: Int): Double {
+        var multiplier = 1.0
+        repeat(decimals) { multiplier *= 10 }
+        return kotlin.math.round(this * multiplier) / multiplier
     }
 }

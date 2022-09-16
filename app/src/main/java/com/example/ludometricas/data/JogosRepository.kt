@@ -74,7 +74,8 @@ class JogosRepository(
                             jogo.notaMediaAteOMomento.componentes,
                             jogo.notaMediaAteOMomento.experiencia,
                             jogo.jogatinas,
-                            jogo.notaTotalAteOMomento.total
+                            jogo.notaTotalAteOMomento.total,
+                            jogo.tempoMedioJogatina.toLong()
                         )
                     )
                 }
@@ -99,7 +100,8 @@ class JogosRepository(
                         jogo.notaMediaAteOMomento.componentes,
                         jogo.notaMediaAteOMomento.experiencia,
                         jogo.jogatinas,
-                        jogo.notaTotalAteOMomento.total
+                        jogo.notaTotalAteOMomento.total,
+                        jogo.tempoMedioJogatina.toLong()
                     )
                 )
             }
@@ -162,7 +164,7 @@ class JogosRepository(
                     jogoAntigo.historicoJogatinas = jogoAntigo.historicoJogatinas.plus(Jogatina(data = java.util.Date().toString(), notasIndividuais = a.notasIndividuais, duracao = jogoLocal.tempoJogatina.toString())).toMutableList()
                     jogoAntigo.tempoJogado = (jogoAntigo.tempoJogado.toLong() + jogoLocal.tempoJogatina).toString()
                     jogoAntigo.jogatinas = jogoLocal.jogatinas
-                    jogoAntigo.tempoMedioJogatina = (jogoAntigo.tempoJogado.toLong() / jogoAntigo.jogatinas).toString()
+                    jogoAntigo.tempoMedioJogatina = if (jogoLocal.tempoJogatina > 0) (jogoAntigo.tempoJogado.toLong() / jogoAntigo.jogatinas).toString() else jogoAntigo.tempoMedioJogatina
                     jogoAntigo.recorde = Recorde(jogoLocal.RecordeResponsavel, jogoLocal.RecordePontuacao, jogoLocal.RecordeData)
                     jogoAntigo.historicoRecordes = jogoAntigo.historicoRecordes.plus(Recorde(jogoLocal.RecordeResponsavel, jogoLocal.RecordePontuacao, jogoLocal.RecordeData)).toMutableList()
 

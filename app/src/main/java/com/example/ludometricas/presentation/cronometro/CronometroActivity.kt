@@ -56,7 +56,7 @@ class CronometroActivity : AppCompatActivity() {
         }
 
         icn_stop.setOnClickListener {
-            if (cronometroState == CronometroState.play) timeElapsed = System.currentTimeMillis() - startTime
+            if (cronometroState == CronometroState.play) timeElapsed += System.currentTimeMillis() - startTime
 
             if (cronometroState != CronometroState.stop) {
                 Log.e("TEMPO - ", exibirTempo(timeElapsed))
