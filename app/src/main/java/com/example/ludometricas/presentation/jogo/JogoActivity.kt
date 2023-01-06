@@ -14,6 +14,10 @@ import kotlinx.android.synthetic.main.activity_jogo.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.sql.Date
 import java.sql.Time
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 import kotlin.math.round
 
 class JogoActivity : AppCompatActivity() {
@@ -52,9 +56,9 @@ class JogoActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.nota_total_txt).text = jogo.notaMediaAteOMomento.round(2).toString()
         findViewById<TextView>(R.id.pontuacao_recorde_txt).text = jogo.RecordePontuacao.toString()
         findViewById<TextView>(R.id.responsavel_recorde_txt).text = jogo.RecordeResponsavel
-        // TODO
-        findViewById<TextView>(R.id.data_recorde_txt).text = (if (jogo.RecordeData != null) "${jogo.RecordeData!![1]}/${jogo.RecordeData!![0]}/${jogo.RecordeData!![2]}" else "${java.util.Date().day}/${java.util.Date().month}/${java.util.Date().year}")
-        findViewById<TextView>(R.id.data_recorde_txt).visibility = View.INVISIBLE
+        val recordeDate : String = (if (jogo.RecordeData != null) SimpleDateFormat("dd/MM/yyyy").format(SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(jogo.RecordeData)) else "")
+        findViewById<TextView>(R.id.data_recorde_txt).text = recordeDate
+        findViewById<TextView>(R.id.data_recorde_txt).visibility = if (jogo.RecordeData != null) View.VISIBLE else View.INVISIBLE
         findViewById<TextView>(R.id.nota_mecanica_pl1).text = jogo.notaMecanicaMediaAteOMomento.round(2).toString()
         findViewById<TextView>(R.id.nota_componentes).text = jogo.notaComponentesMediaAteOMomento.round(2).toString()
         findViewById<TextView>(R.id.nota_experiencia).text = jogo.notaExperienciaMediaAteOMomento.round(2).toString()

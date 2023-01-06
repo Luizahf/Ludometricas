@@ -13,6 +13,8 @@ import kotlinx.android.synthetic.main.activity_cronometro.cronometro_titulo_jogo
 import kotlinx.android.synthetic.main.activity_jogo.*
 import kotlinx.android.synthetic.main.activity_recorde.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 class RecordeActivity : AppCompatActivity() {
@@ -39,6 +41,7 @@ class RecordeActivity : AppCompatActivity() {
             if (!responsavel_recorde.text.isNullOrBlank() && !nota_recorde.text.isNullOrBlank()) {
                 jogo.RecordeResponsavel = responsavel_recorde.text.toString()
                 jogo.RecordePontuacao = nota_recorde.text.toString().toInt()
+                val newDate = SimpleDateFormat("dd/mm/yyyy").parse(Date().toString()) as Date
                 jogo.RecordeData = Date().toString()
 
                 jogoViewModel.updateJogo(jogo)
