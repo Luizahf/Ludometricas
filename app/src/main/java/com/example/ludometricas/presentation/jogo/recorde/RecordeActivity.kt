@@ -41,7 +41,6 @@ class RecordeActivity : AppCompatActivity() {
             if (!responsavel_recorde.text.isNullOrBlank() && !nota_recorde.text.isNullOrBlank()) {
                 jogo.RecordeResponsavel = responsavel_recorde.text.toString()
                 jogo.RecordePontuacao = nota_recorde.text.toString().toInt()
-                val newDate = SimpleDateFormat("dd/mm/yyyy").parse(Date().toString()) as Date
                 jogo.RecordeData = Date().toString()
 
                 jogoViewModel.updateJogo(jogo)

@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/avaliacao_titulo_jogo"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:background="#B8B8B8"
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
