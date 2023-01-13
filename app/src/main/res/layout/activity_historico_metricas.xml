@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_purple"
+    android:clipToPadding="false"
+    android:paddingBottom="0dp"
+    tools:context=".presentation.jogo.metricas.historico.HistoricoMetricasActivity">
+
+    <TextView
+        android:id="@+id/historico_titulo_jogo"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:background="#B8B8B8"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:text="Conquistadores de Midgard"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.androidplot.xy.XYPlot
+        android:id="@+id/historico_plot"
+        android:layout_width="0dp"
+        android:layout_height="500dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/historico_titulo_jogo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

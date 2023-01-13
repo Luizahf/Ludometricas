@@ -144,10 +144,10 @@
 
     <TextView
         android:id="@+id/nota_mecanica_pl1"
-        android:layout_width="wrap_content"
+        android:layout_width="37dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="sans-serif-medium"
         android:text="9,8"
         android:textColor="#7EA6E0"
@@ -271,5 +271,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/game_item_view"
         app:srcCompat="@drawable/trofeu_estrela_icn" />
+
+    <Button
+        android:id="@+id/btn_ir_historico"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="ver mais"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/nota_experiencia"
+        app:layout_constraintTop_toBottomOf="@+id/txt_experiencia" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

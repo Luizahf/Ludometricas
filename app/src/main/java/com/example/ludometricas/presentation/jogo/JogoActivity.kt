@@ -10,6 +10,7 @@ import com.example.ludometricas.R
 import com.example.ludometricas.data.dao.JogoLocal
 import com.example.ludometricas.presentation.Avaliacao.AvaliacaoActivity
 import com.example.ludometricas.presentation.cronometro.CronometroActivity
+import com.example.ludometricas.presentation.jogo.metricas.historico.HistoricoMetricasActivity
 import kotlinx.android.synthetic.main.activity_jogo.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.sql.Date
@@ -34,6 +35,11 @@ class JogoActivity : AppCompatActivity() {
 
         btn_jogar.setOnClickListener {
             val intent = Intent(this, CronometroActivity::class.java)
+            startActivity(intent)
+        }
+
+        btn_ir_historico.setOnClickListener {
+            val intent = Intent(this, HistoricoMetricasActivity::class.java)
             startActivity(intent)
         }
 
