@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/main_purple">
+
+    <TextView
+        android:id="@+id/caixa_recorde"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="#C3D3D3D3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/icn_recorde"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/caixa_recorde"
+        app:layout_constraintStart_toStartOf="@+id/caixa_recorde"
+        app:layout_constraintTop_toTopOf="@+id/caixa_recorde"
+        app:srcCompat="@drawable/trofeu_estrela_icn" />
+
+    <TextView
+        android:id="@+id/txt_recorde_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="O récorde é de: "
+        android:textColor="#69748C"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/icn_recorde"
+        app:layout_constraintTop_toTopOf="@+id/icn_recorde" />
+
+    <TextView
+        android:id="@+id/responsavel_recorde_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lulu "
+        android:textColor="#69748C"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/txt_recorde_1"
+        app:layout_constraintTop_toTopOf="@+id/txt_recorde_1" />
+
+    <TextView
+        android:id="@+id/txt_recorde_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" que fez "
+        android:textColor="#69748C"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/responsavel_recorde_txt"
+        app:layout_constraintStart_toEndOf="@+id/responsavel_recorde_txt" />
+
+    <TextView
+        android:id="@+id/pontuacao_recorde_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="123"
+        android:textColor="#69748C"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/txt_recorde_1"
+        app:layout_constraintTop_toBottomOf="@+id/txt_recorde_1" />
+
+    <TextView
+        android:id="@+id/data_recorde_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="13/01/2023"
+        android:textColor="#69748C"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/txt_recorde_3"
+        app:layout_constraintTop_toTopOf="@+id/txt_recorde_3" />
+
+    <TextView
+        android:id="@+id/txt_recorde_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" pontos no dia "
+        android:textColor="#69748C"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/icn_recorde"
+        app:layout_constraintStart_toEndOf="@+id/pontuacao_recorde_txt"
+        app:layout_constraintTop_toBottomOf="@+id/txt_recorde_1"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

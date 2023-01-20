@@ -4,14 +4,21 @@ import android.content.Intent
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.ludometricas.R
 import com.example.ludometricas.data.dao.JogoLocal
 import com.example.ludometricas.presentation.Avaliacao.AvaliacaoActivity
 import com.example.ludometricas.presentation.cronometro.CronometroActivity
 import com.example.ludometricas.presentation.jogo.metricas.historico.HistoricoMetricasActivity
 import kotlinx.android.synthetic.main.activity_jogo.*
+import kotlinx.android.synthetic.main.historico_jogo.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.sql.Date
 import java.sql.Time
@@ -37,12 +44,6 @@ class JogoActivity : AppCompatActivity() {
             val intent = Intent(this, CronometroActivity::class.java)
             startActivity(intent)
         }
-
-        btn_ir_historico.setOnClickListener {
-            val intent = Intent(this, HistoricoMetricasActivity::class.java)
-            startActivity(intent)
-        }
-
     }
 
     fun jogoSelecioando(it: JogoLocal?) {
@@ -56,31 +57,14 @@ class JogoActivity : AppCompatActivity() {
     }
 
     fun setLayout(jogo: JogoLocal) {
-        val tempoMedioTxt = if(jogo.tempoMedioJogatina != null) "${(jogo.tempoMedioJogatina!!.toInt()/3600)}h ${(jogo.tempoMedioJogatina!!.toInt()/60)}min" else ""
-
-        findViewById<TextView>(R.id.titulo_jogo).text = jogo.nome
-        findViewById<TextView>(R.id.nota_total_txt).text = jogo.notaMediaAteOMomento.round(2).toString()
-        findViewById<TextView>(R.id.pontuacao_recorde_txt).text = jogo.RecordePontuacao.toString()
-        findViewById<TextView>(R.id.responsavel_recorde_txt).text = jogo.RecordeResponsavel
-        val recordeDate : String = (if (jogo.RecordeData != null) SimpleDateFormat("dd/MM/yyyy").format(SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(jogo.RecordeData)) else "")
-        findViewById<TextView>(R.id.data_recorde_txt).text = recordeDate
-        findViewById<TextView>(R.id.data_recorde_txt).visibility = if (jogo.RecordeData != null) View.VISIBLE else View.INVISIBLE
-        findViewById<TextView>(R.id.nota_mecanica_pl1).text = jogo.notaMecanicaMediaAteOMomento.round(2).toString()
-        findViewById<TextView>(R.id.nota_componentes).text = jogo.notaComponentesMediaAteOMomento.round(2).toString()
-        findViewById<TextView>(R.id.nota_experiencia).text = jogo.notaExperienciaMediaAteOMomento.round(2).toString()
-        findViewById<TextView>(R.id.jogatinas).text = jogo.jogatinas.toString()
-        findViewById<TextView>(R.id.tempo_medio).text = tempoMedioTxt
-    }
-    fun longToDate(dateLong: Long?): Date? {
-        return dateLong?.let { Date(it) }
-    }
-    fun longToTime(dateLong: Long?): Time? {
-        return dateLong?.let { Time(it) }
-    }
-
-    fun Double.round(decimals: Int): Double {
-        var multiplier = 1.0
-        repeat(decimals) { multiplier *= 10 }
-        return round(this * multiplier) / multiplier
+        GlobalScope.launch {
+            val recyclerView = findViewById<RecyclerView>(R.id.caixar_jogo_historico_view)
+            val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+            recyclerView.layoutManager = layoutManager
+            recyclerView.adapter = HistoricoAdapter(jogo, fun() {
+                val intent = Intent(this@JogoActivity, HistoricoMetricasActivity::class.java)
+                startActivity(intent)
+            }, this@JogoActivity)
+        }
     }
 }
