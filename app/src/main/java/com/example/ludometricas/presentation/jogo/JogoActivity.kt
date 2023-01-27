@@ -1,32 +1,18 @@
 package com.example.ludometricas.presentation.jogo
 
 import android.content.Intent
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.transition.Visibility
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import com.example.ludometricas.R
 import com.example.ludometricas.data.dao.JogoLocal
-import com.example.ludometricas.presentation.Avaliacao.AvaliacaoActivity
 import com.example.ludometricas.presentation.cronometro.CronometroActivity
-import com.example.ludometricas.presentation.jogo.metricas.historico.HistoricoMetricasActivity
 import kotlinx.android.synthetic.main.activity_jogo.*
-import kotlinx.android.synthetic.main.historico_jogo.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.sql.Date
-import java.sql.Time
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.*
-import kotlin.math.round
 
 class JogoActivity : AppCompatActivity() {
     private val jogoViewModel: JogoViewModel by viewModel()
@@ -57,14 +43,42 @@ class JogoActivity : AppCompatActivity() {
     }
 
     fun setLayout(jogo: JogoLocal) {
-        GlobalScope.launch {
-            val recyclerView = findViewById<RecyclerView>(R.id.caixar_jogo_historico_view)
-            val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
-            recyclerView.layoutManager = layoutManager
-            recyclerView.adapter = HistoricoAdapter(jogo, fun() {
-                val intent = Intent(this@JogoActivity, HistoricoMetricasActivity::class.java)
-                startActivity(intent)
-            }, this@JogoActivity)
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+        if (jogo.jogatinas <= 0) {
+            fragmentTransaction.add(R.id.primeiro_fragment, JogoNaoJogadoFragment())
+        } else {
+            if (jogo.RecordeResponsavel.isNotBlank()) {
+                val recorde = RecordeFragment()
+                val recordeBundle = Bundle()
+                val recordeDate: String = (if (jogo.RecordeData != null) SimpleDateFormat("dd/MM/yyyy").format(SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(jogo.RecordeData)) else "")
+                recordeBundle.putString("responsavel", jogo.RecordeResponsavel)
+                recordeBundle.putString("pontuacao", jogo.RecordePontuacao.toString())
+                recordeBundle.putString("data", recordeDate)
+                recorde.setArguments(recordeBundle)
+                fragmentTransaction.add(R.id.primeiro_fragment, recorde)
+            }
+
+            val historico = HistoricoJogoFragment()
+            val historicoBundle = Bundle()
+            val tempoMedioTxt = if (jogo.tempoMedioJogatina != null) "${(jogo.tempoMedioJogatina!!.toInt() / 3600)}h ${(jogo.tempoMedioJogatina!!.toInt() / 60)}min" else ""
+            historicoBundle.putString("notaTotal", jogo.notaMediaAteOMomento.round(2).toString())
+            historicoBundle.putString("notaMecanica", jogo.notaMecanicaMediaAteOMomento.round(2).toString())
+            historicoBundle.putString("notaComponentes", jogo.notaComponentesMediaAteOMomento.round(2).toString())
+            historicoBundle.putString("notaExperiencia", jogo.notaExperienciaMediaAteOMomento.round(2).toString())
+            historicoBundle.putString("jogatinas", jogo.jogatinas.toString())
+            historicoBundle.putString("tempoMedio", tempoMedioTxt)
+            historico.setArguments(historicoBundle)
+            val fragmentNum = if (jogo.RecordeResponsavel.isNotBlank()) R.id.segundo_fragment else R.id.primeiro_fragment
+            fragmentTransaction.add(fragmentNum, historico)
         }
+
+        //btn_ir_historico.visibility = if (jogo.jogatinas <= 0) INVISIBLE else VISIBLE
+        fragmentTransaction.commit()
+    }
+    fun Double.round(decimals: Int): Double {
+        var multiplier = 1.0
+        repeat(decimals) { multiplier *= 10 }
+        return kotlin.math.round(this * multiplier) / multiplier
     }
 }

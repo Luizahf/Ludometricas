@@ -9,8 +9,6 @@
         android:id="@+id/caixa_nota_geral"
         android:layout_width="0dp"
         android:layout_height="120dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:background="#C3D3D3D3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -21,9 +19,7 @@
         android:id="@+id/caixa_notas_categorias"
         android:layout_width="0dp"
         android:layout_height="140dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
         android:background="#C3D3D3D3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -105,7 +101,7 @@
         android:textColor="#69748C"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/caixa_notas_categorias"
-        app:layout_constraintTop_toBottomOf="@+id/nota_mecanica_pl1" />
+        app:layout_constraintTop_toBottomOf="@+id/nota_mecanica" />
 
     <TextView
         android:id="@+id/nota_componentes"
@@ -122,7 +118,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_notas_categorias_1" />
 
     <TextView
-        android:id="@+id/nota_mecanica_pl1"
+        android:id="@+id/nota_mecanica"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
@@ -146,20 +142,6 @@
         app:layout_constraintEnd_toEndOf="@+id/txt_notas_categoria_experiencia"
         app:layout_constraintStart_toStartOf="@+id/txt_notas_categoria_experiencia"
         app:layout_constraintTop_toTopOf="@+id/nota_componentes" />
-
-    <Button
-        android:id="@+id/btn_ir_historico"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="#C3D3D3D3"
-        android:text="ver histórico de avaliaçoes"
-        android:textColor="#69748C"
-        android:textSize="16sp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="@+id/caixa_notas_categorias"
-        app:layout_constraintStart_toStartOf="@+id/caixa_notas_categorias"
-        app:layout_constraintTop_toBottomOf="@+id/caixa_notas_categorias" />
 
     <TextView
         android:id="@+id/txt_notas_categoria_componentes"
