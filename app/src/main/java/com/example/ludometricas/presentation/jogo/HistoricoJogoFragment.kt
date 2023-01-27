@@ -21,12 +21,23 @@ class HistoricoJogoFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val bundle = this.arguments
         if (bundle != null) {
+            val jogatinas = bundle.getString("jogatinas")
+            if (jogatinas!!.toInt() == 1) {
+                view.findViewById<TextView>(R.id.txt_nota_geral_2).text = "Foi apenas "
+                view.findViewById<TextView>(R.id.txt_nota_geral_3).text = " jogatina até hoje!"
+            }
+
+            val tempoMedio = bundle.getString("tempoMedio")
+            if (tempoMedio.isNullOrBlank()) {
+                view.findViewById<TextView>(R.id.txt_nota_geral_4).text = ""
+            }
+
+            view.findViewById<TextView>(R.id.tempo_medio).text = tempoMedio
+            view.findViewById<TextView>(R.id.jogatinas).text = jogatinas
             view.findViewById<TextView>(R.id.nota_total_txt).text = bundle.getString("notaTotal")
             view.findViewById<TextView>(R.id.nota_mecanica).text = bundle.getString("notaMecanica")
             view.findViewById<TextView>(R.id.nota_experiencia).text = bundle.getString("notaExperiencia")
             view.findViewById<TextView>(R.id.nota_componentes).text = bundle.getString("notaComponentes")
-            view.findViewById<TextView>(R.id.jogatinas).text = bundle.getString("jogatinas")
-            view.findViewById<TextView>(R.id.tempo_medio).text = bundle.getString("tempoMedio")
 
             super.onViewCreated(view, savedInstanceState)
         }

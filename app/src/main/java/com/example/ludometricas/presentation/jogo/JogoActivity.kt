@@ -46,6 +46,8 @@ class JogoActivity : AppCompatActivity() {
     }
 
     fun setLayout(jogo: JogoLocal) {
+        titulo_jogo.text = jogo.nome
+
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
         if (jogo.jogatinas <= 0) {
@@ -65,7 +67,7 @@ class JogoActivity : AppCompatActivity() {
 
             val historico = HistoricoJogoFragment()
             val historicoBundle = Bundle()
-            val tempoMedioTxt = if (jogo.tempoMedioJogatina != null) "${(jogo.tempoMedioJogatina!!.toInt() / 3600)}h ${(jogo.tempoMedioJogatina!!.toInt() / 60)}min" else ""
+            val tempoMedioTxt = if (jogo.tempoMedioJogatina != null && (jogo.tempoMedioJogatina!!.toInt() / 60) > 0) (if ((jogo.tempoMedioJogatina!!.toInt() / 3600) > 0) "${(jogo.tempoMedioJogatina!!.toInt() / 3600)}h ${(jogo.tempoMedioJogatina!!.toInt() / 60)}min" else "${(jogo.tempoMedioJogatina!!.toInt() / 60)}min") else ""
             historicoBundle.putString("notaTotal", jogo.notaMediaAteOMomento.round(2).toString())
             historicoBundle.putString("notaMecanica", jogo.notaMecanicaMediaAteOMomento.round(2).toString())
             historicoBundle.putString("notaComponentes", jogo.notaComponentesMediaAteOMomento.round(2).toString())
