@@ -15,6 +15,8 @@ import kotlinx.android.synthetic.main.activity_recorde.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class RecordeActivity : AppCompatActivity() {
@@ -41,7 +43,10 @@ class RecordeActivity : AppCompatActivity() {
             if (!responsavel_recorde.text.isNullOrBlank() && !nota_recorde.text.isNullOrBlank()) {
                 jogo.RecordeResponsavel = responsavel_recorde.text.toString()
                 jogo.RecordePontuacao = nota_recorde.text.toString().toInt()
-                jogo.RecordeData = Date().toString()
+
+                val current = LocalDateTime.now()
+                val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                jogo.RecordeData = current.format(formatter).toString()
 
                 jogoViewModel.updateJogo(jogo)
             }

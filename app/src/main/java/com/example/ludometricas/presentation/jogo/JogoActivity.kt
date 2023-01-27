@@ -12,7 +12,10 @@ import com.example.ludometricas.data.dao.JogoLocal
 import com.example.ludometricas.presentation.cronometro.CronometroActivity
 import kotlinx.android.synthetic.main.activity_jogo.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class JogoActivity : AppCompatActivity() {
     private val jogoViewModel: JogoViewModel by viewModel()
@@ -51,7 +54,8 @@ class JogoActivity : AppCompatActivity() {
             if (jogo.RecordeResponsavel.isNotBlank()) {
                 val recorde = RecordeFragment()
                 val recordeBundle = Bundle()
-                val recordeDate: String = (if (jogo.RecordeData != null) SimpleDateFormat("dd/MM/yyyy").format(SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(jogo.RecordeData)) else "")
+
+                val recordeDate: String = (if (jogo.RecordeData != null) jogo.RecordeData!! else "")
                 recordeBundle.putString("responsavel", jogo.RecordeResponsavel)
                 recordeBundle.putString("pontuacao", jogo.RecordePontuacao.toString())
                 recordeBundle.putString("data", recordeDate)
