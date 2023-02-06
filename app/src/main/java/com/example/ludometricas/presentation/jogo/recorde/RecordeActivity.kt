@@ -1,23 +1,21 @@
 package com.example.ludometricas.presentation.jogo.recorde
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.ludometricas.R
 import com.example.ludometricas.data.dao.JogoLocal
 import com.example.ludometricas.presentation.Avaliacao.AvaliacaoActivity
-import com.example.ludometricas.presentation.MainActivity
 import com.example.ludometricas.presentation.jogo.JogoViewModel
-import kotlinx.android.synthetic.main.activity_cronometro.*
-import kotlinx.android.synthetic.main.activity_cronometro.cronometro_titulo_jogo
-import kotlinx.android.synthetic.main.activity_jogo.*
 import kotlinx.android.synthetic.main.activity_recorde.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 class RecordeActivity : AppCompatActivity() {
     private val jogoViewModel: JogoViewModel by viewModel()
@@ -27,7 +25,7 @@ class RecordeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recorde)
-
+        val date = intent.getStringExtra("dataJogatinaAntiga")
 
         jogoViewModel.obterJogoSelecionado {
             if (it != null) {
@@ -35,23 +33,44 @@ class RecordeActivity : AppCompatActivity() {
                 jogo = it
 
                 responsavel_recorde_antigo.text = it.RecordeResponsavel
-                nota_recorde_antigo.text = it.RecordePontuacao.toString()
+                nota_recorde_antigo.text = if (it.RecordePontuacao.toString() == "0") "" else it.RecordePontuacao.toString()
             }
         }
 
         check_recorde.setOnClickListener {
-            if (!responsavel_recorde.text.isNullOrBlank() && !nota_recorde.text.isNullOrBlank()) {
-                jogo.RecordeResponsavel = responsavel_recorde.text.toString()
-                jogo.RecordePontuacao = nota_recorde.text.toString().toInt()
+            try {
+                if (!responsavel_recorde.text.isNullOrBlank() && !nota_recorde.text.isNullOrBlank()) {
+                    if (jogo.RecordePontuacao >= nota_recorde.text.toString().toInt()) {
+                        hideKeyboard(currentFocus ?: View(this))
+                        Toast.makeText(this, "O recorde atual é de: ${jogo.RecordePontuacao}. Portanto nao houve recorde dessa vez :(", Toast.LENGTH_LONG).show()
+                    } else {
+                        jogo.RecordeResponsavel = responsavel_recorde.text.toString()
+                        jogo.RecordePontuacao = nota_recorde.text.toString().toInt()
 
-                val current = LocalDateTime.now()
-                val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-                jogo.RecordeData = current.format(formatter).toString()
+                        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                        val dataRecorde = if (date.isNullOrBlank()) LocalDate.now() else LocalDate.parse(date, formatter)
+                        jogo.RecordeData = dataRecorde.format(formatter).toString()
 
-                jogoViewModel.updateJogo(jogo)
+                        jogoViewModel.updateJogo(jogo)
+                        startActivity(Intent(this, AvaliacaoActivity::class.java))
+                    }
+                } else {
+                    if (responsavel_recorde.text.isNullOrBlank() && !nota_recorde.text.isNullOrBlank() || !responsavel_recorde.text.isNullOrBlank() && nota_recorde.text.isNullOrBlank()) {
+                        hideKeyboard(currentFocus ?: View(this))
+                        Toast.makeText(this, "Há alguma informacao faltante", Toast.LENGTH_LONG).show()
+                    } else {
+                        startActivity(Intent(this, AvaliacaoActivity::class.java))
+                    }
+                }
+            } catch (e: Exception) {
+                hideKeyboard(currentFocus ?: View(this))
+                Toast.makeText(this, "Nao foi possivel registrar. Por favor confira a nota inserida", Toast.LENGTH_LONG).show()
             }
-
-            startActivity(Intent(this, AvaliacaoActivity::class.java))
         }
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_purple"
+    tools:context=".presentation.jogo.edicao.MenuEdicaoJogoActivity">
+
+    <TextView
+        android:id="@+id/titulo_jogo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#B8B8B8"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:text="Conquistadores de Midgard"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btn_confirmar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:tint="#F4F3F3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/check_icn" />
+
+    <ImageView
+        android:id="@+id/btn_add_jogatina_manual"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:textAlignment="viewStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titulo_jogo"
+        app:srcCompat="@drawable/caixa_cinza_boarda_redonda" />
+
+    <TextView
+        android:id="@+id/txt_add_jogatina_manual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Adicionar jogatina manualmente"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_add_jogatina_manual"
+        app:layout_constraintStart_toStartOf="@+id/btn_add_jogatina_manual"
+        app:layout_constraintTop_toTopOf="@+id/btn_add_jogatina_manual" />
+
+    <ImageView
+        android:id="@+id/btn_editar"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textAlignment="viewStart"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_add_jogatina_manual"
+        app:srcCompat="@drawable/caixa_cinza_boarda_redonda" />
+
+    <TextView
+        android:id="@+id/txt_editar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Editar nome do jogo"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_editar"
+        app:layout_constraintStart_toStartOf="@+id/btn_editar"
+        app:layout_constraintTop_toTopOf="@+id/btn_editar" />
+
+    <ImageView
+        android:id="@+id/btn_deletar"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textAlignment="viewStart"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_editar"
+        app:srcCompat="@drawable/caixa_cinza_boarda_redonda" />
+
+    <TextView
+        android:id="@+id/txt_deletar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Deletar jogo"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_deletar"
+        app:layout_constraintStart_toStartOf="@+id/btn_deletar"
+        app:layout_constraintTop_toTopOf="@+id/btn_deletar" />
+
+    <ImageView
+        android:id="@+id/desfoque_menu_edicao"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/titulo_jogo"
+        app:srcCompat="@drawable/fundo_embacado" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/popup_data_jogatina_manual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="2dp"
+        android:background="@color/main_purple"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="0dp"
+        app:cardMaxElevation="0dp"
+        app:cardPreventCornerOverlap="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/titulo_jogo">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/popup_jogatina_manual_background_container"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@color/main_purple"
+            android:minHeight="170dp"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/popup_jogatina_manual_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="#D1D1D1"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:hint="dd/mm/yyyy"
+                android:textAlignment="center"
+                android:textColor="#6AFFFFFF"
+                android:textSize="24sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toTopOf="@+id/popup_jogatina_manual_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/popup_jogatina_manual_title" />
+
+            <TextView
+                android:id="@+id/popup_jogatina_manual_title"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#A3A3A3"
+                android:gravity="center"
+                android:text="Insira a data da jogatina"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                app:autoSizeTextType="none"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <Button
+                android:id="@+id/popup_jogatina_manual_button"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/main_purple"
+                android:text="ok"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

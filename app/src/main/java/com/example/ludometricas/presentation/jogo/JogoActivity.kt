@@ -10,6 +10,7 @@ import android.view.View.VISIBLE
 import com.example.ludometricas.R
 import com.example.ludometricas.data.dao.JogoLocal
 import com.example.ludometricas.presentation.cronometro.CronometroActivity
+import com.example.ludometricas.presentation.jogo.edicao.MenuEdicaoJogoActivity
 import kotlinx.android.synthetic.main.activity_jogo.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.DateFormat
@@ -31,6 +32,11 @@ class JogoActivity : AppCompatActivity() {
 
         btn_jogar.setOnClickListener {
             val intent = Intent(this, CronometroActivity::class.java)
+            startActivity(intent)
+        }
+
+        icn_editar_jogo.setOnClickListener {
+            val intent = Intent(this, MenuEdicaoJogoActivity::class.java)
             startActivity(intent)
         }
     }

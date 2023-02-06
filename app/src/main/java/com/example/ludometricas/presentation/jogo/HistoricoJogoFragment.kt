@@ -33,6 +33,7 @@ class HistoricoJogoFragment: Fragment() {
             }
 
             view.findViewById<TextView>(R.id.tempo_medio).text = tempoMedio
+            view.findViewById<TextView>(R.id.nota_total_txt2).text = bundle.getString("notaTotal")
             view.findViewById<TextView>(R.id.jogatinas).text = jogatinas
             view.findViewById<TextView>(R.id.nota_total_txt).text = bundle.getString("notaTotal")
             view.findViewById<TextView>(R.id.nota_mecanica).text = bundle.getString("notaMecanica")
