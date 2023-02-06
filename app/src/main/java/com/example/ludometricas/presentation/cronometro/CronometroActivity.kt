@@ -76,8 +76,7 @@ class CronometroActivity : AppCompatActivity() {
             // update tempo da jogatina atual no jogo selecionado
             var seconds = (timeElapsed / 1000).toInt()
             jogo.tempoJogatina = seconds.toLong()
-            jogo.jogatinas += 1
-            jogo.tempoMedioJogatina = jogo.tempoJogatina / jogo.jogatinas
+            jogo.tempoMedioJogatina = jogo.tempoJogatina / (jogo.jogatinas + 1)
             jogoViewModel.updateJogo(jogo)
 
             val intent = Intent(this, RecordeActivity::class.java)

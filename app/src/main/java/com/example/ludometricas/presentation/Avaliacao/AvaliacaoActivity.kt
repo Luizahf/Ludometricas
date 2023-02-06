@@ -36,6 +36,8 @@ class AvaliacaoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_avaliacao)
+        val dataJogatinaAntiga = intent.getStringExtra("dataJogatinaAntiga")
+        val date : String = if(dataJogatinaAntiga == null) Date().toString() else dataJogatinaAntiga
 
 
         jogoViewModel.obterJogoSelecionado {
@@ -54,8 +56,8 @@ class AvaliacaoActivity : AppCompatActivity() {
 
         icn_salval_avaliacao.setOnClickListener {
             var individuais = mutableListOf<NotaIndividual>()
-            individuais.add(NotaIndividual("Lulu", Nota(notaTotalPl1, notaMecanicaPl1, notaComponentesPl1, notaExperienciaPl1), Date().toString()))
-            individuais.add(NotaIndividual("Pepeu", Nota(notaTotalPl2, notaMecanicaPl2, notaComponentesPl2, notaExperienciaPl2), Date().toString()))
+            individuais.add(NotaIndividual("Lulu", Nota(notaTotalPl1, notaMecanicaPl1, notaComponentesPl1, notaExperienciaPl1), date))
+            individuais.add(NotaIndividual("Pepeu", Nota(notaTotalPl2, notaMecanicaPl2, notaComponentesPl2, notaExperienciaPl2), date))
             val a = Avaliacao(
                 jogoAtual.nome, notaTotalMediaAteOMomento, notaTotalJogatina, (notaMecanicaPl1+notaMecanicaPl2)/2, (notaComponentesPl1+notaComponentesPl2)/2, (notaExperienciaPl1+notaExperienciaPl1)/2, individuais
             )
@@ -197,7 +199,7 @@ class AvaliacaoActivity : AppCompatActivity() {
         nota_pl1.text = "0.0"
         nota_pl2.text = "0.0"
         notaTotalJogatina = jogo.notaMediaAteOMomento
-        jogatinas = jogo.jogatinas
+        jogatinas = jogo.jogatinas + 1
         notaSomadaAteOmomento = jogo.notaTotalAteOMomento
     }
     fun Double.round(decimals: Int): Double {
