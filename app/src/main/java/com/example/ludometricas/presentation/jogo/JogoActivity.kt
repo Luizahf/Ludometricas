@@ -1,22 +1,14 @@
 package com.example.ludometricas.presentation.jogo
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.transition.Visibility
-import android.view.View
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
+import androidx.appcompat.app.AppCompatActivity
 import com.example.ludometricas.R
 import com.example.ludometricas.data.dao.JogoLocal
 import com.example.ludometricas.presentation.cronometro.CronometroActivity
 import com.example.ludometricas.presentation.jogo.edicao.MenuEdicaoJogoActivity
 import kotlinx.android.synthetic.main.activity_jogo.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class JogoActivity : AppCompatActivity() {
     private val jogoViewModel: JogoViewModel by viewModel()

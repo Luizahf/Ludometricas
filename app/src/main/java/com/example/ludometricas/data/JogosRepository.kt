@@ -36,16 +36,6 @@ class JogosRepository(
 
     fun getAll(callback:(List<Jogo>) -> Any) {
         val myRef = FirebaseDatabase.getInstance(url).getReference("Jogos")
-
-//        myRef.child("Teste").setValue(Gson().toJson(
-//            Jogo(
-//                0, "Teste", notaMediaAteOMomento = Nota(0.0, 0.0, 0.0, 0.0),
-//                notaTotalAteOMomento = Nota(0.0, 0.0, 0.0, 0.0),
-//                notasIndividuaisAteOMomento = mutableListOf(),
-//                notasTotaisIndividuais = mutableListOf(), jogatinas = 0, tempoJogado = "0", tempoMedioJogatina = "0")
-//        ))
-
-        // Lendo todos os jogos do banco
         myRef.get().addOnSuccessListener {
             val databaseJogos = it.value as Map<*, *>
             val jogos = databaseJogos.values.map { Gson().fromJson(it.toString(), Jogo::class.java) }
@@ -127,21 +117,6 @@ class JogosRepository(
         }
     }
 
-    fun longToDate(dateLong: Long?): Date? {
-        return dateLong?.let { Date(it) }
-    }
-    fun longToTime(dateLong: Long?): Time? {
-        return dateLong?.let { Time(it) }
-    }
-
-    fun dateToLong(date: Date?): Long? {
-        return if (date == null) null else date.getTime()
-    }
-    fun timeToLong(date: Time?): Long? {
-        return if (date == null) null else date.getTime()
-    }
-
-
     fun getOne(nome: String, callback: (Jogo) -> Any) {
         // Lendo todos os jogos do banco
         myRef.get().addOnSuccessListener {
@@ -157,7 +132,15 @@ class JogosRepository(
         getOne(a.nomeJogo, fun (jogoAntigo) {
             jogoAntigo.notaMediaAteOMomento = Nota(a.notaMediaAteOMomento, (jogoAntigo.notaTotalAteOMomento.mecanica + a.notaMecanica)/(jogoAntigo.jogatinas+1),(jogoAntigo.notaTotalAteOMomento.componentes + a.notaComponentes)/(jogoAntigo.jogatinas+1),(jogoAntigo.notaTotalAteOMomento.experiencia + a.notaExperiencia)/(jogoAntigo.jogatinas+1), a.notasIndividuais[0].data)
             jogoAntigo.notaTotalAteOMomento = Nota(jogoAntigo.notaTotalAteOMomento.total+a.notaJogatina, jogoAntigo.notaTotalAteOMomento.mecanica+a.notaMecanica, jogoAntigo.notaTotalAteOMomento.componentes+a.notaComponentes, jogoAntigo.notaTotalAteOMomento.experiencia+a.notaExperiencia, a.notasIndividuais[0].data)
-            jogoAntigo.notasIndividuaisAteOMomento  = jogoAntigo.notasIndividuaisAteOMomento.plus(a.notasIndividuais)
+            a.notasIndividuais.forEach { notaIndividual ->
+                val notaTotal = jogoAntigo.notasTotaisIndividuais.firstOrNull { it.responsavel == notaIndividual.responsavel }
+                if (notaTotal == null) {
+                    jogoAntigo.notasTotaisIndividuais = jogoAntigo.notasTotaisIndividuais.plus(notaIndividual)
+                } else {
+                    val novaNotaTotalIndividual = Nota(notaTotal.nota.total + notaIndividual.nota.total, notaTotal.nota.mecanica + notaIndividual.nota.mecanica, notaTotal.nota.componentes+notaIndividual.nota.componentes, notaTotal.nota.experiencia+notaIndividual.nota.experiencia)
+                    jogoAntigo.notasTotaisIndividuais[jogoAntigo.notasTotaisIndividuais.indexOf(notaTotal)].nota = novaNotaTotalIndividual
+                }
+            }
             GlobalScope.launch {
                 val jogoLocal = jogosDao.get(jogoAntigo.id)
                 if (jogoLocal != null) {

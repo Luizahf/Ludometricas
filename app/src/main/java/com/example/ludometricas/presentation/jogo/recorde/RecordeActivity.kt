@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_menu_edicao_jogo.*
 import kotlinx.android.synthetic.main.activity_recorde.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class RecordeActivity : AppCompatActivity() {
@@ -42,8 +43,7 @@ class RecordeActivity : AppCompatActivity() {
         check_recorde.setOnClickListener {
             try {
                 val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-                val dataRecorde = if (date.isNullOrBlank()) LocalDate.now() else LocalDate.parse(date, formatter)
-
+                val dataRecorde : String = if (date.isNullOrBlank()) LocalDate.now().format(formatter) else date.format(formatter)
                 if (!responsavel_recorde.text.isNullOrBlank() && !nota_recorde.text.isNullOrBlank()) {
                     if (jogo.RecordePontuacao >= nota_recorde.text.toString().toInt()) {
                         hideKeyboard(currentFocus ?: View(this))
@@ -72,9 +72,10 @@ class RecordeActivity : AppCompatActivity() {
         }
     }
 
-    private fun irParaAvaliacao(dataRecorde: LocalDate?) {
-        intent.putExtra("dataJogatina", dataRecorde)
-        startActivity(Intent(this, AvaliacaoActivity::class.java))
+    private fun irParaAvaliacao(dataRecorde: String) {
+        val intent = Intent(this, AvaliacaoActivity::class.java)
+        intent.putExtra("dataJogatinaAntiga", dataRecorde)
+        startActivity(intent)
     }
 
     fun Context.hideKeyboard(view: View) {

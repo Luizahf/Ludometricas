@@ -19,6 +19,9 @@ import com.example.ludometricas.presentation.MainActivity
 import com.example.ludometricas.presentation.jogo.JogoViewModel
 import kotlinx.android.synthetic.main.activity_avaliacao.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class AvaliacaoActivity : AppCompatActivity() {
@@ -41,8 +44,7 @@ class AvaliacaoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_avaliacao)
         val dataJogatinaAntiga = intent.getStringExtra("dataJogatinaAntiga")
-        val date : String = if(dataJogatinaAntiga == null) Date().toString() else dataJogatinaAntiga
-
+        val date : String = if(dataJogatinaAntiga == null) LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString() else dataJogatinaAntiga
 
         jogoViewModel.obterJogoSelecionado {
             if (it != null) {
