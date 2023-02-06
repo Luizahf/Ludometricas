@@ -1,10 +1,14 @@
 package com.example.ludometricas.presentation.Avaliacao
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.example.ludometricas.R
 import com.example.ludometricas.data.Avaliacao
@@ -81,12 +85,17 @@ class AvaliacaoActivity : AppCompatActivity() {
             }
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                if(s.isNotEmpty()) {
-                    notaMecanicaPl1 = s.toString().toDouble()
-                    calcularNotaTotalPl1()
-                }
             }
-            override fun afterTextChanged(p0: Editable?) {
+            override fun afterTextChanged(s: Editable?) {
+                if(!s.isNullOrEmpty()) {
+                    try {
+                        notaMecanicaPl1 = s.toString().toDouble()
+                        calcularNotaTotalPl1()
+                    } catch (e: Exception) {
+                        hideKeyboard(currentFocus ?: View(this@AvaliacaoActivity))
+                        Toast.makeText(this@AvaliacaoActivity, "Alguma nota foi inserida incorretamente", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         })
 
@@ -95,12 +104,17 @@ class AvaliacaoActivity : AppCompatActivity() {
             }
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                if(s.isNotEmpty()) {
-                    notaMecanicaPl2 = s.toString().toDouble()
-                    calcularNotaTotalPl2()
-                }
             }
-            override fun afterTextChanged(p0: Editable?) {
+            override fun afterTextChanged(s: Editable?) {
+                if(!s.isNullOrEmpty()) {
+                    try {
+                        notaMecanicaPl2 = s.toString().toDouble()
+                        calcularNotaTotalPl2()
+                    } catch (e: Exception) {
+                        hideKeyboard(currentFocus ?: View(this@AvaliacaoActivity))
+                        Toast.makeText(this@AvaliacaoActivity, "Alguma nota foi inserida incorretamente", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         })
     }
@@ -110,12 +124,17 @@ class AvaliacaoActivity : AppCompatActivity() {
             }
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                if(s.isNotEmpty()) {
-                    notaComponentesPl1 = s.toString().toDouble()
-                    calcularNotaTotalPl1()
-                }
             }
-            override fun afterTextChanged(p0: Editable?) {
+            override fun afterTextChanged(s: Editable?) {
+                if(!s.isNullOrEmpty()) {
+                    try {
+                        notaComponentesPl1 = s.toString().toDouble()
+                        calcularNotaTotalPl1()
+                    } catch (e: Exception) {
+                        hideKeyboard(currentFocus ?: View(this@AvaliacaoActivity))
+                        Toast.makeText(this@AvaliacaoActivity, "Alguma nota foi inserida incorretamente", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         })
 
@@ -124,12 +143,17 @@ class AvaliacaoActivity : AppCompatActivity() {
             }
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                if(s.isNotEmpty()) {
-                    notaComponentesPl2 = s.toString().toDouble()
-                    calcularNotaTotalPl2()
-                }
             }
-            override fun afterTextChanged(p0: Editable?) {
+            override fun afterTextChanged(s: Editable?) {
+                if(!s.isNullOrEmpty()) {
+                    try {
+                        notaComponentesPl2 = s.toString().toDouble()
+                        calcularNotaTotalPl2()
+                    } catch (e: Exception) {
+                        hideKeyboard(currentFocus ?: View(this@AvaliacaoActivity))
+                        Toast.makeText(this@AvaliacaoActivity, "Alguma nota foi inserida incorretamente", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         })
     }
@@ -139,12 +163,17 @@ class AvaliacaoActivity : AppCompatActivity() {
             }
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                if(s.isNotEmpty()) {
-                    notaExperienciaPl1 = s.toString().toDouble()
-                    calcularNotaTotalPl1()
-                }
             }
-            override fun afterTextChanged(p0: Editable?) {
+            override fun afterTextChanged(s: Editable?) {
+                if(!s.isNullOrEmpty()) {
+                    try {
+                        notaExperienciaPl1 = s.toString().toDouble()
+                        calcularNotaTotalPl1()
+                    } catch (e: Exception) {
+                        hideKeyboard(currentFocus ?: View(this@AvaliacaoActivity))
+                        Toast.makeText(this@AvaliacaoActivity, "Alguma nota foi inserida incorretamente", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         })
 
@@ -153,12 +182,17 @@ class AvaliacaoActivity : AppCompatActivity() {
             }
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                if(s.isNotEmpty()) {
-                    notaExperienciaPl2 = s.toString().toDouble()
-                    calcularNotaTotalPl2()
-                }
             }
-            override fun afterTextChanged(p0: Editable?) {
+            override fun afterTextChanged(s: Editable?) {
+                if(!s.isNullOrEmpty()) {
+                    try {
+                        notaExperienciaPl2 = s.toString().toDouble()
+                        calcularNotaTotalPl2()
+                    } catch (e: Exception) {
+                        hideKeyboard(currentFocus ?: View(this@AvaliacaoActivity))
+                        Toast.makeText(this@AvaliacaoActivity, "Alguma nota foi inserida incorretamente", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         })
     }
@@ -206,5 +240,10 @@ class AvaliacaoActivity : AppCompatActivity() {
         var multiplier = 1.0
         repeat(decimals) { multiplier *= 10 }
         return kotlin.math.round(this * multiplier) / multiplier
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

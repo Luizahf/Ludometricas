@@ -35,6 +35,7 @@ class RecordeActivity : AppCompatActivity() {
 
                 responsavel_recorde_antigo.text = it.RecordeResponsavel
                 nota_recorde_antigo.text = if (it.RecordePontuacao.toString() == "0") "" else it.RecordePontuacao.toString()
+                if (!date.isNullOrBlank()) jogo.tempoJogatina = 0
             }
         }
 
