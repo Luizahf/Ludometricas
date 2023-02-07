@@ -28,10 +28,13 @@ class CadastroActivity : AppCompatActivity() {
             val newGameName = popup_window_text.text
             if (!newGameName.toString().isNullOrBlank()) {
                 jogoViewModel.inserirNovoJogo(newGameName.toString())
-                finish()
+                jogoViewModel.obterJogos{
+                    finish()
+                }
             } else {
                 finish()
             }
         }
     }
+
 }

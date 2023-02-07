@@ -12,11 +12,9 @@ import com.example.ludometricas.R
 import com.example.ludometricas.data.dao.JogoLocal
 import com.example.ludometricas.presentation.Avaliacao.AvaliacaoActivity
 import com.example.ludometricas.presentation.jogo.JogoViewModel
-import kotlinx.android.synthetic.main.activity_menu_edicao_jogo.*
 import kotlinx.android.synthetic.main.activity_recorde.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class RecordeActivity : AppCompatActivity() {
@@ -43,7 +41,7 @@ class RecordeActivity : AppCompatActivity() {
         check_recorde.setOnClickListener {
             try {
                 val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-                val dataRecorde : String = if (date.isNullOrBlank()) LocalDate.now().format(formatter) else date.format(formatter)
+                val dataJogatina : String = if (date.isNullOrBlank()) LocalDate.now().format(formatter) else date.format(formatter)
                 if (!responsavel_recorde.text.isNullOrBlank() && !nota_recorde.text.isNullOrBlank()) {
                     if (jogo.RecordePontuacao >= nota_recorde.text.toString().toInt()) {
                         hideKeyboard(currentFocus ?: View(this))
@@ -52,17 +50,17 @@ class RecordeActivity : AppCompatActivity() {
                         jogo.RecordeResponsavel = responsavel_recorde.text.toString()
                         jogo.RecordePontuacao = nota_recorde.text.toString().toInt()
 
-                        jogo.RecordeData = dataRecorde.format(formatter).toString()
+                        jogo.RecordeData = dataJogatina.format(formatter)
 
                         jogoViewModel.updateJogo(jogo)
-                        irParaAvaliacao(dataRecorde)
+                        irParaAvaliacao(dataJogatina)
                     }
                 } else {
                     if (responsavel_recorde.text.isNullOrBlank() && !nota_recorde.text.isNullOrBlank() || !responsavel_recorde.text.isNullOrBlank() && nota_recorde.text.isNullOrBlank()) {
                         hideKeyboard(currentFocus ?: View(this))
                         Toast.makeText(this, "Há alguma informacao faltante", Toast.LENGTH_LONG).show()
                     } else {
-                        irParaAvaliacao(dataRecorde)
+                        irParaAvaliacao(dataJogatina)
                     }
                 }
             } catch (e: Exception) {

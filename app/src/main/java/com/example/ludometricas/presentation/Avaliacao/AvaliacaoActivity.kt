@@ -62,8 +62,8 @@ class AvaliacaoActivity : AppCompatActivity() {
 
         icn_salval_avaliacao.setOnClickListener {
             var individuais = mutableListOf<NotaIndividual>()
-            individuais.add(NotaIndividual("Lulu", Nota(notaTotalPl1, notaMecanicaPl1, notaComponentesPl1, notaExperienciaPl1), date))
-            individuais.add(NotaIndividual("Pepeu", Nota(notaTotalPl2, notaMecanicaPl2, notaComponentesPl2, notaExperienciaPl2), date))
+            individuais.add(NotaIndividual("Lulu", Nota(notaTotalPl1, notaMecanicaPl1, notaComponentesPl1, notaExperienciaPl1, date), date))
+            individuais.add(NotaIndividual("Pepeu", Nota(notaTotalPl2, notaMecanicaPl2, notaComponentesPl2, notaExperienciaPl2, date), date))
             val a = Avaliacao(
                 jogoAtual.nome, notaTotalMediaAteOMomento, notaTotalJogatina, (notaMecanicaPl1+notaMecanicaPl2)/2, (notaComponentesPl1+notaComponentesPl2)/2, (notaExperienciaPl1+notaExperienciaPl1)/2, individuais
             )

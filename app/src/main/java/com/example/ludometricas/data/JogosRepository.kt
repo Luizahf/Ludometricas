@@ -6,8 +6,6 @@ import com.google.firebase.database.*
 import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.sql.Date
-import java.sql.Time
 
 class JogosRepository(
     var jogosDao: JogosDao
@@ -37,10 +35,13 @@ class JogosRepository(
     fun getAll(callback:(List<Jogo>) -> Any) {
         val myRef = FirebaseDatabase.getInstance(url).getReference("Jogos")
         myRef.get().addOnSuccessListener {
-            val databaseJogos = it.value as Map<*, *>
-            val jogos = databaseJogos.values.map { Gson().fromJson(it.toString(), Jogo::class.java) }
-            inserLocalDB(jogos)
-            callback(jogos)
+            if (it.value != null) {
+                val databaseJogos = it.value as Map<*, *>
+                val jogos = databaseJogos.values.map { Gson().fromJson(it.toString(), Jogo::class.java) }
+                inserLocalDB(jogos)
+                callback(jogos)
+            }
+            else callback(mutableListOf())
         }.addOnFailureListener{
         }
     }
@@ -137,7 +138,7 @@ class JogosRepository(
                 if (notaTotal == null) {
                     jogoAntigo.notasTotaisIndividuais = jogoAntigo.notasTotaisIndividuais.plus(notaIndividual)
                 } else {
-                    val novaNotaTotalIndividual = Nota(notaTotal.nota.total + notaIndividual.nota.total, notaTotal.nota.mecanica + notaIndividual.nota.mecanica, notaTotal.nota.componentes+notaIndividual.nota.componentes, notaTotal.nota.experiencia+notaIndividual.nota.experiencia)
+                    val novaNotaTotalIndividual = Nota(notaTotal.nota.total + notaIndividual.nota.total, notaTotal.nota.mecanica + notaIndividual.nota.mecanica, notaTotal.nota.componentes+notaIndividual.nota.componentes, notaTotal.nota.experiencia+notaIndividual.nota.experiencia, notaIndividual.data)
                     jogoAntigo.notasTotaisIndividuais[jogoAntigo.notasTotaisIndividuais.indexOf(notaTotal)].nota = novaNotaTotalIndividual
                 }
             }
@@ -147,10 +148,12 @@ class JogosRepository(
                     jogoAntigo.historicoJogatinas = jogoAntigo.historicoJogatinas.plus(Jogatina(data = a.notasIndividuais[0].data, notasIndividuais = a.notasIndividuais, duracao = jogoLocal.tempoJogatina.toString())).toMutableList()
                     jogoAntigo.tempoJogado = (jogoAntigo.tempoJogado.toLong() + jogoLocal.tempoJogatina).toString()
                     jogoAntigo.jogatinas = (jogoLocal.jogatinas + 1)
-                    jogoAntigo.tempoMedioJogatina = if (jogoLocal.tempoJogatina > 0) (jogoAntigo.tempoJogado.toLong() / jogoAntigo.jogatinas).toString() else jogoAntigo.tempoMedioJogatina
-                    jogoAntigo.recorde = Recorde(jogoLocal.RecordeResponsavel, jogoLocal.RecordePontuacao, jogoLocal.RecordeData)
-                    jogoAntigo.historicoRecordes = jogoAntigo.historicoRecordes.plus(Recorde(jogoLocal.RecordeResponsavel, jogoLocal.RecordePontuacao, jogoLocal.RecordeData)).toMutableList()
+                    jogoAntigo.tempoMedioJogatina = if (jogoLocal.tempoJogatina > 0) (jogoAntigo.tempoJogado.toLong() / jogoAntigo.historicoJogatinas.filter { it.duracao.toInt() > 0 }.size).toString() else jogoAntigo.tempoMedioJogatina
 
+                    if (jogoLocal.RecordeData == a.notasIndividuais[0].data) {
+                        jogoAntigo.recorde = Recorde(jogoLocal.RecordeResponsavel, jogoLocal.RecordePontuacao, jogoLocal.RecordeData)
+                        jogoAntigo.historicoRecordes = jogoAntigo.historicoRecordes.plus(Recorde(jogoLocal.RecordeResponsavel, jogoLocal.RecordePontuacao, jogoLocal.RecordeData)).toMutableList()
+                    }
                 }
 
                 myRef.child(jogoAntigo.nome).setValue(Gson().toJson(jogoAntigo))
@@ -170,9 +173,8 @@ class JogosRepository(
 
     fun getNewId(callback: (Int) -> Any) {
         GlobalScope.launch {
-            var oi = jogosDao.getIds()
-            var oie = oi.maxOrNull()
-            callback(jogosDao.getIds().maxOrNull()!!+1)
+            val lastId = jogosDao.getIds().maxOrNull() ?: 0
+            callback(lastId + 1)
         }
     }
 }

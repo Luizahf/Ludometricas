@@ -28,10 +28,12 @@ class JogoViewModel constructor(
         jogosRepository.update(jogo)
     }
 
-    fun obterJogos(callback: (List<Jogo>) -> Any) {
+    fun obterJogos(callback: ((List<Jogo>) -> Any)?) {
         return jogosRepository.getAll(fun (jogosRetorno) {
             jogos.postValue(jogosRetorno.toMutableList())
-            callback(jogosRetorno)
+            if (callback != null){
+                callback(jogosRetorno)
+            }
         })
     }
 

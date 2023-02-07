@@ -44,6 +44,11 @@ class MainActivity : AppCompatActivity() {
             atualizarLista()
         }
 
+        jogoViewModel.jogos.observe(this, Observer {
+            jogos = it.sortedByDescending { it.notaMediaAteOMomento.total }
+            atualizarLista()
+        })
+
         btn_add_game.setOnClickListener {
             val intent = Intent(this, CadastroActivity::class.java)
             startActivity(intent)
