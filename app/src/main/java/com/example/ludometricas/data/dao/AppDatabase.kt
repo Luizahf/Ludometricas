@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase
 @Database(entities = arrayOf(
     JogoLocal::class,
 ),
-    version = 5, exportSchema = false)
+    version = 6, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun jogosDao(): JogosDao
 }

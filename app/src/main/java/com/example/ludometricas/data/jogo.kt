@@ -17,6 +17,7 @@ data class Jogo (
     var jogatinas: Int = 0,
     var historicoRecordes: MutableList<Recorde> = mutableListOf(),
     var tempoMedioJogatina: String = "0",
+    var tempoMedioPreparacao: String = "0",
     var tags: MutableList<String> = mutableListOf()
 
 )

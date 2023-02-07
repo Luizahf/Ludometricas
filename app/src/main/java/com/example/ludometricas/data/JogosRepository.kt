@@ -53,20 +53,19 @@ class JogosRepository(
                 if(jogosDao.get(jogo.id) == null) {
                     jogosDao.insert(
                         JogoLocal(
-                            jogo.id,
-                            jogo.nome,
-                            false,
-                            jogo.recorde!!.responsavel,
-                            jogo.recorde!!.pontuacao,
-                            jogo.recorde!!.data,
-                            jogo.tempoJogado.toLong(),
-                            jogo.notaMediaAteOMomento.total,
-                            jogo.notaMediaAteOMomento.mecanica,
-                            jogo.notaMediaAteOMomento.componentes,
-                            jogo.notaMediaAteOMomento.experiencia,
-                            jogo.jogatinas,
-                            jogo.notaTotalAteOMomento.total,
-                            jogo.tempoMedioJogatina.toLong()
+                            id = jogo.id,
+                            nome = jogo.nome,
+                            selecionado = false,
+                            RecordeResponsavel = jogo.recorde!!.responsavel,
+                            RecordePontuacao = jogo.recorde!!.pontuacao,
+                            RecordeData = jogo.recorde!!.data,
+                            notaMediaAteOMomento = jogo.notaMediaAteOMomento.total,
+                            notaMecanicaMediaAteOMomento = jogo.notaMediaAteOMomento.mecanica,
+                            notaComponentesMediaAteOMomento = jogo.notaMediaAteOMomento.componentes,
+                            notaExperienciaMediaAteOMomento = jogo.notaMediaAteOMomento.experiencia,
+                            jogatinas = jogo.jogatinas,
+                            notaTotalAteOMomento = jogo.notaTotalAteOMomento.total,
+                            tempoMedioJogatina = jogo.tempoMedioJogatina.toLong()
                         )
                     )
                 }
@@ -79,20 +78,19 @@ class JogosRepository(
             if(jogosDao.get(jogo.id) == null) {
                 jogosDao.insert(
                     JogoLocal(
-                        jogo.id,
-                        jogo.nome,
-                        false,
-                        jogo.recorde!!.responsavel,
-                        jogo.recorde!!.pontuacao,
-                        jogo.recorde!!.data,
-                        jogo.tempoJogado.toLong(),
-                        jogo.notaMediaAteOMomento.total,
-                        jogo.notaMediaAteOMomento.mecanica,
-                        jogo.notaMediaAteOMomento.componentes,
-                        jogo.notaMediaAteOMomento.experiencia,
-                        jogo.jogatinas,
-                        jogo.notaTotalAteOMomento.total,
-                        jogo.tempoMedioJogatina.toLong()
+                        id = jogo.id,
+                        nome = jogo.nome,
+                        selecionado = false,
+                        RecordeResponsavel = jogo.recorde!!.responsavel,
+                        RecordePontuacao = jogo.recorde!!.pontuacao,
+                        RecordeData = jogo.recorde!!.data,
+                        notaMediaAteOMomento = jogo.notaMediaAteOMomento.total,
+                        notaMecanicaMediaAteOMomento = jogo.notaMediaAteOMomento.mecanica,
+                        notaComponentesMediaAteOMomento = jogo.notaMediaAteOMomento.componentes,
+                        notaExperienciaMediaAteOMomento = jogo.notaMediaAteOMomento.experiencia,
+                        jogatinas = jogo.jogatinas,
+                        notaTotalAteOMomento = jogo.notaTotalAteOMomento.total,
+                        tempoMedioJogatina = jogo.tempoMedioJogatina.toLong()
                     )
                 )
             }
@@ -145,10 +143,11 @@ class JogosRepository(
             GlobalScope.launch {
                 val jogoLocal = jogosDao.get(jogoAntigo.id)
                 if (jogoLocal != null) {
-                    jogoAntigo.historicoJogatinas = jogoAntigo.historicoJogatinas.plus(Jogatina(data = a.notasIndividuais[0].data, notasIndividuais = a.notasIndividuais, duracao = jogoLocal.tempoJogatina.toString())).toMutableList()
+                    jogoAntigo.historicoJogatinas = jogoAntigo.historicoJogatinas.plus(Jogatina(data = a.notasIndividuais[0].data, notasIndividuais = a.notasIndividuais, duracao = jogoLocal.tempoJogatina.toString(), jogoLocal.duracaoPreparacao.toString())).toMutableList()
                     jogoAntigo.tempoJogado = (jogoAntigo.tempoJogado.toLong() + jogoLocal.tempoJogatina).toString()
                     jogoAntigo.jogatinas = (jogoLocal.jogatinas + 1)
                     jogoAntigo.tempoMedioJogatina = if (jogoLocal.tempoJogatina > 0) (jogoAntigo.tempoJogado.toLong() / jogoAntigo.historicoJogatinas.filter { it.duracao.toInt() > 0 }.size).toString() else jogoAntigo.tempoMedioJogatina
+                    jogoAntigo.tempoMedioPreparacao =  calcularTempoMedioPreparacao(jogoAntigo, jogoLocal)
 
                     if (jogoLocal.RecordeData == a.notasIndividuais[0].data) {
                         jogoAntigo.recorde = Recorde(jogoLocal.RecordeResponsavel, jogoLocal.RecordePontuacao, jogoLocal.RecordeData)
@@ -161,6 +160,21 @@ class JogosRepository(
                 atualizarBancoLocal(jogoAntigo, callback)
             }
         })
+    }
+
+    private fun calcularTempoMedioPreparacao(jogoAntigo: Jogo, jogoLocal: JogoLocal): String {
+        if (jogoLocal.duracaoPreparacao > 0) {
+            jogoAntigo.historicoJogatinas.forEach { jogatina ->
+                var tempoTotalPreparacao : Long = 0
+                var jogatinas = 1
+                if (jogatina.duracaoPreparacao.toInt() > 0) {
+                    tempoTotalPreparacao += jogatina.duracaoPreparacao.toLong()
+                    jogatinas++
+                }
+                return ((tempoTotalPreparacao+jogoLocal.duracaoPreparacao)/jogatinas).toString()
+            }
+        }
+        return jogoAntigo.tempoMedioPreparacao
     }
 
     private fun atualizarBancoLocal(jogo: Jogo, callback: () -> Any) {

@@ -14,11 +14,12 @@ data class JogoLocal (
     var RecordePontuacao: Int = 0,
     var RecordeData: String? = null,
     var tempoJogatina: Long  = 0,
+    var tempoMedioJogatina: Long  = 0,
     var notaMediaAteOMomento: Double = 0.0,
     var notaMecanicaMediaAteOMomento: Double = 0.0,
     var notaComponentesMediaAteOMomento: Double = 0.0,
     var notaExperienciaMediaAteOMomento: Double = 0.0,
     var jogatinas: Int = 0,
     var notaTotalAteOMomento: Double = 0.0,
-    var tempoMedioJogatina: Long? = 0,
+    var duracaoPreparacao: Long = 0
 )

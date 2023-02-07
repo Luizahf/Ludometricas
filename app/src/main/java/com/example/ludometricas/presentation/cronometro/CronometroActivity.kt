@@ -1,16 +1,14 @@
 package com.example.ludometricas.presentation.cronometro
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.ludometricas.R
-import com.example.ludometricas.data.Jogo
 import com.example.ludometricas.data.dao.JogoLocal
-import com.example.ludometricas.presentation.Avaliacao.AvaliacaoActivity
 import com.example.ludometricas.presentation.jogo.JogoViewModel
 import com.example.ludometricas.presentation.jogo.recorde.RecordeActivity
 import com.example.ludometricas.presentation.util.CronometroState
@@ -19,6 +17,7 @@ import kotlinx.coroutines.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.floor
 
+
 class CronometroActivity : AppCompatActivity() {
     private val jogoViewModel: JogoViewModel by viewModel()
 
@@ -26,6 +25,7 @@ class CronometroActivity : AppCompatActivity() {
     var startTime : Long = 0
     var timeElapsed : Long = 0
     var rodarCronometro = false
+    private var cronometrandoTempoPreparacao = true
 
     lateinit  var jogo : JogoLocal
 
@@ -43,12 +43,14 @@ class CronometroActivity : AppCompatActivity() {
         icn_play.setOnClickListener {
             if (cronometroState == CronometroState.stop) {
                 cronometroState = CronometroState.play
+                changeColors()
                 timeElapsed = 0
                 startTime = System.currentTimeMillis()
                 rodarCronometro = true
                 inicarCronometro()
             } else if (cronometroState == CronometroState.pause) {
                 cronometroState = CronometroState.play
+                changeColors()
                 startTime = System.currentTimeMillis()
                 rodarCronometro = true
                 inicarCronometro()
@@ -63,6 +65,7 @@ class CronometroActivity : AppCompatActivity() {
                 rodarCronometro = false
                 cronometroState = CronometroState.stop
             }
+            changeColors()
         }
         icn_pause.setOnClickListener {
             if (cronometroState == CronometroState.play) {
@@ -70,17 +73,73 @@ class CronometroActivity : AppCompatActivity() {
                 rodarCronometro = false
                 cronometroState = CronometroState.pause
             }
+            changeColors()
         }
 
-        encerrarPartida.setOnClickListener {
-            // update tempo da jogatina atual no jogo selecionado
-            var seconds = (timeElapsed / 1000).toInt()
-            jogo.tempoJogatina = seconds.toLong()
-            jogo.tempoMedioJogatina = jogo.tempoJogatina / (jogo.jogatinas + 1)
+        btn_concluir.setOnClickListener {
+            irParaProximaEtapa()
+        }
+
+        btn_pular.setOnClickListener {
+            if (cronometrandoTempoPreparacao) {
+                cronometrarTempoJogo()
+            } else {
+                irParaActivityRecorde()
+            }
+        }
+    }
+
+    private fun irParaProximaEtapa() {
+        if (cronometrandoTempoPreparacao) {
+            // Salvar tempo de preparacao
+            val seconds = (timeElapsed / 1000).toInt()
+            jogo.duracaoPreparacao = seconds.toLong()
             jogoViewModel.updateJogo(jogo)
 
-            val intent = Intent(this, RecordeActivity::class.java)
-            startActivity(intent)
+            cronometrarTempoJogo()
+        } else {
+            // update tempo da jogatina atual no jogo selecionado
+            val seconds = (timeElapsed / 1000).toInt()
+            jogo.tempoJogatina = seconds.toLong()
+            jogoViewModel.updateJogo(jogo)
+
+            irParaActivityRecorde()
+        }
+    }
+
+    private fun irParaActivityRecorde() {
+        val intent = Intent(this, RecordeActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun cronometrarTempoJogo() {
+        // Redefinir tudo apra calcular tempo de jogo
+        txt_etapa.text = "Cronometre o tempo de jogo"
+        cronometroState = CronometroState.stop
+        rodarCronometro = false
+        timeElapsed = 0
+        startTime = 0
+        cronometrandoTempoPreparacao = false
+        exibirTempo(0)
+    }
+
+    private fun changeColors() {
+        when (cronometroState) {
+            CronometroState.play -> {
+                icn_play.setColorFilter(ContextCompat.getColor(this, R.color.selected_icn))
+                icn_pause.setColorFilter(ContextCompat.getColor(this, R.color.common_icn))
+                icn_stop.setColorFilter(ContextCompat.getColor(this, R.color.common_icn))
+            }
+            CronometroState.pause -> {
+                icn_play.setColorFilter(ContextCompat.getColor(this, R.color.common_icn))
+                icn_pause.setColorFilter(ContextCompat.getColor(this, R.color.selected_icn))
+                icn_stop.setColorFilter(ContextCompat.getColor(this, R.color.common_icn))
+            }
+            CronometroState.stop -> {
+                icn_play.setColorFilter(ContextCompat.getColor(this, R.color.common_icn))
+                icn_pause.setColorFilter(ContextCompat.getColor(this, R.color.common_icn))
+                icn_stop.setColorFilter(ContextCompat.getColor(this, R.color.selected_icn))
+            }
         }
     }
 
