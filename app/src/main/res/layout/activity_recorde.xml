@@ -12,7 +12,6 @@
         android:id="@+id/nota_recorde"
         android:layout_width="260dp"
         android:layout_height="40dp"
-        android:layout_marginTop="8dp"
         android:background="#D1D1D1"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
@@ -25,21 +24,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Nota"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:textColor="#E6E5E5"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/responsavel_recorde"
         app:layout_constraintTop_toBottomOf="@+id/responsavel_recorde" />
-
-    <ImageView
-        android:id="@+id/circulo_amarelo3"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/circulo_amarelo" />
 
     <TextView
         android:id="@+id/recorde_titulo_jogo"
@@ -58,85 +46,162 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/recorde_titulo_pagina"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:id="@+id/caixa_nota_geral"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="50dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:text="Recorde!"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="34sp"
+        android:layout_marginEnd="16dp"
+        android:background="#C3D3D3D3"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recorde_titulo_jogo" />
+
+    <ImageView
+        android:id="@+id/circulo_amarelo"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/caixa_nota_geral"
+        app:layout_constraintStart_toStartOf="@+id/caixa_nota_geral"
+        app:layout_constraintTop_toTopOf="@+id/caixa_nota_geral"
+        app:srcCompat="@drawable/circulo_amarelo" />
+
+    <TextView
+        android:id="@+id/txt_nota_geral_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="O recorde atual é de"
+        android:textColor="#69748C"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/circulo_amarelo"
+        app:layout_constraintTop_toTopOf="@+id/circulo_amarelo" />
+
+    <TextView
+        android:id="@+id/txt_nota_geral_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="que fez "
+        android:textColor="#69748C"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/txt_nota_geral_1"
+        app:layout_constraintTop_toBottomOf="@+id/txt_nota_geral_1" />
+
+    <TextView
+        android:id="@+id/txt_nota_geral_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="pontos no dia "
+        android:textColor="#69748C"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/pontuacao_recorde"
+        app:layout_constraintTop_toBottomOf="@+id/txt_nota_geral_1" />
+
+    <TextView
+        android:id="@+id/nota_recorde_antigo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text="110"
+        android:textColor="#FFFF"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/circulo_amarelo"
+        app:layout_constraintEnd_toEndOf="@+id/circulo_amarelo"
+        app:layout_constraintStart_toStartOf="@+id/circulo_amarelo"
+        app:layout_constraintTop_toTopOf="@+id/circulo_amarelo" />
+
+    <ImageView
+        android:id="@+id/separador"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/caixa_nota_geral"
+        app:srcCompat="@drawable/fundo_embacado" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Informe abaixo se houve novo recorde:"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/separador"
+        app:layout_constraintEnd_toEndOf="@+id/separador"
+        app:layout_constraintStart_toStartOf="@+id/separador"
+        app:layout_constraintTop_toTopOf="@+id/separador" />
 
     <TextView
         android:id="@+id/responsavel_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="32dp"
         android:text="Responsável"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:textColor="#E6E5E5"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recorde_titulo_pagina" />
+        app:layout_constraintTop_toBottomOf="@+id/separador" />
 
     <TextView
         android:id="@+id/responsavel_recorde_antigo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="8dp"
         android:text="Lulu"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/recorde_titulo_pagina"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/recorde_titulo_pagina" />
+        android:textColor="#69748C"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_nota_geral_1"
+        app:layout_constraintStart_toEndOf="@+id/txt_nota_geral_1" />
 
     <TextView
-        android:id="@+id/nota_recorde_antigo"
+        android:id="@+id/pontuacao_recorde"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="100"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/responsavel_recorde_antigo"
-        app:layout_constraintTop_toTopOf="@+id/responsavel_recorde_antigo" />
+        android:text="110"
+        android:textColor="#69748C"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_nota_geral_"
+        app:layout_constraintStart_toEndOf="@+id/txt_nota_geral_" />
+
+    <TextView
+        android:id="@+id/data_recorde"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="18/10/2023"
+        android:textColor="#69748C"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/txt_nota_geral_"
+        app:layout_constraintTop_toBottomOf="@+id/pontuacao_recorde" />
 
     <EditText
         android:id="@+id/responsavel_recorde"
         android:layout_width="260dp"
         android:layout_height="40dp"
-        android:layout_marginTop="8dp"
         android:background="#D1D1D1"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="@+id/responsavel_txt"
         app:layout_constraintTop_toBottomOf="@+id/responsavel_txt" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/recorde_titulo_pagina"
-        app:layout_constraintEnd_toStartOf="@+id/recorde_titulo_pagina"
-        app:layout_constraintTop_toTopOf="@+id/recorde_titulo_pagina"
-        app:srcCompat="@drawable/trofeu_estrela_icn_branco" />
-
-    <ImageView
+    <Button
         android:id="@+id/check_recorde"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/circulo_amarelo3"
-        app:layout_constraintEnd_toEndOf="@+id/circulo_amarelo3"
-        app:layout_constraintStart_toStartOf="@+id/circulo_amarelo3"
-        app:layout_constraintTop_toTopOf="@+id/circulo_amarelo3"
-        app:srcCompat="?android:attr/textCheckMark" />
+        android:layout_height="80dp"
+        android:backgroundTint="#9DAAC7"
+        android:fontFamily="sans-serif-light"
+        android:text="Concluir"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

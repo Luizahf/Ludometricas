@@ -39,6 +39,7 @@ class AvaliacaoActivity : AppCompatActivity() {
     var jogatinas = 0
     var notaTotalJogatina = 0.0
     var notaTotalMediaAteOMomento = 0.0
+    var valid = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,22 +62,32 @@ class AvaliacaoActivity : AppCompatActivity() {
         listenersExperiencia()
 
         icn_salval_avaliacao.setOnClickListener {
-            var individuais = mutableListOf<NotaIndividual>()
-            individuais.add(NotaIndividual("Lulu", Nota(notaTotalPl1, notaMecanicaPl1, notaComponentesPl1, notaExperienciaPl1, date), date))
-            individuais.add(NotaIndividual("Pepeu", Nota(notaTotalPl2, notaMecanicaPl2, notaComponentesPl2, notaExperienciaPl2, date), date))
-            val a = Avaliacao(
-                jogoAtual.nome, notaTotalMediaAteOMomento, notaTotalJogatina, (notaMecanicaPl1+notaMecanicaPl2)/2, (notaComponentesPl1+notaComponentesPl2)/2, (notaExperienciaPl1+notaExperienciaPl1)/2, individuais
-            )
-            jogoViewModel.avaliar(a) {
+            if (valid) {
+                var individuais = mutableListOf<NotaIndividual>()
+                individuais.add(NotaIndividual("Lulu", Nota(notaTotalPl1, notaMecanicaPl1, notaComponentesPl1, notaExperienciaPl1, date), date))
+                individuais.add(NotaIndividual("Pepeu", Nota(notaTotalPl2, notaMecanicaPl2, notaComponentesPl2, notaExperienciaPl2, date), date))
+                val a = Avaliacao(
+                    jogoAtual.nome, notaTotalMediaAteOMomento, notaTotalJogatina, (notaMecanicaPl1+notaMecanicaPl2)/2, (notaComponentesPl1+notaComponentesPl2)/2, (notaExperienciaPl1+notaExperienciaPl1)/2, individuais
+                )
+                jogoViewModel.avaliar(a) {
+                    this.runOnUiThread {
+                        Toast.makeText(
+                            this,
+                            "Avaliaçao salva com sucesso!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+            } else {
                 this.runOnUiThread {
                     Toast.makeText(
                         this,
-                        "Avaliaçao salva com sucesso!",
+                        "Algo deu errado. Por favor verifique suas notas!",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-
-                startActivity(Intent(this, MainActivity::class.java))
             }
         }
     }
@@ -91,12 +102,17 @@ class AvaliacaoActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 if(!s.isNullOrEmpty()) {
                     try {
-                        notaMecanicaPl1 = s.toString().toDouble()
-                        calcularNotaTotalPl1()
+                        if (s.toString().toDouble() > 10) {
+                            nota_mecanica_pl1.setText("10")
+                            Toast.makeText(this@AvaliacaoActivity,"A nota máxima é 10", Toast.LENGTH_SHORT).show()
+                        } else {
+                            notaMecanicaPl1 = s.toString().toDouble()
+                            calcularNotaTotalPl1()
+                        }
+                        valid = true
                     } catch (e: Exception) {
-                        hideKeyboard(currentFocus ?: View(this@AvaliacaoActivity))
-                        Toast.makeText(this@AvaliacaoActivity, "Alguma nota foi inserida incorretamente", Toast.LENGTH_SHORT).show()
-                    }
+                        valid = false
+                        Toast.makeText(this@AvaliacaoActivity,"Alguma nota foi inserida incorretamente", Toast.LENGTH_SHORT).show()        }
                 }
             }
         })
@@ -110,10 +126,16 @@ class AvaliacaoActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 if(!s.isNullOrEmpty()) {
                     try {
+                        if (s.toString().toDouble() > 10) {
+                            nota_mecanica_pl2.setText("10")
+                            Toast.makeText(this@AvaliacaoActivity,"A nota máxima é 10", Toast.LENGTH_SHORT).show()
+                        } else {
                         notaMecanicaPl2 = s.toString().toDouble()
                         calcularNotaTotalPl2()
+                        }
+                        valid = true
                     } catch (e: Exception) {
-                        hideKeyboard(currentFocus ?: View(this@AvaliacaoActivity))
+                        valid = false
                         Toast.makeText(this@AvaliacaoActivity, "Alguma nota foi inserida incorretamente", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -130,11 +152,21 @@ class AvaliacaoActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 if(!s.isNullOrEmpty()) {
                     try {
-                        notaComponentesPl1 = s.toString().toDouble()
-                        calcularNotaTotalPl1()
+                        if (s.toString().toDouble() > 10) {
+                            nota_componentes_pl1.setText("10")
+                            Toast.makeText(this@AvaliacaoActivity,"A nota máxima é 10", Toast.LENGTH_SHORT).show()
+                        } else {
+                            notaComponentesPl1 = s.toString().toDouble()
+                            calcularNotaTotalPl1()
+                        }
+                        valid = true
                     } catch (e: Exception) {
-                        hideKeyboard(currentFocus ?: View(this@AvaliacaoActivity))
-                        Toast.makeText(this@AvaliacaoActivity, "Alguma nota foi inserida incorretamente", Toast.LENGTH_SHORT).show()
+                        valid = false
+                        Toast.makeText(
+                            this@AvaliacaoActivity,
+                            "Alguma nota foi inserida incorretamente",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
@@ -149,11 +181,21 @@ class AvaliacaoActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 if(!s.isNullOrEmpty()) {
                     try {
-                        notaComponentesPl2 = s.toString().toDouble()
-                        calcularNotaTotalPl2()
+                        if (s.toString().toDouble() > 10) {
+                            nota_coomponentes_pl2.setText("10")
+                            Toast.makeText(this@AvaliacaoActivity,"A nota máxima é 10", Toast.LENGTH_SHORT).show()
+                        } else {
+                            notaComponentesPl2 = s.toString().toDouble()
+                            calcularNotaTotalPl2()
+                        }
+                        valid = true
                     } catch (e: Exception) {
-                        hideKeyboard(currentFocus ?: View(this@AvaliacaoActivity))
-                        Toast.makeText(this@AvaliacaoActivity, "Alguma nota foi inserida incorretamente", Toast.LENGTH_SHORT).show()
+                        valid = false
+                        Toast.makeText(
+                            this@AvaliacaoActivity,
+                            "Alguma nota foi inserida incorretamente",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
@@ -169,11 +211,21 @@ class AvaliacaoActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 if(!s.isNullOrEmpty()) {
                     try {
-                        notaExperienciaPl1 = s.toString().toDouble()
-                        calcularNotaTotalPl1()
+                        if (s.toString().toDouble() > 10) {
+                            nota_experiencia_pl1.setText("10")
+                            Toast.makeText(this@AvaliacaoActivity,"A nota máxima é 10", Toast.LENGTH_SHORT).show()
+                        } else {
+                            notaExperienciaPl1 = s.toString().toDouble()
+                            calcularNotaTotalPl1()
+                        }
+                        valid = true
                     } catch (e: Exception) {
-                        hideKeyboard(currentFocus ?: View(this@AvaliacaoActivity))
-                        Toast.makeText(this@AvaliacaoActivity, "Alguma nota foi inserida incorretamente", Toast.LENGTH_SHORT).show()
+                        valid = false
+                        Toast.makeText(
+                            this@AvaliacaoActivity,
+                            "Alguma nota foi inserida incorretamente",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
@@ -188,11 +240,21 @@ class AvaliacaoActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 if(!s.isNullOrEmpty()) {
                     try {
-                        notaExperienciaPl2 = s.toString().toDouble()
-                        calcularNotaTotalPl2()
+                        if (s.toString().toDouble() > 10) {
+                            nota_experiencia_pl2.setText("10")
+                            Toast.makeText(this@AvaliacaoActivity,"A nota máxima é 10", Toast.LENGTH_SHORT).show()
+                        } else {
+                            notaExperienciaPl2 = s.toString().toDouble()
+                            calcularNotaTotalPl2()
+                        }
+                        valid = true
                     } catch (e: Exception) {
-                        hideKeyboard(currentFocus ?: View(this@AvaliacaoActivity))
-                        Toast.makeText(this@AvaliacaoActivity, "Alguma nota foi inserida incorretamente", Toast.LENGTH_SHORT).show()
+                        valid = false
+                        Toast.makeText(
+                            this@AvaliacaoActivity,
+                            "Alguma nota foi inserida incorretamente",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
@@ -242,10 +304,5 @@ class AvaliacaoActivity : AppCompatActivity() {
         var multiplier = 1.0
         repeat(decimals) { multiplier *= 10 }
         return kotlin.math.round(this * multiplier) / multiplier
-    }
-
-    fun Context.hideKeyboard(view: View) {
-        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

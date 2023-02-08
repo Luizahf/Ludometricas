@@ -8,39 +8,14 @@
     tools:context=".presentation.Avaliacao.AvaliacaoActivity">
 
     <TextView
-        android:id="@+id/nota_total_txt2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        android:text="9,25"
-        android:textColor="#FFFF"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="@+id/circulo_amarelo"
-        app:layout_constraintEnd_toEndOf="@+id/circulo_amarelo"
-        app:layout_constraintStart_toStartOf="@+id/circulo_amarelo"
-        app:layout_constraintTop_toTopOf="@+id/circulo_amarelo" />
-
-    <ImageView
-        android:id="@+id/separador2"
-        android:layout_width="350dp"
-        android:layout_height="10dp"
-        android:layout_marginTop="16dp"
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#3CD6D6D6"
+        app:layout_constraintBottom_toTopOf="@+id/separador2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:srcCompat="@drawable/separador" />
-
-    <ImageView
-        android:id="@+id/separador3"
-        android:layout_width="350dp"
-        android:layout_height="10dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nota_experiencia_pl1"
-        app:srcCompat="@drawable/separador" />
+        app:layout_constraintTop_toBottomOf="@+id/separador3" />
 
     <TextView
         android:id="@+id/textView6"
@@ -48,31 +23,30 @@
         android:layout_height="wrap_content"
         android:text="Mecânica"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/nota_mecanica_pl2"
         app:layout_constraintEnd_toEndOf="@+id/textView5"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toTopOf="@+id/textView2" />
+        app:layout_constraintStart_toStartOf="@+id/textView5" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:text="Componentes"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/nota_coomponentes_pl2"
         app:layout_constraintEnd_toEndOf="@+id/textView5"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/nota_mecanica_pl2" />
+        app:layout_constraintStart_toStartOf="@+id/textView5" />
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:text="Experiência"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/textView5"
         app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/nota_coomponentes_pl2" />
@@ -85,6 +59,7 @@
         android:background="#D1D1D1"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/nota_mecanica_pl1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -96,9 +71,9 @@
         android:background="#D1D1D1"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/nota_componentes_pl1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintStart_toStartOf="@+id/guideline2" />
 
     <EditText
         android:id="@+id/nota_experiencia_pl2"
@@ -117,117 +92,65 @@
         android:id="@+id/avaliacao_titulo_jogo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
         android:background="#B8B8B8"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="18dp"
+        android:paddingBottom="18dp"
         android:text="Conquistadores de Midgard"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
-        android:textSize="28dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:textSize="26dp"
+        app:layout_constraintEnd_toStartOf="@+id/nota_total_avaliacao_txt"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/avaliacao_titulo_jogo2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#B8B8B8"
+        android:paddingLeft="8dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFF"
+        android:textSize="26dp"
+        app:layout_constraintBottom_toBottomOf="@+id/avaliacao_titulo_jogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/avaliacao_titulo_jogo"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="Mecânica"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/nota_mecanica_pl1"
         app:layout_constraintEnd_toEndOf="@+id/textView4"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/separador2" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Nota da Jogatina:"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/nota_experiencia_pl1"
-        app:layout_constraintTop_toBottomOf="@+id/separador3" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Nota Lulu:"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/nota_experiencia_pl1"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Nota Pepeu:"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/nota_experiencia_pl1"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
-    <TextView
-        android:id="@+id/nota_jogatina"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="9.32"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/textView11"
-        app:layout_constraintTop_toBottomOf="@+id/separador3" />
-
-    <TextView
-        android:id="@+id/nota_pl1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="9.32"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/textView13"
-        app:layout_constraintTop_toTopOf="@+id/textView13" />
-
-    <TextView
-        android:id="@+id/nota_pl2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="9.32"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/textView14"
-        app:layout_constraintTop_toTopOf="@+id/textView14" />
+        app:layout_constraintStart_toStartOf="@+id/textView4" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:text="Componentes"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/nota_componentes_pl1"
         app:layout_constraintEnd_toEndOf="@+id/textView4"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/nota_mecanica_pl1" />
+        app:layout_constraintStart_toStartOf="@+id/textView4" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:text="Experiência"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/textView4"
         app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/nota_componentes_pl1" />
@@ -236,49 +159,49 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
         android:text="Lulu"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView11"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/avaliacao_titulo_jogo" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
         android:text="Pepeu"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/avaliacao_titulo_jogo" />
+        app:layout_constraintStart_toStartOf="@+id/guideline2" />
 
     <EditText
         android:id="@+id/nota_mecanica_pl1"
         android:layout_width="160dp"
         android:layout_height="40dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="32dp"
         android:background="#D1D1D1"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/textView7"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/nota_componentes_pl1"
         android:layout_width="160dp"
         android:layout_height="40dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:background="#D1D1D1"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/icn_salval_avaliacao"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/avaliacao_titulo_jogo" />
 
     <EditText
         android:id="@+id/nota_experiencia_pl1"
@@ -301,12 +224,12 @@
 
     <ImageView
         android:id="@+id/circulo_amarelo"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/avaliacao_titulo_jogo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/separador3"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/circulo_amarelo" />
 
     <TextView
@@ -316,20 +239,118 @@
         android:fontFamily="sans-serif-medium"
         android:text="9,25"
         android:textColor="#FFFF"
-        android:textSize="34sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/circulo_amarelo"
         app:layout_constraintEnd_toEndOf="@+id/circulo_amarelo"
         app:layout_constraintStart_toStartOf="@+id/circulo_amarelo"
         app:layout_constraintTop_toTopOf="@+id/circulo_amarelo" />
 
-    <ImageView
+    <Button
         android:id="@+id/icn_salval_avaliacao"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:backgroundTint="#9DAAC7"
+        android:fontFamily="sans-serif-light"
+        android:text="Concluir"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/icn_save" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/separador3"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/fundo_embacado" />
+
+    <ImageView
+        android:id="@+id/separador2"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nota_experiencia_pl1"
+        app:srcCompat="@drawable/fundo_embacado" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:text="Nota da Jogatina:"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/separador3"
+        app:layout_constraintEnd_toEndOf="@+id/separador3"
+        app:layout_constraintStart_toStartOf="@+id/separador3"
+        app:layout_constraintTop_toTopOf="@+id/separador3" />
+
+    <TextView
+        android:id="@+id/nota_jogatina"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="9.32"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView11"
+        app:layout_constraintStart_toEndOf="@+id/textView11" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Pepeu:"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/nota_pl2"
+        app:layout_constraintEnd_toStartOf="@+id/nota_pl2"
+        app:layout_constraintTop_toTopOf="@+id/nota_pl2" />
+
+    <TextView
+        android:id="@+id/nota_pl1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="9.32"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/separador2"
+        app:layout_constraintStart_toEndOf="@+id/textView13"
+        app:layout_constraintTop_toTopOf="@+id/separador2" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="Lulu:"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/separador2"
+        app:layout_constraintStart_toStartOf="@+id/nota_experiencia_pl1"
+        app:layout_constraintTop_toTopOf="@+id/separador2" />
+
+    <TextView
+        android:id="@+id/nota_pl2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="9.32"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/separador2"
+        app:layout_constraintEnd_toEndOf="@+id/nota_experiencia_pl2"
+        app:layout_constraintTop_toTopOf="@+id/separador2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

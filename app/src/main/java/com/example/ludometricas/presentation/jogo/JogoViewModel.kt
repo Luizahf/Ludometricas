@@ -37,13 +37,17 @@ class JogoViewModel constructor(
         })
     }
 
-    fun inserirNovoJogo(nome: String) {
+    fun inserirNovoJogo(nome: String, callback: (sucesso: Boolean) -> Any) {
         jogosRepository.getNewId {
-            jogosRepository.insert(Jogo(it, nome))
+            jogosRepository.insert(Jogo(it, nome), callback)
         }
     }
 
     fun avaliar(a: Avaliacao, callback: () -> Any) {
         return jogosRepository.avaliar(a, callback)
+    }
+
+    fun updateNome(jogo: JogoLocal, novoNome: String) {
+        jogosRepository.updateNome(jogo, novoNome)
     }
 }

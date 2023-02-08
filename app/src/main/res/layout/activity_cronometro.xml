@@ -12,16 +12,17 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="270dp"
         android:layout_height="270dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginBottom="70dp"
         android:background="@drawable/cronometro_circle_light"
         android:indeterminate="false"
         android:max="100"
         android:progress="100"
         android:progressDrawable="@drawable/cronometro_circle_light"
         android:rotation="-90"
+        app:layout_constraintBottom_toTopOf="@+id/btn_pular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/img_preparacao" />
 
 
     <TextView
@@ -86,29 +87,25 @@
     <Button
         android:id="@+id/btn_concluir"
         android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:backgroundTint="#ECECEC"
-        android:fontFamily="sans-serif"
-        android:text="concluir"
-        android:textColor="@color/main_purple"
+        android:layout_height="50dp"
+        android:backgroundTint="#9DAAC7"
+        android:fontFamily="sans-serif-light"
+        android:text="Concluir"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline3" />
 
     <Button
         android:id="@+id/btn_pular"
         android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:backgroundTint="#B4ECECEC"
-        android:fontFamily="sans-serif"
+        android:layout_height="50dp"
+        android:backgroundTint="#9DAAC7"
+        android:fontFamily="sans-serif-light"
         android:text="Pular"
-        android:textColor="@color/main_purple"
+        android:textColor="#E4E3E3"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"

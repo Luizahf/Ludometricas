@@ -121,6 +121,9 @@ class CronometroActivity : AppCompatActivity() {
         startTime = 0
         cronometrandoTempoPreparacao = false
         exibirTempo(0)
+        icn_play.setColorFilter(ContextCompat.getColor(this, R.color.common_icn))
+        icn_pause.setColorFilter(ContextCompat.getColor(this, R.color.common_icn))
+        icn_stop.setColorFilter(ContextCompat.getColor(this, R.color.common_icn))
     }
 
     private fun changeColors() {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ludometricas.R
 import com.example.ludometricas.data.dao.JogoLocal
+import com.example.ludometricas.presentation.MainActivity
 import com.example.ludometricas.presentation.cronometro.CronometroActivity
 import com.example.ludometricas.presentation.jogo.edicao.MenuEdicaoJogoActivity
 import kotlinx.android.synthetic.main.activity_jogo.*
@@ -33,6 +34,13 @@ class JogoActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        jogoViewModel.obterJogoSelecionado {
+            jogoSelecioando(it)
+        }
+        super.onResume()
+    }
+
     fun jogoSelecioando(it: JogoLocal?) {
         if (it != null)
             setLayout(it)
@@ -40,6 +48,7 @@ class JogoActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         jogoViewModel.deselecionarJogo()
+        finish()
         super.onBackPressed()
     }
 

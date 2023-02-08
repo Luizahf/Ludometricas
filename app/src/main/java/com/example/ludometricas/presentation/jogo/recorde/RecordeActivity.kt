@@ -8,6 +8,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginTop
 import com.example.ludometricas.R
 import com.example.ludometricas.data.dao.JogoLocal
 import com.example.ludometricas.presentation.Avaliacao.AvaliacaoActivity
@@ -32,9 +33,15 @@ class RecordeActivity : AppCompatActivity() {
                 recorde_titulo_jogo.text = it.nome
                 jogo = it
 
-                responsavel_recorde_antigo.text = it.RecordeResponsavel
-                nota_recorde_antigo.text = if (it.RecordePontuacao.toString() == "0") "" else it.RecordePontuacao.toString()
-                if (!date.isNullOrBlank()) jogo.tempoJogatina = 0
+                if (!it.RecordeResponsavel.isNullOrBlank()) {
+                    responsavel_recorde_antigo.text = it.RecordeResponsavel
+                    nota_recorde_antigo.text = if (it.RecordePontuacao.toString() == "0") "" else it.RecordePontuacao.toString()
+                    pontuacao_recorde.text = nota_recorde_antigo.text
+                    data_recorde.text = it.RecordeData
+                    if (!date.isNullOrBlank()) jogo.tempoJogatina = 0
+                } else {
+                    caixa_nota_geral.visibility = View.GONE
+                }
             }
         }
 

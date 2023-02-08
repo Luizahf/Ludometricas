@@ -1,19 +1,20 @@
 package com.example.ludometricas.presentation
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.Switch
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.ludometricas.R
-import com.example.ludometricas.data.Jogatina
 import com.example.ludometricas.data.Jogo
-import com.example.ludometricas.presentation.cadastro.CadastroActivity
-import com.example.ludometricas.presentation.cronometro.CronometroActivity
 import com.example.ludometricas.presentation.jogo.JogoActivity
 import com.example.ludometricas.presentation.jogo.JogoViewModel
 import com.example.ludometricas.presentation.jogo.JogosAdapter
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        showList()
+        showList("Ordenar")
         listViewAdapter = ExpandableListViewAdapter(this, listaSortJogos, listaOpcoes, lista_sort_jogos, ::sortJogos)
         lista_sort_jogos.setAdapter(listViewAdapter)
 
@@ -50,46 +51,82 @@ class MainActivity : AppCompatActivity() {
         })
 
         btn_add_game.setOnClickListener {
-            val intent = Intent(this, CadastroActivity::class.java)
-            startActivity(intent)
+            popup_cadastrar_jogo.visibility = View.VISIBLE
+            desfoque_cadastrar_jogo.visibility = View.VISIBLE
+
         }
+
+        popup_cadastrar_jogo_button.setOnClickListener {
+            val newGameName = popup_cadastrar_jogo_text.text
+            if (!newGameName.toString().isNullOrBlank()) {
+                jogoViewModel.inserirNovoJogo(newGameName.toString()) { inserido ->
+                    if (inserido) {
+                        jogoViewModel.obterJogos {
+                            popup_cadastrar_jogo.visibility = View.GONE
+                            desfoque_cadastrar_jogo.visibility = View.GONE
+                            sortJogos("Menos jogados")
+                            atualizarLista()
+                        }
+                    } else {
+                        Toast.makeText(this, "Esse jogo já existe", Toast.LENGTH_LONG).show()
+                    }
+                    hideKeyboard(currentFocus ?: View(this))
+                }
+            } else {
+                popup_cadastrar_jogo.visibility = View.GONE
+                desfoque_cadastrar_jogo.visibility = View.GONE
+            }
+        }
+
+        desfoque_cadastrar_jogo.setOnClickListener {
+            popup_cadastrar_jogo.visibility = View.GONE
+            desfoque_cadastrar_jogo.visibility = View.GONE
+        }
+    }
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     fun sortJogos(sort : String) {
-        if (sort == "Nota maior-menor") jogos = jogos.sortedByDescending { it.notaMediaAteOMomento.total }
-        if (sort == "Nota menor-maior") jogos = jogos.sortedBy { it.notaMediaAteOMomento.total }
+        if (sort == "Maiores notas") jogos = jogos.sortedByDescending { it.notaMediaAteOMomento.total }
+        if (sort == "Menores notas") jogos = jogos.sortedBy { it.notaMediaAteOMomento.total }
         if (sort == "Alfabética") jogos = jogos.sortedBy { it.nome }
-        if (sort == "N. jogatinas menor-maior") jogos = jogos.sortedBy { it.jogatinas }
-        if (sort == "N. jogatinas maior-menor") jogos = jogos.sortedByDescending { it.jogatinas }
-        if (sort == "Jogatina mais recente") jogos = jogos.sortedByDescending {  if(it.historicoJogatinas.isNullOrEmpty()) "0" else it.historicoJogatinas.sortedBy { it.data }.last().data!! }
-        if (sort == "Jogatina mais antiga") jogos = jogos.sortedBy { if(it.historicoJogatinas.isNullOrEmpty()) "0" else it.historicoJogatinas.sortedBy { it.data }.last().data!! }
+        if (sort == "Menos jogados") jogos = jogos.sortedBy { it.jogatinas }
+        if (sort == "Mais jogados") jogos = jogos.sortedByDescending { it.jogatinas }
+        if (sort == "Jogados recentemente") jogos = jogos.sortedByDescending {  if(it.historicoJogatinas.isNullOrEmpty()) "0" else it.historicoJogatinas.sortedBy { it.data }.last().data!! }
 
-        atualizarLista()
+        atualizarLista(sort)
     }
 
-    private fun showList() {
+    private fun showList(name: String) {
         listaSortJogos = ArrayList()
         listaOpcoes = HashMap()
 
-        (listaSortJogos as ArrayList<String>).add("Ordenar")
+        (listaSortJogos as ArrayList<String>).add(name)
         val opcoes : MutableList<String> = ArrayList()
-        opcoes.add("Nota maior-menor")
-        opcoes.add("Nota menor-maior")
+        opcoes.add("Maiores notas")
+        opcoes.add("Menores notas")
         opcoes.add("Alfabética")
-        opcoes.add("Jogatina mais recente")
-        opcoes.add("Jogatina mais antiga")
-        opcoes.add("N. jogatinas menor-maior")
-        opcoes.add("N. jogatinas maior-menor")
+        opcoes.add("Menos jogados")
+        opcoes.add("Mais jogados")
+        opcoes.add("Jogados recentemente")
 
         listaOpcoes[listaSortJogos[0]] = opcoes
     }
 
-    private fun atualizarLista() {
+    private fun atualizarLista(sort : String? = "Ordenar") {
         val recyclerView = findViewById<RecyclerView>(R.id.lista_jogos)
         val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.layoutManager = layoutManager
 
         recyclerView.adapter = JogosAdapter(jogos, ::clickListenerJogo, this)
+
+        if (sort != null){
+            showList(sort)
+            listViewAdapter = ExpandableListViewAdapter(this, listaSortJogos, listaOpcoes, lista_sort_jogos, ::sortJogos)
+            lista_sort_jogos.setAdapter(listViewAdapter)
+        }
     }
 
     fun clickListenerJogo(position: Int) {

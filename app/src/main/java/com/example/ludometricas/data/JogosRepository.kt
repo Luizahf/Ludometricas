@@ -21,14 +21,33 @@ class JogosRepository(
             myRef.child(jogo.nome).setValue(Gson().toJson(jogo))
         }
     }
-    fun insert(jogo: Jogo) {
-        myRef.child(jogo.nome).setValue(Gson().toJson(jogo))
+    fun insert(jogo: Jogo, callback: (sucesso: Boolean) -> Any) {
+        getOne(jogo.nome) {
+            if (it == null) {
+                myRef.child(jogo.nome).setValue(Gson().toJson(jogo))
+                callback(true)
+            } else {
+                callback(false)
+            }
+        }
     }
 
     fun update(jogo: JogoLocal) {
         GlobalScope.launch {
             jogosDao.deleteOne(jogo.id)
             jogosDao.insert(jogo)
+        }
+    }
+
+    fun updateNome(jogoLocal: JogoLocal, novoNome: String) {
+        getOne(jogoLocal.nome) {
+            myRef.child(it!!.nome).removeValue()
+            it.nome = novoNome
+            myRef.child(it.nome).setValue(Gson().toJson(it))
+
+            GlobalScope.launch {
+                jogosDao.rename(jogoLocal.id, novoNome)
+            }
         }
     }
 
@@ -116,48 +135,91 @@ class JogosRepository(
         }
     }
 
-    fun getOne(nome: String, callback: (Jogo) -> Any) {
+    fun getOne(nome: String, callback: (Jogo?) -> Any) {
         // Lendo todos os jogos do banco
         myRef.get().addOnSuccessListener {
             val databaseJogos = it.value as Map<*, *>
             var jogos = databaseJogos.values.map { Gson().fromJson(it.toString(), Jogo::class.java) }
-            callback(jogos.filter { it.nome == nome }[0])
+            callback(jogos.filter { it.nome == nome }.firstOrNull())
         }.addOnFailureListener{
         }
     }
 
     fun avaliar(a: Avaliacao, callback: () -> Any) {
-
         getOne(a.nomeJogo, fun (jogoAntigo) {
-            jogoAntigo.notaMediaAteOMomento = Nota(a.notaMediaAteOMomento, (jogoAntigo.notaTotalAteOMomento.mecanica + a.notaMecanica)/(jogoAntigo.jogatinas+1),(jogoAntigo.notaTotalAteOMomento.componentes + a.notaComponentes)/(jogoAntigo.jogatinas+1),(jogoAntigo.notaTotalAteOMomento.experiencia + a.notaExperiencia)/(jogoAntigo.jogatinas+1), a.notasIndividuais[0].data)
-            jogoAntigo.notaTotalAteOMomento = Nota(jogoAntigo.notaTotalAteOMomento.total+a.notaJogatina, jogoAntigo.notaTotalAteOMomento.mecanica+a.notaMecanica, jogoAntigo.notaTotalAteOMomento.componentes+a.notaComponentes, jogoAntigo.notaTotalAteOMomento.experiencia+a.notaExperiencia, a.notasIndividuais[0].data)
-            a.notasIndividuais.forEach { notaIndividual ->
-                val notaTotal = jogoAntigo.notasTotaisIndividuais.firstOrNull { it.responsavel == notaIndividual.responsavel }
-                if (notaTotal == null) {
-                    jogoAntigo.notasTotaisIndividuais = jogoAntigo.notasTotaisIndividuais.plus(notaIndividual)
-                } else {
-                    val novaNotaTotalIndividual = Nota(notaTotal.nota.total + notaIndividual.nota.total, notaTotal.nota.mecanica + notaIndividual.nota.mecanica, notaTotal.nota.componentes+notaIndividual.nota.componentes, notaTotal.nota.experiencia+notaIndividual.nota.experiencia, notaIndividual.data)
-                    jogoAntigo.notasTotaisIndividuais[jogoAntigo.notasTotaisIndividuais.indexOf(notaTotal)].nota = novaNotaTotalIndividual
-                }
-            }
-            GlobalScope.launch {
-                val jogoLocal = jogosDao.get(jogoAntigo.id)
-                if (jogoLocal != null) {
-                    jogoAntigo.historicoJogatinas = jogoAntigo.historicoJogatinas.plus(Jogatina(data = a.notasIndividuais[0].data, notasIndividuais = a.notasIndividuais, duracao = jogoLocal.tempoJogatina.toString(), jogoLocal.duracaoPreparacao.toString())).toMutableList()
-                    jogoAntigo.tempoJogado = (jogoAntigo.tempoJogado.toLong() + jogoLocal.tempoJogatina).toString()
-                    jogoAntigo.jogatinas = (jogoLocal.jogatinas + 1)
-                    jogoAntigo.tempoMedioJogatina = if (jogoLocal.tempoJogatina > 0) (jogoAntigo.tempoJogado.toLong() / jogoAntigo.historicoJogatinas.filter { it.duracao.toInt() > 0 }.size).toString() else jogoAntigo.tempoMedioJogatina
-                    jogoAntigo.tempoMedioPreparacao =  calcularTempoMedioPreparacao(jogoAntigo, jogoLocal)
-
-                    if (jogoLocal.RecordeData == a.notasIndividuais[0].data) {
-                        jogoAntigo.recorde = Recorde(jogoLocal.RecordeResponsavel, jogoLocal.RecordePontuacao, jogoLocal.RecordeData)
-                        jogoAntigo.historicoRecordes = jogoAntigo.historicoRecordes.plus(Recorde(jogoLocal.RecordeResponsavel, jogoLocal.RecordePontuacao, jogoLocal.RecordeData)).toMutableList()
+            if (jogoAntigo != null) {
+                jogoAntigo.notaMediaAteOMomento = Nota(
+                    a.notaMediaAteOMomento,
+                    (jogoAntigo.notaTotalAteOMomento.mecanica + a.notaMecanica) / (jogoAntigo.jogatinas + 1),
+                    (jogoAntigo.notaTotalAteOMomento.componentes + a.notaComponentes) / (jogoAntigo.jogatinas + 1),
+                    (jogoAntigo.notaTotalAteOMomento.experiencia + a.notaExperiencia) / (jogoAntigo.jogatinas + 1),
+                    a.notasIndividuais[0].data
+                )
+                jogoAntigo.notaTotalAteOMomento = Nota(
+                    jogoAntigo.notaTotalAteOMomento.total + a.notaJogatina,
+                    jogoAntigo.notaTotalAteOMomento.mecanica + a.notaMecanica,
+                    jogoAntigo.notaTotalAteOMomento.componentes + a.notaComponentes,
+                    jogoAntigo.notaTotalAteOMomento.experiencia + a.notaExperiencia,
+                    a.notasIndividuais[0].data
+                )
+                a.notasIndividuais.forEach { notaIndividual ->
+                    val notaTotal =
+                        jogoAntigo.notasTotaisIndividuais.firstOrNull { it.responsavel == notaIndividual.responsavel }
+                    if (notaTotal == null) {
+                        jogoAntigo.notasTotaisIndividuais =
+                            jogoAntigo.notasTotaisIndividuais.plus(notaIndividual)
+                    } else {
+                        val novaNotaTotalIndividual = Nota(
+                            notaTotal.nota.total + notaIndividual.nota.total,
+                            notaTotal.nota.mecanica + notaIndividual.nota.mecanica,
+                            notaTotal.nota.componentes + notaIndividual.nota.componentes,
+                            notaTotal.nota.experiencia + notaIndividual.nota.experiencia,
+                            notaIndividual.data
+                        )
+                        jogoAntigo.notasTotaisIndividuais[jogoAntigo.notasTotaisIndividuais.indexOf(
+                            notaTotal
+                        )].nota = novaNotaTotalIndividual
                     }
                 }
+                GlobalScope.launch {
+                    val jogoLocal = jogosDao.get(jogoAntigo.id)
+                    if (jogoLocal != null) {
+                        jogoAntigo.historicoJogatinas = jogoAntigo.historicoJogatinas.plus(
+                            Jogatina(
+                                data = a.notasIndividuais[0].data,
+                                notasIndividuais = a.notasIndividuais,
+                                duracao = jogoLocal.tempoJogatina.toString(),
+                                jogoLocal.duracaoPreparacao.toString()
+                            )
+                        ).toMutableList()
+                        jogoAntigo.tempoJogado =
+                            (jogoAntigo.tempoJogado.toLong() + jogoLocal.tempoJogatina).toString()
+                        jogoAntigo.jogatinas = (jogoLocal.jogatinas + 1)
+                        jogoAntigo.tempoMedioJogatina =
+                            if (jogoLocal.tempoJogatina > 0) (jogoAntigo.tempoJogado.toLong() / jogoAntigo.historicoJogatinas.filter { it.duracao.toInt() > 0 }.size).toString() else jogoAntigo.tempoMedioJogatina
+                        jogoAntigo.tempoMedioPreparacao =
+                            calcularTempoMedioPreparacao(jogoAntigo, jogoLocal)
 
-                myRef.child(jogoAntigo.nome).setValue(Gson().toJson(jogoAntigo))
+                        if (jogoLocal.RecordeData == a.notasIndividuais[0].data) {
+                            jogoAntigo.recorde = Recorde(
+                                jogoLocal.RecordeResponsavel,
+                                jogoLocal.RecordePontuacao,
+                                jogoLocal.RecordeData
+                            )
+                            jogoAntigo.historicoRecordes = jogoAntigo.historicoRecordes.plus(
+                                Recorde(
+                                    jogoLocal.RecordeResponsavel,
+                                    jogoLocal.RecordePontuacao,
+                                    jogoLocal.RecordeData
+                                )
+                            ).toMutableList()
+                        }
+                    }
 
-                atualizarBancoLocal(jogoAntigo, callback)
+                    myRef.child(jogoAntigo.nome).setValue(Gson().toJson(jogoAntigo))
+
+                    atualizarBancoLocal(jogoAntigo, callback)
+                }
             }
         })
     }

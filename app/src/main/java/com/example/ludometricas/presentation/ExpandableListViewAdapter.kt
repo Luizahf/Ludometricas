@@ -66,7 +66,7 @@ class ExpandableListViewAdapter internal constructor (private val context: Conte
         convertView!!.findViewById<TextView>(R.id.opcoes).setText(title)
         convertView!!.findViewById<TextView>(R.id.opcoes).setOnClickListener {
             callback(title)
-            lista.collapseGroup(p0)
+              lista.collapseGroup(p0)
         }
         return convertView
     }

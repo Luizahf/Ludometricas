@@ -25,6 +25,9 @@ interface JogosDao {
     @Query("UPDATE jogos SET selecionado = :selecionado")
     fun unSelect(selecionado: Boolean? = false)
 
+    @Query("UPDATE jogos SET nome = :novoNome WHERE id = :id")
+    fun rename(id: Int, novoNome: String)
+
     @Query("UPDATE jogos SET selecionado = :select")
     fun unselectAll(select: Boolean = false)
 

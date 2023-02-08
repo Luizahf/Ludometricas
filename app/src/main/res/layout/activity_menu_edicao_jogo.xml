@@ -24,17 +24,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/btn_confirmar"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:tint="#F4F3F3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/check_icn" />
-
-    <ImageView
         android:id="@+id/btn_add_jogatina_manual"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -67,7 +56,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:textAlignment="viewStart"
-        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_add_jogatina_manual"
@@ -81,7 +69,6 @@
         android:text="Editar nome do jogo"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
-        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/btn_editar"
         app:layout_constraintStart_toStartOf="@+id/btn_editar"
         app:layout_constraintTop_toTopOf="@+id/btn_editar" />
@@ -94,7 +81,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:textAlignment="viewStart"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_editar"
@@ -105,10 +92,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:visibility="gone"
         android:text="Deletar jogo"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
-        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/btn_deletar"
         app:layout_constraintStart_toStartOf="@+id/btn_deletar"
         app:layout_constraintTop_toTopOf="@+id/btn_deletar" />
@@ -146,8 +133,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:background="@color/main_purple"
-            android:minHeight="170dp"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:minHeight="170dp">
 
             <EditText
                 android:id="@+id/popup_jogatina_manual_text"
@@ -190,18 +177,180 @@
 
             <Button
                 android:id="@+id/popup_jogatina_manual_button"
-                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:background="@color/main_purple"
-                android:text="ok"
-                android:textAllCaps="false"
+                android:layout_height="50dp"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="#9DAAC7"
+                android:fontFamily="sans-serif-light"
+                android:text="Próximo"
                 android:textColor="#FFFFFF"
-                android:textSize="30sp"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/popup_jogatina_manual_text" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/popup_editar_nome_jogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="2dp"
+        android:background="@color/main_purple"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="0dp"
+        app:cardMaxElevation="0dp"
+        app:cardPreventCornerOverlap="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/titulo_jogo">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/popup_editar_nome_jogo_background_container"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@color/main_purple"
+            android:visibility="gone"
+            android:minHeight="170dp">
+
+            <EditText
+                android:id="@+id/popup_editar_nome_jogo_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="#D1D1D1"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textAlignment="center"
+                android:textColor="#6AFFFFFF"
+                android:textSize="24sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toTopOf="@+id/popup_editar_nome_jogo_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/popup_editar_nome_jogo_title" />
+
+            <TextView
+                android:id="@+id/popup_editar_nome_jogo_title"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#A3A3A3"
+                android:gravity="center"
+                android:text="Qual será o novo nome do jogo?"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                app:autoSizeTextType="none"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <Button
+                android:id="@+id/popup_editar_nome_jogo_button"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="#9DAAC7"
+                android:fontFamily="sans-serif-light"
+                android:text="Concluir ediçao"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/popup_editar_nome_jogo_text" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/popup_deletar_jogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="2dp"
+        android:background="@color/main_purple"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="0dp"
+        app:cardMaxElevation="0dp"
+        app:cardPreventCornerOverlap="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/titulo_jogo">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/popup_deletar_jogo_background_container"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:background="@color/main_purple"
+            android:minHeight="170dp">
+
+            <TextView
+                android:id="@+id/popup_deletar_jogo_title"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="#A3A3A3"
+                android:gravity="center"
+                android:text="Tem certeza que deseja deletar esse jogo?"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                app:autoSizeTextType="none"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <Button
+                android:id="@+id/popup_deletar_jogo_sim_button"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:backgroundTint="#9DAAC7"
+                android:fontFamily="sans-serif-light"
+                android:text="Sim"
+                android:textColor="#E8E5E5"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <Button
+                android:id="@+id/popup_deletar_jogo_nao_button"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:backgroundTint="#9DAAC7"
+                android:fontFamily="sans-serif-light"
+                android:text="Nao"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline5" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="150dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

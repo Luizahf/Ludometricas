@@ -15,13 +15,14 @@
         <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/drawable/cronometro_circle_light.xml" value="0.2361111111111111" />
         <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/drawable/dotted_circle.xml" value="0.3828125" />
         <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/drawable/game_item.xml" value="0.37395833333333334" />
+        <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/drawable/ic_launcher_background.xml" value="0.5615384615384615" />
         <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/drawable/icn_pause.xml" value="0.3494791666666667" />
         <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/drawable/icn_play.xml" value="0.3494791666666667" />
         <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/drawable/icn_save.xml" value="0.5708333333333333" />
         <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/drawable/icn_stop.xml" value="0.2361111111111111" />
         <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/drawable/linha.xml" value="0.3828125" />
         <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/drawable/linha_grossa.xml" value="0.3828125" />
-        <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/layout/activity_avaliacao.xml" value="0.30572916666666666" />
+        <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/layout/activity_avaliacao.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/layout/activity_cadastro.xml" value="0.28229166666666666" />
         <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/layout/activity_cronometro.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/layout/activity_historico_metricas.xml" value="0.28229166666666666" />
@@ -39,6 +40,7 @@
         <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/layout/jogo_nao_jogado.xml" value="0.5546875" />
         <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/layout/lista_jogos.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/layout/lista_sor_jogos.xml" value="0.5" />
+        <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/layout/lista_sort_jogos.xml" value="0.37135416666666665" />
         <entry key="..\:/Users/Luiza/source/repos/Ludometricas/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.21302083333333333" />
       </map>
     </option>
