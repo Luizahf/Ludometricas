@@ -1,4 +1,4 @@
-package com.example.ludometricas.presentation.jogo.historico;
+package com.example.ludometricas.jogatina.historico;
 
 import android.content.Context
 import android.view.LayoutInflater

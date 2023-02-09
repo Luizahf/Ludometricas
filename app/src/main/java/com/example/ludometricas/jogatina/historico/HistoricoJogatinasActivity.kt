@@ -1,19 +1,21 @@
-package com.example.ludometricas.presentation.jogo.historico
+package com.example.ludometricas.jogatina.historico
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.ludometricas.R
 import com.example.ludometricas.data.Jogatina
-import com.example.ludometricas.data.dao.JogoLocal
+import com.example.ludometricas.jogatina.JogatinaViewModel
 import com.example.ludometricas.presentation.jogo.JogoViewModel
-import com.example.ludometricas.presentation.jogo.JogosAdapter
+import com.example.ludometricas.jogatina.historico.detalhes.DetalhesJogatinaActivity
 import kotlinx.android.synthetic.main.activity_historico_jogatinas.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HistoricoJogatinasActivity : AppCompatActivity() {
     private val jogoViewModel: JogoViewModel by viewModel()
+    private val viewModel: JogatinaViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,8 @@ class HistoricoJogatinasActivity : AppCompatActivity() {
     }
 
     private fun clickListenerHistorico(jogatina: Jogatina) {
-
+        viewModel.selecionarJogatina(jogatina) {
+            startActivity(Intent(this, DetalhesJogatinaActivity::class.java))
+        }
     }
 }

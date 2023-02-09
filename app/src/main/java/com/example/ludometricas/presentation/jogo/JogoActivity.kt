@@ -9,7 +9,7 @@ import com.example.ludometricas.R
 import com.example.ludometricas.data.dao.JogoLocal
 import com.example.ludometricas.presentation.cronometro.CronometroActivity
 import com.example.ludometricas.presentation.jogo.edicao.MenuEdicaoJogoActivity
-import com.example.ludometricas.presentation.jogo.historico.HistoricoJogatinasActivity
+import com.example.ludometricas.jogatina.historico.HistoricoJogatinasActivity
 import kotlinx.android.synthetic.main.activity_jogo.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

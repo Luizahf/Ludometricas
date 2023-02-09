@@ -5,49 +5,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_purple"
-    tools:context=".jogatina.historico.HistoricoJogatinasActivity">
+    tools:context=".jogatina.historico.detalhes.DetalhesJogatinaActivity">
 
     <TextView
-        android:id="@+id/titulo_jogo"
+        android:id="@+id/titulo_jogo_detalhes_jogatina"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#BCB9B9"
         android:paddingLeft="10dp"
+        android:paddingTop="12dp"
         android:paddingRight="10dp"
         android:paddingBottom="12dp"
-        android:text="Senhor dos aneis"
+        android:text="Clank"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/recycler_view_hiostorico"
-        app:layout_constraintTop_toBottomOf="@+id/caixa_titlo" />
-
-    <TextView
-        android:id="@+id/caixa_titlo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="#BCB9B9"
-        android:paddingLeft="40dp"
-        android:paddingTop="12dp"
-        android:paddingRight="40dp"
-        android:text="Historico de jogatinas de"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/recycler_view_hiostorico"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/data_jogatina"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="#00BCB9B9"
+        android:paddingBottom="4dp"
+        android:text="28/10/2022"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titulo_jogo_detalhes_jogatina" />
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_hiostorico"
+        android:id="@+id/recycler_view_notas_individuais"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titulo_jogo" />
+        app:layout_constraintTop_toBottomOf="@+id/data_jogatina" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

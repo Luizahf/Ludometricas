@@ -1,6 +1,7 @@
 package com.example.ludometricas.modules
 
 import androidx.room.Room
+import com.example.ludometricas.data.JogatinaRepository
 import com.example.ludometricas.data.JogosRepository
 import com.example.ludometricas.data.dao.AppDatabase
 import org.koin.dsl.bind
@@ -18,5 +19,8 @@ internal val DataModules = module {
     }
 
     factory { JogosRepository(get()) } bind JogosRepository::class
+    factory { JogatinaRepository(get(), get()) } bind JogatinaRepository::class
     single { get<AppDatabase>().jogosDao() }
+    single { get<AppDatabase>().jogatinasDao() }
+    single { get<AppDatabase>().notasIndividuaisDao() }
 }

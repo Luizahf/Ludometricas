@@ -7,7 +7,7 @@ import com.example.ludometricas.data.Nota
 
 @Entity(tableName = "jogos")
 data class JogoLocal (
-    @PrimaryKey var id: Int = 0,
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
     var nome: String = "",
     var selecionado: Boolean = false,
     var RecordeResponsavel : String = "",
