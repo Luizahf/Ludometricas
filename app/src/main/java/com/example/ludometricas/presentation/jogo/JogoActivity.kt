@@ -2,12 +2,14 @@ package com.example.ludometricas.presentation.jogo
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ludometricas.R
 import com.example.ludometricas.data.dao.JogoLocal
-import com.example.ludometricas.presentation.MainActivity
 import com.example.ludometricas.presentation.cronometro.CronometroActivity
 import com.example.ludometricas.presentation.jogo.edicao.MenuEdicaoJogoActivity
+import com.example.ludometricas.presentation.jogo.historico.HistoricoJogatinasActivity
 import kotlinx.android.synthetic.main.activity_jogo.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -72,7 +74,7 @@ class JogoActivity : AppCompatActivity() {
                 fragmentTransaction.add(R.id.primeiro_fragment, recorde)
             }
 
-            val historico = HistoricoJogoFragment()
+            val historico = HistoricoGraficoJogoFragment()
             val historicoBundle = Bundle()
             val tempoMedioTxt = if (jogo.tempoMedioJogatina != null && (jogo.tempoMedioJogatina!!.toInt() / 60) > 0) (if ((jogo.tempoMedioJogatina!!.toInt() / 3600) > 0) "${(jogo.tempoMedioJogatina!!.toInt() / 3600)}h ${(jogo.tempoMedioJogatina!!.toInt() / 60)}min" else "${(jogo.tempoMedioJogatina!!.toInt() / 60)}min") else ""
             historicoBundle.putString("notaTotal", jogo.notaMediaAteOMomento.round(2).toString())
@@ -86,7 +88,10 @@ class JogoActivity : AppCompatActivity() {
             fragmentTransaction.add(fragmentNum, historico)
         }
 
-        //btn_ir_historico.visibility = if (jogo.jogatinas <= 0) INVISIBLE else VISIBLE
+        btn_ir_historico.visibility = if (jogo.jogatinas <= 0) INVISIBLE else VISIBLE
+        btn_ir_historico.setOnClickListener {
+            startActivity(Intent(this, HistoricoJogatinasActivity::class.java))
+        }
         fragmentTransaction.commit()
     }
     fun Double.round(decimals: Int): Double {

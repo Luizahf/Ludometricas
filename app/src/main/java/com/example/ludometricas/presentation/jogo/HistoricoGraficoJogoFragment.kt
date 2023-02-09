@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.ludometricas.R
 
-class HistoricoJogoFragment: Fragment() {
+class HistoricoGraficoJogoFragment: Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,

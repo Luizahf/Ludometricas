@@ -11,9 +11,13 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         <activity
-            android:name=".presentation.jogo.edicao.MenuEdicaoJogoActivity"
+            android:name=".presentation.jogo.historico.HistoricoJogatinasActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:exported="true" />
+        <activity
+            android:name=".presentation.jogo.edicao.MenuEdicaoJogoActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".presentation.jogo.metricas.historico.HistoricoMetricasActivity"
             android:exported="true"

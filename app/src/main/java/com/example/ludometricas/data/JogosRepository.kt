@@ -51,6 +51,12 @@ class JogosRepository(
         }
     }
 
+    fun getJogatinas(jogo: JogoLocal, callback: (List<Jogatina>) -> Any){
+        getOne(jogo.nome) {
+            callback(it!!.historicoJogatinas)
+        }
+    }
+
     fun getAll(callback:(List<Jogo>) -> Any) {
         val myRef = FirebaseDatabase.getInstance(url).getReference("Jogos")
         myRef.get().addOnSuccessListener {

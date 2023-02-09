@@ -50,4 +50,10 @@ class JogoViewModel constructor(
     fun updateNome(jogo: JogoLocal, novoNome: String) {
         jogosRepository.updateNome(jogo, novoNome)
     }
+
+    fun obtecrHistoricoJogatinas(callback: (List<Jogatina>) -> Any) {
+        obterJogoSelecionado {
+            jogosRepository.getJogatinas(it!!, callback)
+        }
+    }
 }
