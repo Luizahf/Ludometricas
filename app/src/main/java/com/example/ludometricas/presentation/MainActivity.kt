@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -21,7 +22,10 @@ import com.example.ludometricas.presentation.jogo.JogoActivity
 import com.example.ludometricas.presentation.jogo.JogoViewModel
 import com.example.ludometricas.presentation.jogo.JogosAdapter
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_menu_edicao_jogo.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -117,11 +121,12 @@ class MainActivity : AppCompatActivity() {
 
     fun sortJogos(sort : String) {
         if (sort == "Maiores notas") jogos = jogos.sortedByDescending { it.notaMediaAteOMomento.total }
-        if (sort == "Menores notas") jogos = jogos.sortedBy { it.notaMediaAteOMomento.total }
-        if (sort == "Alfabética") jogos = jogos.sortedBy { it.nome }
-        if (sort == "Menos jogados") jogos = jogos.sortedBy { it.jogatinas }
-        if (sort == "Mais jogados") jogos = jogos.sortedByDescending { it.jogatinas }
-        if (sort == "Jogados recentemente") jogos = jogos.sortedByDescending {  if(it.historicoJogatinas.isNullOrEmpty()) "0" else it.historicoJogatinas.sortedBy { it.data }.last().data!! }
+        else if (sort == "Menores notas") jogos = jogos.sortedBy { it.notaMediaAteOMomento.total }
+        else if (sort == "Alfabética") jogos = jogos.sortedBy { it.nome }
+        else if (sort == "Menos jogados") jogos = jogos.sortedBy { it.jogatinas }
+        else if (sort == "Mais jogados") jogos = jogos.sortedByDescending { it.jogatinas }
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        if (sort == "Jogados recentemente") jogos = jogos.sortedByDescending {  LocalDate.parse(if(it.historicoJogatinas.isNullOrEmpty()) "01/01/0001" else it.historicoJogatinas.sortedBy { LocalDate.parse(it.data, formatter) }.last().data!!, formatter) }
 
         atualizarLista(sort)
     }
@@ -149,7 +154,7 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView.adapter = JogosAdapter(jogos, ::clickListenerJogo, this)
 
-        if (sort != null){
+        if (sort != null) {
             showList(sort)
             listViewAdapter = ExpandableListViewAdapter(this, listaSortJogos, listaOpcoes, lista_sort_jogos, ::sortJogos)
             lista_sort_jogos.setAdapter(listViewAdapter)
@@ -163,14 +168,12 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
     }
 
     override fun onRestart() {
         jogoViewModel.obterJogos {
             atualizarLista()
         }
-
         super.onRestart()
     }
 }
