@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -20,10 +22,14 @@ import com.example.ludometricas.presentation.jogo.JogoViewModel
 import com.example.ludometricas.presentation.jogo.JogosAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity() {
     private val jogoViewModel: JogoViewModel by viewModel()
     private var jogos : List<Jogo> = mutableListOf()
+    private var jogosSemFiltro : List<Jogo> = mutableListOf()
     private lateinit var listViewAdapter: ExpandableListViewAdapter
     private lateinit var listaSortJogos : List<String>
     private lateinit var listaOpcoes : HashMap<String, List<String>>
@@ -42,11 +48,13 @@ class MainActivity : AppCompatActivity() {
 
         jogoViewModel.obterJogos {
             jogos = it.sortedByDescending { it.notaMediaAteOMomento.total }
+            jogosSemFiltro = jogos
             atualizarLista()
         }
 
         jogoViewModel.jogos.observe(this, Observer {
             jogos = it.sortedByDescending { it.notaMediaAteOMomento.total }
+            jogosSemFiltro = jogos
             atualizarLista()
         })
 
@@ -82,6 +90,25 @@ class MainActivity : AppCompatActivity() {
             popup_cadastrar_jogo.visibility = View.GONE
             desfoque_cadastrar_jogo.visibility = View.GONE
         }
+
+        bucs_jogo.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (!p0.isNullOrEmpty()) {
+                    jogos = jogosSemFiltro.filter { it.nome.lowercase(Locale.getDefault()).startsWith(p0)}
+                    atualizarLista("Alfabética")
+                } else {
+                    jogos = jogosSemFiltro
+                    atualizarLista("Alfabética")
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+        })
     }
     fun Context.hideKeyboard(view: View) {
         val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager

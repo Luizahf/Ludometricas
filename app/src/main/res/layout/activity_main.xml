@@ -40,18 +40,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/bucs_jogo"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toStartOf="@+id/lista_sort_jogos"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jogos" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lista_jogos"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_add_game"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/bucs_jogo" />
 
     <ImageView
         android:id="@+id/config"
@@ -78,22 +90,14 @@
         app:layout_constraintStart_toStartOf="@+id/btn_add_game"
         app:layout_constraintTop_toTopOf="@+id/btn_add_game" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/lista_sort_jogos"
-        app:layout_constraintTop_toBottomOf="@+id/jogos"
-        app:srcCompat="@drawable/sort_up_icn" />
-
     <ExpandableListView
         android:id="@+id/lista_sort_jogos"
-        android:layout_width="200dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
         android:divider="@android:color/background_light"
         android:dividerHeight="0.5dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -190,6 +194,16 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:tint="#B5B2B2"
+        app:layout_constraintBottom_toBottomOf="@+id/bucs_jogo"
+        app:layout_constraintEnd_toEndOf="@+id/bucs_jogo"
+        app:srcCompat="?android:attr/actionModeWebSearchDrawable" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
