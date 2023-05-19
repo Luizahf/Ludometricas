@@ -46,12 +46,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        showList("Ordenar")
+       showList("Ordenar")
         listViewAdapter = ExpandableListViewAdapter(this, listaSortJogos, listaOpcoes, lista_sort_jogos, ::sortJogos)
         lista_sort_jogos.setAdapter(listViewAdapter)
 
         jogoViewModel.obterJogos {
             jogos = it.sortedByDescending { it.notaMediaAteOMomento.total }
+            for (i in 1..jogos.count()) {
+                jogos[i-1].posicaoNota = i
+            }
+
             jogosSemFiltro = jogos
             atualizarLista()
         }
@@ -101,7 +105,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (!p0.isNullOrEmpty()) {
-                    jogos = jogosSemFiltro.filter { it.nome.lowercase(Locale.getDefault()).startsWith(p0)}
+                    jogos = jogosSemFiltro.filter { it.nome.lowercase(Locale.getDefault()).startsWith(p0.toString().lowercase(Locale.getDefault()))}
                     atualizarLista("Alfabética")
                 } else {
                     jogos = jogosSemFiltro

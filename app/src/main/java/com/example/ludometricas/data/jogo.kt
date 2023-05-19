@@ -18,6 +18,6 @@ data class Jogo (
     var historicoRecordes: MutableList<Recorde> = mutableListOf(),
     var tempoMedioJogatina: String = "0",
     var tempoMedioPreparacao: String = "0",
-    var tags: MutableList<String> = mutableListOf()
-
+    var tags: MutableList<String> = mutableListOf(),
+    var posicaoNota: Int =0
 )

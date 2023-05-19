@@ -16,7 +16,7 @@ class JogosAdapter(private val jogos: List<Jogo>,
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtTitulo = itemView.findViewById(R.id.txt_game_item) as TextView
-        val txtaa = itemView.findViewById(R.id.txt_game_item2) as TextView
+        val notaTotal = itemView.findViewById(R.id.nota_total_main) as TextView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,8 +26,8 @@ class JogosAdapter(private val jogos: List<Jogo>,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val jogo = jogos[position]
-        holder.txtTitulo.text = jogo.nome
-        holder.txtaa.text = jogo.notaMediaAteOMomento.total.round(2).toString()
+        holder.txtTitulo.text = "${jogo.posicaoNota}.  ${jogo.nome}"
+        holder.notaTotal.text = jogo.notaMediaAteOMomento.total.round(2).toString()
 
         holder.itemView.setOnClickListener { listener(position) }
     }

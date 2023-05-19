@@ -261,13 +261,12 @@ class AvaliacaoActivity : AppCompatActivity() {
         })
     }
 
-    private fun calcularNotaTotalPl1() {
-        if (notaMecanicaPl1 > 0 && notaComponentesPl1 > 0 && notaExperienciaPl1 > 0) {
+    private fun calcularNotaTotalPl1() { if (notaMecanicaPl1 > 0 && notaComponentesPl1 > 0 && notaExperienciaPl1 > 0) {
             notaTotalPl1 = calcularNotaTotal(notaMecanicaPl1, notaComponentesPl1, notaExperienciaPl1)
             nota_pl1.text = notaTotalPl1.round(2).toString()
             if (notaTotalPl2 > 0) {
-                notaTotalJogatina = ((notaTotalPl1 + notaTotalPl2) / 2)
-                notaTotalMediaAteOMomento = ((notaSomadaAteOmomento + notaTotalJogatina) / (jogatinas))
+                notaTotalJogatina = (notaTotalPl1 + notaTotalPl2) / 2
+                notaTotalMediaAteOMomento = (notaSomadaAteOmomento + notaTotalJogatina) / jogatinas
                 nota_total_avaliacao_txt.text =notaTotalMediaAteOMomento.round(2).toString()
                 nota_jogatina.text = notaTotalJogatina.round(2).toString()
             }
@@ -278,8 +277,8 @@ class AvaliacaoActivity : AppCompatActivity() {
             notaTotalPl2 =  calcularNotaTotal(notaMecanicaPl2, notaComponentesPl2, notaExperienciaPl2)
             nota_pl2.text = notaTotalPl2.round(2).toString()
             if (notaTotalPl1 > 0) {
-                notaTotalJogatina = ((notaTotalPl1 + notaTotalPl2) / 2)
-                notaTotalMediaAteOMomento = ((notaSomadaAteOmomento + notaTotalJogatina) / (jogatinas))
+                notaTotalJogatina = (notaTotalPl1 + notaTotalPl2) / 2
+                notaTotalMediaAteOMomento = (notaSomadaAteOmomento + notaTotalJogatina) / jogatinas
                 nota_total_avaliacao_txt.text =notaTotalMediaAteOMomento.round(2).toString()
                 nota_jogatina.text = notaTotalJogatina.round(2).toString()
             }

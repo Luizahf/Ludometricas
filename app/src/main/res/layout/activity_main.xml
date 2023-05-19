@@ -47,6 +47,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
+        android:textColor="#636363"
         app:layout_constraintEnd_toStartOf="@+id/lista_sort_jogos"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

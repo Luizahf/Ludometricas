@@ -6,6 +6,7 @@ import com.google.firebase.database.*
 import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.lang.Double.sum
 
 class JogosRepository(
     var jogosDao: JogosDao
@@ -63,9 +64,25 @@ class JogosRepository(
             if (it.value != null) {
                 val databaseJogos = it.value as Map<*, *>
                 val jogos = databaseJogos.values.map { Gson().fromJson(it.toString(), Jogo::class.java) }
+
+                var totalSum = 0.0
+                var b = 0
+                jogos.forEach { jogo ->
+                    if (jogo.nome == "Gloomheaven") {
+                        val a = jogo.notaMediaAteOMomento.total
+                        jogo.historicoJogatinas.forEach { jogatina ->
+                            b++
+                            val aaa = jogatina.notasIndividuais.filter { it.responsavel == "Lulu" }
+                            totalSum += aaa.sumOf { it.nota.total }
+                        }
+                    }
+                }
+
                 inserLocalDB(jogos)
                 callback(jogos)
             }
+
+
             else callback(mutableListOf())
         }.addOnFailureListener{
         }

@@ -1,5 +1,6 @@
 package com.example.ludometricas.presentation.cronometro
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -16,6 +17,21 @@ import kotlinx.android.synthetic.main.activity_cronometro.*
 import kotlinx.coroutines.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.floor
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.MotionEvent
+import android.view.View
+
+import android.view.View.OnTouchListener
+
+
+
+
+
+
+
+
+
 
 
 class CronometroActivity : AppCompatActivity() {
@@ -26,9 +42,12 @@ class CronometroActivity : AppCompatActivity() {
     var timeElapsed : Long = 0
     var rodarCronometro = false
     private var cronometrandoTempoPreparacao = true
+    var changedText = ""
+    var changingTime = false
 
     lateinit  var jogo : JogoLocal
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cronometro)
@@ -87,6 +106,40 @@ class CronometroActivity : AppCompatActivity() {
                 irParaActivityRecorde()
             }
         }
+
+        timer.setOnTouchListener { view, motionEvent ->
+            changingTime = true
+            true
+        }
+        outside_time.setOnClickListener {
+            changingTime = false
+        }
+
+        timer.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (!s.isNullOrEmpty() && s.toString() != "00:00:00" && s.toString() != changedText && changingTime) {
+                    val newChar = s[start]
+                    val beforeText = s.removeRange(start, start+count)
+
+                    if (newChar.isDigit()) {
+                        var newText = beforeText.replaceRange(0,1,beforeText[1].toString())
+                        newText = newText.replaceRange(1,2,newText[3].toString())
+                        newText = newText.replaceRange(3,4,newText[4].toString())
+                        newText = newText.replaceRange(4,5,newText[6].toString())
+                        newText = newText.replaceRange(6,7,newText[7].toString())
+                        newText = "${newText.removeSuffix(newText[7].toString())}${newChar}"
+                        changedText = newText
+                        timer.setText(newText)
+                    } else {
+                        changedText = beforeText.toString()
+                        timer.setText(beforeText)
+                    }
+                }
+            }
+        })
     }
 
     private fun irParaProximaEtapa() {
@@ -168,7 +221,7 @@ class CronometroActivity : AppCompatActivity() {
         minutes %= 60
         hours %= 24
         val text = "${if (hours < 10) "0${hours.toInt()}" else "${hours.toInt()}"}:${if (minutes < 10) "0${minutes.toInt()}" else "${minutes.toInt()}"}:${if (seconds < 10) "0${seconds.toInt()}" else "${seconds.toInt()}"}"
-        timer.text = text
+        timer.setText(text)
         return text
     }
 }
