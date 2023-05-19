@@ -76,7 +76,17 @@ class JogoActivity : AppCompatActivity() {
 
             val historico = HistoricoGraficoJogoFragment()
             val historicoBundle = Bundle()
-            val tempoMedioTxt = if (jogo.tempoMedioJogatina != null && (jogo.tempoMedioJogatina!!.toInt() / 60) > 0) (if ((jogo.tempoMedioJogatina!!.toInt() / 3600) > 0) "${(jogo.tempoMedioJogatina!!.toInt() / 3600)}h ${(jogo.tempoMedioJogatina!!.toInt() / 60)}min" else "${(jogo.tempoMedioJogatina!!.toInt() / 60)}min") else ""
+
+            val minutosJogados = jogo.tempoMedioJogatina.toInt() / 60
+            val tempoMedioTxt = if (minutosJogados > 0) {
+                val horas = jogo.tempoMedioJogatina.toInt() / 3600
+                if (horas > 0) {
+                    "${horas}h ${minutosJogados-(60*horas)}min"
+                } else {
+                    "${minutosJogados}min"
+                }
+            } else ""
+
             historicoBundle.putString("notaTotal", jogo.notaMediaAteOMomento.round(2).toString())
             historicoBundle.putString("notaMecanica", jogo.notaMecanicaMediaAteOMomento.round(2).toString())
             historicoBundle.putString("notaComponentes", jogo.notaComponentesMediaAteOMomento.round(2).toString())
