@@ -29,7 +29,7 @@
         android:layout_marginEnd="8dp"
         android:text="7 Wonders"
         android:textColor="#FAFAFA"
-        android:textSize="18sp"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="@+id/game_item_view"
         app:layout_constraintEnd_toStartOf="@+id/nota_total_main"
         app:layout_constraintStart_toStartOf="@+id/game_item_view"

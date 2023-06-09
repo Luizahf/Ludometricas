@@ -109,6 +109,7 @@ class CronometroActivity : AppCompatActivity() {
 
         timer.setOnTouchListener { view, motionEvent ->
             changingTime = true
+            timer.showSoftInputOnFocus = true
             true
         }
         outside_time.setOnClickListener {

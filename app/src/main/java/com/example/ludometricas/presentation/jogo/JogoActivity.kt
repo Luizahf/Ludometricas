@@ -98,12 +98,24 @@ class JogoActivity : AppCompatActivity() {
             fragmentTransaction.add(fragmentNum, historico)
         }
 
+        // Exibindo fragment de mecânicas do jogo
+        val fragmentMecanicas = MecanicasFragment()
+        val mecanicasBundle = Bundle()
+
+        val mecanicasTxt = "Mecânicas: \${}"
+        mecanicasBundle.putString("mecanicas", mecanicasTxt)
+        fragmentMecanicas.arguments = mecanicasBundle
+        fragmentTransaction.add(R.id.terceiro_fragment, fragmentMecanicas)
+
+
+        // Exibindo btn de histórico de jogatinas
         btn_ir_historico.visibility = if (jogo.jogatinas <= 0) INVISIBLE else VISIBLE
         btn_ir_historico.setOnClickListener {
             startActivity(Intent(this, HistoricoJogatinasActivity::class.java))
         }
         fragmentTransaction.commit()
     }
+
     fun Double.round(decimals: Int): Double {
         var multiplier = 1.0
         repeat(decimals) { multiplier *= 10 }

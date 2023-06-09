@@ -62,6 +62,9 @@ class MainActivity : AppCompatActivity() {
 
         jogoViewModel.jogos.observe(this, Observer {
             jogos = it.sortedByDescending { it.notaMediaAteOMomento.total }
+            for (i in 1..jogos.count()) {
+                jogos[i-1].posicaoNota = i
+            }
             jogosSemFiltro = jogos
             atualizarLista()
         })
