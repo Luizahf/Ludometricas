@@ -1,4 +1,4 @@
-package com.example.ludometricas.presentation.jogo
+package com.example.ludometricas.presentation.jogo.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

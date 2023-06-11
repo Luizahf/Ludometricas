@@ -1,5 +1,6 @@
-package com.example.ludometricas.data
+package com.example.ludometricas.data.repos
 
+import com.example.ludometricas.data.Jogatina
 import com.example.ludometricas.data.dao.JogatinasDao
 import com.example.ludometricas.data.dao.NotasIndividuaisDao
 import com.example.ludometricas.data.dataClasses.JogatinaLocal

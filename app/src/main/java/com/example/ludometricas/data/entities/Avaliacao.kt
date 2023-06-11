@@ -1,4 +1,6 @@
-package com.example.ludometricas.data
+package com.example.ludometricas.data.entities
+
+import com.example.ludometricas.data.NotaIndividual
 
 class Avaliacao (
     var nomeJogo: String = "",

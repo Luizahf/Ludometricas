@@ -1,10 +1,5 @@
 package com.example.ludometricas.data
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import java.sql.Date
-import java.sql.Time
-
 data class Jogo (
     var id: Int = 0,
     var nome: String = "",
@@ -19,5 +14,6 @@ data class Jogo (
     var tempoMedioJogatina: String = "0",
     var tempoMedioPreparacao: String = "0",
     var tags: MutableList<String> = mutableListOf(),
-    var posicaoNota: Int =0
+    var posicaoNota: Int = 0,
+    var mecanicas: List<String> = mutableListOf()
 )

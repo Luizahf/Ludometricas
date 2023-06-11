@@ -1,17 +1,13 @@
 package com.example.ludometricas.presentation.Avaliacao
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.example.ludometricas.R
-import com.example.ludometricas.data.Avaliacao
+import com.example.ludometricas.data.entities.Avaliacao
 import com.example.ludometricas.data.Nota
 import com.example.ludometricas.data.NotaIndividual
 import com.example.ludometricas.data.dao.JogoLocal
@@ -20,7 +16,6 @@ import com.example.ludometricas.presentation.jogo.JogoViewModel
 import kotlinx.android.synthetic.main.activity_avaliacao.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 

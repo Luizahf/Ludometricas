@@ -5,11 +5,18 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.ludometricas.data.*
 import com.example.ludometricas.data.dao.JogoLocal
-import java.sql.Time
+import com.example.ludometricas.data.dataClasses.Mecanica
+import com.example.ludometricas.data.entities.Avaliacao
+import com.example.ludometricas.data.repos.JogosRepository
+import com.example.ludometricas.data.repos.MecanicasRepository
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class JogoViewModel constructor(
     application: Application,
-    var jogosRepository: JogosRepository
+    var jogosRepository: JogosRepository,
+    var mecanicasRepository: MecanicasRepository
 ) : AndroidViewModel(application) {
     var jogos: MutableLiveData<MutableList<Jogo>> = MutableLiveData()
 
@@ -25,7 +32,7 @@ class JogoViewModel constructor(
     }
 
     fun updateJogo(jogo: JogoLocal) {
-        jogosRepository.update(jogo)
+        jogosRepository.updateLocal(jogo)
     }
 
     fun obterJogos(callback: ((List<Jogo>) -> Any)?) {
@@ -48,12 +55,24 @@ class JogoViewModel constructor(
     }
 
     fun updateNome(jogo: JogoLocal, novoNome: String) {
-        jogosRepository.updateNome(jogo, novoNome)
+        jogosRepository.updateLocalNome(jogo, novoNome)
     }
 
     fun obtecrHistoricoJogatinas(callback: (List<Jogatina>) -> Any) {
         obterJogoSelecionado {
-            jogosRepository.getJogatinas(it!!, callback)
+            jogosRepository.getJogatinasLocal(it!!, callback)
         }
+    }
+
+    @DelicateCoroutinesApi
+    fun obterMecanicas(nomeJogo: String, callback: (List<Mecanica>?) -> Any) {
+        GlobalScope.launch {
+            mecanicasRepository.get(nomeJogo, callback)
+        }
+    }
+
+    @DelicateCoroutinesApi
+    fun inserirMecanica(nomeJogo: String, nomeMecanica: String){
+        mecanicasRepository.insert(Mecanica(nomeJogo = nomeJogo, nome = nomeMecanica))
     }
 }

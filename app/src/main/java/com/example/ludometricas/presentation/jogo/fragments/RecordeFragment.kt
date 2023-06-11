@@ -1,4 +1,4 @@
-package com.example.ludometricas.presentation.jogo
+package com.example.ludometricas.presentation.jogo.fragments
 
 import android.R.attr
 import android.os.Bundle

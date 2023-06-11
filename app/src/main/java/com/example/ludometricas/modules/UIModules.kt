@@ -12,6 +12,7 @@ val UIModules = module {
     viewModel {
         JogoViewModel(
             get(),
+            get(),
             get()
         )
     }

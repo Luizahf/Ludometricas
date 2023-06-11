@@ -1,27 +1,28 @@
-package com.example.ludometricas.data
+package com.example.ludometricas.data.repos
 
+import com.example.ludometricas.data.*
 import com.example.ludometricas.data.dao.JogoLocal
 import com.example.ludometricas.data.dao.JogosDao
+import com.example.ludometricas.data.dataClasses.Mecanica
+import com.example.ludometricas.data.entities.Avaliacao
 import com.google.firebase.database.*
 import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.lang.Double.sum
 
 class JogosRepository(
-    var jogosDao: JogosDao
+    var jogosDao: JogosDao,
+    var mecanicasRepo: MecanicasRepository
 ) {
     private var url: String = "https://ludometricas-default-rtdb.firebaseio.com"
     val myRef = FirebaseDatabase.getInstance(url).getReference("Jogos")
 
     fun insert(jogos: MutableList<Jogo>) {
-        // Remover todos os jogos
-        //FirebaseDatabase.getInstance(url).getReference("Jogos").removeValue()
-
         jogos.forEach { jogo ->
             myRef.child(jogo.nome).setValue(Gson().toJson(jogo))
         }
     }
+
     fun insert(jogo: Jogo, callback: (sucesso: Boolean) -> Any) {
         getOne(jogo.nome) {
             if (it == null) {
@@ -33,14 +34,14 @@ class JogosRepository(
         }
     }
 
-    fun update(jogo: JogoLocal) {
+    fun updateLocal(jogo: JogoLocal) {
         GlobalScope.launch {
             jogosDao.deleteOne(jogo.id)
             jogosDao.insert(jogo)
         }
     }
 
-    fun updateNome(jogoLocal: JogoLocal, novoNome: String) {
+    fun updateLocalNome(jogoLocal: JogoLocal, novoNome: String) {
         getOne(jogoLocal.nome) {
             myRef.child(it!!.nome).removeValue()
             it.nome = novoNome
@@ -52,7 +53,7 @@ class JogosRepository(
         }
     }
 
-    fun getJogatinas(jogo: JogoLocal, callback: (List<Jogatina>) -> Any){
+    fun getJogatinasLocal(jogo: JogoLocal, callback: (List<Jogatina>) -> Any){
         getOne(jogo.nome) {
             callback(it!!.historicoJogatinas)
         }
@@ -110,6 +111,8 @@ class JogosRepository(
                             tempoMedioJogatina = jogo.tempoMedioJogatina.toLong()
                         )
                     )
+
+                    mecanicasRepo.insert(jogo.mecanicas.map { Mecanica(nome = it, nomeJogo = jogo.nome) })
                 }
             }
         }
@@ -135,6 +138,7 @@ class JogosRepository(
                         tempoMedioJogatina = jogo.tempoMedioJogatina.toLong()
                     )
                 )
+                mecanicasRepo.insert(jogo.mecanicas.map { Mecanica(nome = it, nomeJogo = jogo.nome) })
             }
         }
     }

@@ -10,6 +10,10 @@ import com.example.ludometricas.data.dao.JogoLocal
 import com.example.ludometricas.presentation.cronometro.CronometroActivity
 import com.example.ludometricas.presentation.jogo.edicao.MenuEdicaoJogoActivity
 import com.example.ludometricas.jogatina.historico.HistoricoJogatinasActivity
+import com.example.ludometricas.presentation.jogo.fragments.HistoricoGraficoJogoFragment
+import com.example.ludometricas.presentation.jogo.fragments.JogoNaoJogadoFragment
+import com.example.ludometricas.presentation.jogo.fragments.MecanicasFragment
+import com.example.ludometricas.presentation.jogo.fragments.RecordeFragment
 import kotlinx.android.synthetic.main.activity_jogo.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -99,11 +103,12 @@ class JogoActivity : AppCompatActivity() {
         }
 
         // Exibindo fragment de mecânicas do jogo
-        val fragmentMecanicas = MecanicasFragment()
+        val fragmentMecanicas = MecanicasFragment(jogoViewModel)
         val mecanicasBundle = Bundle()
 
         val mecanicasTxt = "Mecânicas: \${}"
         mecanicasBundle.putString("mecanicas", mecanicasTxt)
+        mecanicasBundle.putString("jogo", jogo.nome)
         fragmentMecanicas.arguments = mecanicasBundle
         fragmentTransaction.add(R.id.terceiro_fragment, fragmentMecanicas)
 
